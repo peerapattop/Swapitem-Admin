@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "308895664903",
+    "project_id": "swapitem-c0234",
+    "storage_bucket": "swapitem-c0234.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308895664903:android:d4d305730d96870fbd53a2",
+        "android_client_info": {
+          "package_name": "com.example.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308895664903-vgr3tlui1p8m0palpu12qflge3lal246.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_lUgdUUyiUlcZ2uRJsZF_hkyQaQqJSUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308895664903-vgr3tlui1p8m0palpu12qflge3lal246.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
