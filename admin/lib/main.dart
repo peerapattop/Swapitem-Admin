@@ -88,11 +88,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 Expanded(
                   child: MaterialButton(
                     color: Color.fromARGB(252, 79, 60, 247),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                       onPressed: () {},
-                      child: Text(
-                        'เข้าสู่ระบบ',
-                        style: TextStyle(
-                          color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       )),
                 ),
