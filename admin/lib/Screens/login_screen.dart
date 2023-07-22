@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   vertical: 8,
                   horizontal: 15,
                 ),
-                child: TextFormField(
+                child: TextFormField(                
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'ชื่อผู้ใช้'),
                 ),
@@ -63,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   horizontal: 15,
                 ),
                 child: TextFormField(
+                  obscureText: true, //กำหนดให้ Password มองไม่เห็น
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'รหัสผ่าน'),
                 ),
