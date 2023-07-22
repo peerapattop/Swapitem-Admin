@@ -22,11 +22,17 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 350,
               fit: BoxFit.cover,
             ),
-            Text(
-              "เข้าสู่ระบบ",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.w700,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 25,
+                bottom: 20,
+              ),
+              child: const Text(
+                "ยินดีต้อนรับ",
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             Container(
@@ -62,12 +68,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 20,),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
-                    color: Color.fromARGB(252, 79, 60, 247),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                      color: Color.fromARGB(252, 79, 60, 247),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100)),
                       onPressed: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -82,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       )),
                 ),
               ],
-            )
+            ),
           ],
         ),
       )),
