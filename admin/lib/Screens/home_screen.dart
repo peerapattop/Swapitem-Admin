@@ -170,16 +170,16 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/LogoSwapItem.png',
-                width: 200,
-                height: 200,
+              Text(
+                "ข้อมูลของคุณ",
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 16), // กำหนดระยะห่างระหว่างรูปและปุ่ม
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(252, 79, 60, 247), // กำหนดสีพื้นหลังของปุ่ม
+                  primary: Color.fromARGB(
+                      252, 79, 60, 247), // กำหนดสีพื้นหลังของปุ่ม
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
@@ -203,4 +203,3 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
-
