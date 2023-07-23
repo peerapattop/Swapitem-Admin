@@ -11,19 +11,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: NavigatorBottom(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class NavigatorBottom extends StatefulWidget {
+  const NavigatorBottom({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<NavigatorBottom> createState() => _NavigatorBottomState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NavigatorBottomState extends State<NavigatorBottom> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
@@ -36,8 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _pages[
-            _currentIndex], // ย้าย _pages[_currentIndex] ไปเป็น body ของ Scaffold
+        child: _pages[_currentIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -45,23 +44,6 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentIndex = index;
           });
-
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
-          } else if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => NotificationsScreen()),
-            );
-          } else if (index == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SettingsScreen()),
-            );
-          }
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
@@ -78,77 +60,83 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("@PEERAPATTOP"),
+        centerTitle: true,
+      ),
       body: Center(
-          child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 50.0, left: 50.0, right: 50.0, bottom: 25),
-            child: Container(
-              child: Center(
-                child: Text(
-                  "จัดการข้อมูลผู้ใช้",
-                  style: TextStyle(fontSize: 28),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 50.0, left: 50.0, right: 50.0, bottom: 25),
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "จัดการข้อมูลผู้ใช้",
+                    style: TextStyle(fontSize: 28),
+                  ),
                 ),
+                height: 100,
+                width: 500,
+                decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(10)),
               ),
-              height: 100,
-              width: 500,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(10)),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 1.0, left: 50.0, right: 50.0, bottom: 25),
-            child: Container(
-              child: Center(
-                child: Text(
-                  "จัดการโพสต์",
-                  style: TextStyle(fontSize: 28),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 1.0, left: 50.0, right: 50.0, bottom: 25),
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "จัดการโพสต์",
+                    style: TextStyle(fontSize: 28),
+                  ),
                 ),
+                height: 100,
+                width: 500,
+                decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(10)),
               ),
-              height: 100,
-              width: 500,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(10)),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 1.0, left: 50.0, right: 50.0),
-            child: Container(
-              child: Center(
-                child: Text(
-                  "คำขอสมัคร VIP",
-                  style: TextStyle(fontSize: 28),
+            Padding(
+              padding: const EdgeInsets.only(top: 1.0, left: 50.0, right: 50.0),
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "คำขอสมัคร VIP",
+                    style: TextStyle(fontSize: 28),
+                  ),
                 ),
+                height: 100,
+                width: 500,
+                decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(10)),
               ),
-              height: 100,
-              width: 500,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(10)),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 25.0, left: 50.0, right: 50.0),
-            child: Container(
-              child: Center(
-                child: Text(
-                  "ประกาศแจ้งเตือน",
-                  style: TextStyle(fontSize: 28),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 25.0, left: 50.0, right: 50.0),
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "ประกาศแจ้งเตือน",
+                    style: TextStyle(fontSize: 28),
+                  ),
                 ),
+                height: 100,
+                width: 500,
+                decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(10)),
               ),
-              height: 100,
-              width: 500,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(10)),
             ),
-          ),
-        ],
-      )),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -158,11 +146,11 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('noti'),
+        title: Text('แจ้งเตือน'),
+        centerTitle: true,
       ),
-      body: Text(
-        'หน้าแจ้งเตือน',
-        style: TextStyle(fontSize: 28),
+      body: Center(
+        child: Text("หน้าแจ้งเตือน"),
       ),
     );
   }
@@ -171,8 +159,48 @@ class NotificationsScreen extends StatelessWidget {
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("หน้าตั้งค่า"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ตั้งค่า'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0), // กำหนดระยะห่างรอบด้านของ Column
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/images/LogoSwapItem.png',
+                width: 200,
+                height: 200,
+              ),
+              SizedBox(height: 16), // กำหนดระยะห่างระหว่างรูปและปุ่ม
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(252, 79, 60, 247), // กำหนดสีพื้นหลังของปุ่ม
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    'ออกจากระบบ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
+
