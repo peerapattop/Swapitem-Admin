@@ -1,3 +1,4 @@
+import 'package:admin/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   vertical: 8,
                   horizontal: 15,
                 ),
-                child: TextFormField(                
+                child: TextFormField(
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'อีเมล'),
                 ),
@@ -69,7 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Row(
               children: [
                 Expanded(
@@ -77,7 +80,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Color.fromARGB(252, 79, 60, 247),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
