@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: TextFormField(                
                   decoration: InputDecoration(
-                      border: InputBorder.none, hintText: 'ชื่อผู้ใช้'),
+                      border: InputBorder.none, hintText: 'อีเมล'),
                 ),
               ),
             ),
