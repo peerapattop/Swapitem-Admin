@@ -35,10 +35,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("@PEERAPAT"),
-        centerTitle: true,
-      ),
       body: Center(
         child: _pages[
             _currentIndex], // ย้าย _pages[_currentIndex] ไปเป็น body ของ Scaffold
