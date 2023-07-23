@@ -50,8 +50,6 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
 
-          // เมื่อกดแต่ละ BottomNavigationBarItem ให้ทำการเปลี่ยนหน้า
-          // โดยใช้ Navigator.pushReplacement เพื่อไม่ให้มีการเก็บหน้าที่เปลี่ยนไปอยู่ใน Stack
           if (index == 0) {
             Navigator.pushReplacement(
               context,
@@ -83,77 +81,79 @@ class _HomePageState extends State<HomePage> {
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-              top: 50.0, left: 50.0, right: 50.0, bottom: 25),
-          child: Container(
-            child: Center(
-              child: Text(
-                "จัดการข้อมูลผู้ใช้",
-                style: TextStyle(fontSize: 28),
+    return Scaffold(
+      body: Center(
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 50.0, left: 50.0, right: 50.0, bottom: 25),
+            child: Container(
+              child: Center(
+                child: Text(
+                  "จัดการข้อมูลผู้ใช้",
+                  style: TextStyle(fontSize: 28),
+                ),
               ),
+              height: 100,
+              width: 500,
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(10)),
             ),
-            height: 100,
-            width: 500,
-            decoration: BoxDecoration(
-                color: Colors.lightBlue,
-                borderRadius: BorderRadius.circular(10)),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-              top: 1.0, left: 50.0, right: 50.0, bottom: 25),
-          child: Container(
-            child: Center(
-              child: Text(
-                "จัดการโพสต์",
-                style: TextStyle(fontSize: 28),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 1.0, left: 50.0, right: 50.0, bottom: 25),
+            child: Container(
+              child: Center(
+                child: Text(
+                  "จัดการโพสต์",
+                  style: TextStyle(fontSize: 28),
+                ),
               ),
+              height: 100,
+              width: 500,
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(10)),
             ),
-            height: 100,
-            width: 500,
-            decoration: BoxDecoration(
-                color: Colors.lightBlue,
-                borderRadius: BorderRadius.circular(10)),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 1.0, left: 50.0, right: 50.0),
-          child: Container(
-            child: Center(
-              child: Text(
-                "คำขอสมัคร VIP",
-                style: TextStyle(fontSize: 28),
+          Padding(
+            padding: const EdgeInsets.only(top: 1.0, left: 50.0, right: 50.0),
+            child: Container(
+              child: Center(
+                child: Text(
+                  "คำขอสมัคร VIP",
+                  style: TextStyle(fontSize: 28),
+                ),
               ),
+              height: 100,
+              width: 500,
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(10)),
             ),
-            height: 100,
-            width: 500,
-            decoration: BoxDecoration(
-                color: Colors.lightBlue,
-                borderRadius: BorderRadius.circular(10)),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 25.0, left: 50.0, right: 50.0),
-          child: Container(
-            child: Center(
-              child: Text(
-                "ประกาศแจ้งเตือน",
-                style: TextStyle(fontSize: 28),
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0, left: 50.0, right: 50.0),
+            child: Container(
+              child: Center(
+                child: Text(
+                  "ประกาศแจ้งเตือน",
+                  style: TextStyle(fontSize: 28),
+                ),
               ),
+              height: 100,
+              width: 500,
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(10)),
             ),
-            height: 100,
-            width: 500,
-            decoration: BoxDecoration(
-                color: Colors.lightBlue,
-                borderRadius: BorderRadius.circular(10)),
           ),
-        ),
-      ],
-    ));
+        ],
+      )),
+    );
   }
 }
 
@@ -162,11 +162,13 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text('noti'),
+        title: Text('noti'),
       ),
-      body: Text('หน้าแจ้งเตือน',style: TextStyle(fontSize: 28),),
+      body: Text(
+        'หน้าแจ้งเตือน',
+        style: TextStyle(fontSize: 28),
+      ),
     );
-    
   }
 }
 
