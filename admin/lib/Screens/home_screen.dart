@@ -1,4 +1,5 @@
 import 'package:admin/Screens/managepost_screen.dart';
+import 'package:admin/Screens/notice_screen.dart';
 import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'manageuser_screen.dart';
@@ -182,7 +183,7 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyApp()),
+                          MaterialPageRoute(builder: (context) => Notice()),
                         );
                       },
                       child: Padding(
