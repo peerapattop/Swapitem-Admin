@@ -26,6 +26,13 @@ class Notice extends StatefulWidget {
 
 class _NoticeState extends State<Notice> {
   TextEditingController _textEditingController = TextEditingController();
+  int myIndex = 0;
+
+  final List<Widget> _pages = [
+    HomeScreen(),
+    NotificationsScreen(),
+    SettingsScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +66,6 @@ class _NoticeState extends State<Notice> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
                 ),
-                
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -74,6 +80,20 @@ class _NoticeState extends State<Notice> {
               ),
             ),
           ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            myIndex = index;
+          });
+        },
+        currentIndex: myIndex,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'ตั้งค่า'),
         ],
       ),
     );
