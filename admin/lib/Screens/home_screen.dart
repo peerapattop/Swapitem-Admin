@@ -67,6 +67,7 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            //จัดการข้อมูลผู้ใช้
             Padding(
               padding: const EdgeInsets.only(
                   top: 50.0, left: 50.0, right: 50.0, bottom: 25),
@@ -98,6 +99,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            //จัดการโพสต์
             Padding(
               padding: const EdgeInsets.only(
                   top: 10.0, left: 50.0, right: 50.0, bottom: 25),
@@ -129,6 +131,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            //คำขอสมัคร VIP
             Padding(
               padding: const EdgeInsets.only(
                   top: 10.0, left: 50.0, right: 50.0, bottom: 25),
@@ -160,6 +163,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            //ประกาศแจ้งเตือน
             Padding(
               padding: const EdgeInsets.only(
                   top: 10.0, left: 50.0, right: 50.0, bottom: 25),
