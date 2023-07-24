@@ -17,22 +17,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ManageUser extends StatefulWidget {
-  const ManageUser({super.key});
+class ManagePost extends StatefulWidget {
+  const ManagePost({super.key});
 
   @override
-  State<ManageUser> createState() => _ManageUserState();
+  State<ManagePost> createState() => _ManagePostState();
 }
 
-class _ManageUserState extends State<ManageUser> {
+class _ManagePostState extends State<ManagePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("จัดการข้อมูลผู้ใช้"),
+        title: Text("จัดการโพสต์"),
         centerTitle: true,
       ),
-      body: Text("ข้อมูลผู้ใช้"),     
+      body: Text("ข้อมูลโพสต์"),
+     
     );
   }
 }
