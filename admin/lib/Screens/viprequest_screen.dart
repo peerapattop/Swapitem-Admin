@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
-void main(){
+void main() {
   runApp(MyApp());
 }
 
@@ -32,7 +32,7 @@ class _VipRequestState extends State<VipRequest> {
         title: Text("คำขอสมัคร VIP"),
         centerTitle: true,
       ),
-      body: Text("คำขอ"),     
+      body: Text("ข้อมูล")
     );
   }
 }
