@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
-                          'จัดการโพสต์',
+                          'จัดการข้อมูลผู้ใช้',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -118,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
-                          'จัดการข้อมูลผู้ใช้',
+                          'จัดการโพสต์',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
