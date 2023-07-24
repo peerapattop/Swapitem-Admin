@@ -28,11 +28,10 @@ class _VipRequestState extends State<VipRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("คำขอสมัคร VIP"),
-        centerTitle: true,
-      ),
-      body: Text("ข้อมูล")
-    );
+        appBar: AppBar(
+          title: Text("คำขอสมัคร VIP"),
+          centerTitle: true,
+        ),
+        body: Text("ข้อมูล"));
   }
 }
