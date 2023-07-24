@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'manageuser_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// บาร์ด้านล่าง
 class NavigatorBottom extends StatefulWidget {
   const NavigatorBottom({super.key});
 
@@ -82,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyApp()),
+                          MaterialPageRoute(builder: (context) => ManageUser()),
                         );
                       },
                       child: Padding(
