@@ -170,11 +170,20 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                "ข้อมูลของคุณ",
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+              Image.asset(
+                "assets/icons/software-engineer.png",
+                height: 150,
+                width: 150,
               ),
-              SizedBox(height: 16), // กำหนดระยะห่างระหว่างรูปและปุ่ม
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "admintop@gmail.com",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+
+              SizedBox(height: 290), // กำหนดระยะห่างระหว่างรูปและปุ่ม
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
