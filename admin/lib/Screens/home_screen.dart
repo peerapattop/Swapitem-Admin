@@ -72,66 +72,123 @@ class HomeScreen extends StatelessWidget {
                   top: 50.0, left: 50.0, right: 50.0, bottom: 25),
               child: Container(
                 child: Center(
-                  child: Text(
-                    "จัดการข้อมูลผู้ใช้",
-                    style: TextStyle(fontSize: 28),
-                  ),
+                  child: MaterialButton(
+                      color: Color.fromARGB(251, 59, 160, 243),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      minWidth: 900,
+                      height: 110,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'จัดการโพสต์',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )),
                 ),
-                height: 100,
-                width: 500,
-                decoration: BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                  top: 1.0, left: 50.0, right: 50.0, bottom: 25),
+                  top: 10.0, left: 50.0, right: 50.0, bottom: 25),
               child: Container(
                 child: Center(
-                  child: Text(
-                    "จัดการโพสต์",
-                    style: TextStyle(fontSize: 28),
-                  ),
+                  child: MaterialButton(
+                      color: Color.fromARGB(251, 59, 160, 243),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      minWidth: 900,
+                      height: 110,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'จัดการข้อมูลผู้ใช้',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )),
                 ),
-                height: 100,
-                width: 500,
-                decoration: BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 1.0, left: 50.0, right: 50.0),
+              padding: const EdgeInsets.only(
+                  top: 10.0, left: 50.0, right: 50.0, bottom: 25),
               child: Container(
                 child: Center(
-                  child: Text(
-                    "คำขอสมัคร VIP",
-                    style: TextStyle(fontSize: 28),
-                  ),
+                  child: MaterialButton(
+                      color: Color.fromARGB(251, 59, 160, 243),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      minWidth: 900,
+                      height: 110,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'คำขอสมัคร VIP',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )),
                 ),
-                height: 100,
-                width: 500,
-                decoration: BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.only(top: 25.0, left: 50.0, right: 50.0),
+              padding: const EdgeInsets.only(
+                  top: 10.0, left: 50.0, right: 50.0, bottom: 25),
               child: Container(
                 child: Center(
-                  child: Text(
-                    "ประกาศแจ้งเตือน",
-                    style: TextStyle(fontSize: 28),
-                  ),
+                  child: MaterialButton(
+                      color: Color.fromARGB(251, 59, 160, 243),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      minWidth: 900,
+                      height: 110,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'ประกาศแจ้งเตือน',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )),
                 ),
-                height: 100,
-                width: 500,
-                decoration: BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
           ],
