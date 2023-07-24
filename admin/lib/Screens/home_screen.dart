@@ -4,6 +4,7 @@ import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'manageuser_screen.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -32,9 +33,11 @@ class _NavigatorBottomState extends State<NavigatorBottom> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
+    
     HomeScreen(),
     NotificationsScreen(),
     SettingsScreen(),
+
   ];
 
   @override

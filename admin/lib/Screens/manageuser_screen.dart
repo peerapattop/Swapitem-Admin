@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'home_screen.dart';
 
-void main(){
+import 'package:flutter/material.dart';
+
+
+
+void main() {
   runApp(MyApp());
 }
 
@@ -12,19 +14,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NavigatorBottom(),
+      home: ManageUser(), // แก้ไขตรงนี้ให้เรียกใช้ NavigatorBottom() แทน ManageUser()
     );
   }
 }
 
-class ManageUser extends StatefulWidget {
-  const ManageUser({super.key});
 
-  @override
-  State<ManageUser> createState() => _ManageUserState();
-}
-
-class _ManageUserState extends State<ManageUser> {
+class ManageUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +28,9 @@ class _ManageUserState extends State<ManageUser> {
         title: Text("จัดการข้อมูลผู้ใช้"),
         centerTitle: true,
       ),
-      body: Text("ข้อมูลผู้ใช้"),     
+      body: Text("ข้อมูลผู้ใช้"), 
     );
   }
 }
+
+
