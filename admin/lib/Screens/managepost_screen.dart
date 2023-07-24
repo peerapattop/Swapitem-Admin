@@ -40,7 +40,32 @@ class _ManagePostState extends State<ManagePost> {
         title: Text("จัดการโพสต์"),
         centerTitle: true,
       ),
-      body: Text("ข้อมูลโพสต์"),
+      body:  ListView(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide(width: 0.8),
+                ),
+                hintText: "ค้นหา",
+                prefixIcon: Icon(
+                  Icons.search,
+                  size: 30,
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {

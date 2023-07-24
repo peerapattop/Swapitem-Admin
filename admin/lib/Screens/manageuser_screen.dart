@@ -27,6 +27,7 @@ class ManageUser extends StatefulWidget {
 
 class _ManageUserState extends State<ManageUser> {
   int myIndex = 0;
+  String _searchText = '';
 
   final List<Widget> _pages = [
     HomeScreen(),
@@ -39,6 +40,32 @@ class _ManageUserState extends State<ManageUser> {
       appBar: AppBar(
         title: Text("จัดการข้อมูลผู้ใช้"),
         centerTitle: true,
+      ),
+      body: ListView(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide(width: 0.8),
+                ),
+                hintText: "ค้นหา",
+                prefixIcon: Icon(
+                  Icons.search,
+                  size: 30,
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
@@ -56,4 +83,5 @@ class _ManageUserState extends State<ManageUser> {
       ),
     );
   }
+
 }
