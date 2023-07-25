@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
             //จัดการข้อมูลผู้ใช้
             Padding(
               padding: const EdgeInsets.only(
-                  top: 50.0, left: 50.0, right: 50.0, bottom: 25),
+                  top: 20.0, left: 50.0, right: 50.0, bottom: 25),
               child: Container(
                 child: Center(
                   child: MaterialButton(
