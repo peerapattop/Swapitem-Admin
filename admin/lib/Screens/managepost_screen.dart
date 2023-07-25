@@ -51,12 +51,12 @@ class _ManagePostState extends State<ManagePost> {
                   borderSide: BorderSide(width: 0.8),
                 ),
                 hintText: "ค้นหา",
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   size: 30,
                 ),
                 suffixIcon: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.clear,
                   ),
                   onPressed: () {},

@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: ManageUser(),
     );
@@ -64,6 +64,7 @@ class _ManageUserState extends State<ManageUser> {
                 ),
               ),
             ),
+            
           ),
         ],
       ),
@@ -74,7 +75,7 @@ class _ManageUserState extends State<ManageUser> {
           });
         },
         currentIndex: myIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
@@ -84,3 +85,7 @@ class _ManageUserState extends State<ManageUser> {
     );
   }
 }
+
+Widget boxDataUser(String text) => Container(
+  child: Text('ข้อมูลคนที่ 1 '),
+);

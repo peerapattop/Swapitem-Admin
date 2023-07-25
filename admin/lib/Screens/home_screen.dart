@@ -4,9 +4,8 @@ import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'manageuser_screen.dart';
 
-
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,11 +32,9 @@ class _NavigatorBottomState extends State<NavigatorBottom> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    
     HomeScreen(),
     NotificationsScreen(),
     SettingsScreen(),
-
   ];
 
   @override
@@ -157,8 +154,8 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => VipRequest()),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(20.0),
                         child: Text(
                           'คำขอสมัคร VIP',
                           style: TextStyle(
@@ -189,8 +186,8 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => Notice()),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(20.0),
                         child: Text(
                           'ประกาศแจ้งเตือน',
                           style: TextStyle(
@@ -218,7 +215,7 @@ class NotificationsScreen extends StatelessWidget {
         title: Text('แจ้งเตือน'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text("หน้าแจ้งเตือน"),
       ),
     );
@@ -244,10 +241,10 @@ class SettingsScreen extends StatelessWidget {
                 height: 150,
                 width: 150,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 "admintop@gmail.com",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
@@ -262,8 +259,8 @@ class SettingsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(20.0),
                   child: Text(
                     'ออกจากระบบ',
                     style: TextStyle(
