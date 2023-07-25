@@ -64,8 +64,13 @@ class _ManageUserState extends State<ManageUser> {
                 ),
               ),
             ),
-            
           ),
+          boxDataUser("ข้อมูลคนที่ 1"),
+          boxDataUser("ข้อมูลคนที่ 2"),
+          boxDataUser("ข้อมูลคนที่ 3"),
+          boxDataUser("ข้อมูลคนที่ 4"),
+          boxDataUser("ข้อมูลคนที่ 5"),
+          boxDataUser("ข้อมูลคนที่ 6"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -87,5 +92,20 @@ class _ManageUserState extends State<ManageUser> {
 }
 
 Widget boxDataUser(String text) => Container(
-  child: Text('ข้อมูลคนที่ 1 '),
-);
+      decoration: BoxDecoration(
+        color: Colors.lightBlue,
+        border: Border.all(
+          width: 1,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Text(
+        text,
+        textScaleFactor: 1.5,
+      ),
+      width: 100,
+      height: 100,
+      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+    );
