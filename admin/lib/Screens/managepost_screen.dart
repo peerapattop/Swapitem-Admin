@@ -40,7 +40,7 @@ class _ManagePostState extends State<ManagePost> {
         title: Text("จัดการโพสต์"),
         centerTitle: true,
       ),
-      body:  ListView(
+      body: ListView(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(20.0),
@@ -64,12 +64,41 @@ class _ManagePostState extends State<ManagePost> {
               ),
             ),
           ),
-          boxDataPost("โพสที่ 1"),
-          boxDataPost("โพสที่ 2"),
-          boxDataPost("โพสที่ 3"),
-          boxDataPost("โพสที่ 4"),
-          boxDataPost("โพสที่ 5"),
-          boxDataPost("โพสที่ 6"),
+          DataTable(
+            columnSpacing: 10,
+            columns: [
+              DataColumn(label: Text("รหัสโพสต์")),
+              DataColumn(
+                label: Text("ชื่อ-นามสกุล"),
+              ),
+              DataColumn(label: Text("รายละเอียด")),
+            ],
+            rows: [
+              DataRow(
+                cells: [
+                  DataCell(Text("650305")),
+                  DataCell(Text("พีรพัฒน์ ตั้งปัญญาไว")),
+                  DataCell(
+                    ElevatedButton(
+                      onPressed: () {
+                        // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มที่สอง
+                      },
+                      child: Image.asset(
+                        "assets/icons/search.png",
+                        width: 20,
+                        height: 20,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.grey,
+                        fixedSize: Size(35, 20),
+                      ), // ข้อความปุ่มที่สอง
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -90,21 +119,3 @@ class _ManagePostState extends State<ManagePost> {
   }
 }
 
-Widget boxDataPost(String text) => Container(
-      decoration: BoxDecoration(
-        color: Colors.lightBlue,
-        border: Border.all(
-          width: 1,
-        ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(15),
-        ),
-      ),
-      child: Text(
-        text,
-        textScaleFactor: 1.5,
-      ),
-      width: 100,
-      height: 100,
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-    );
