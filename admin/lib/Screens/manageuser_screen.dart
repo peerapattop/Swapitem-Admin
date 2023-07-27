@@ -113,7 +113,6 @@ Widget boxDataUser(String userid, String username) => Container(
                 style: TextStyle(fontSize: 15),
               ),
             ),
-            
           ),
           Center(
             child: Padding(
@@ -154,10 +153,10 @@ Widget boxLabel() => Container(
                     width: 80,
                   ),
                   Text("ชื่อผู้ใช้"),
-                    SizedBox(
+                  SizedBox(
                     width: 120,
                   ),
-                  Text("จัดการ"),
+                  Text("จัดการ"),                
                 ],
               ),
             ),
