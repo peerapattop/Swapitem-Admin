@@ -66,12 +66,12 @@ class _ManageUserState extends State<ManageUser> {
             ),
           ),
           boxLabel(),
-          boxDataUser("ข้อมูลคนที่ 1"),
-          boxDataUser("ข้อมูลคนที่ 2"),
-          boxDataUser("ข้อมูลคนที่ 3"),
-          boxDataUser("ข้อมูลคนที่ 4"),
-          boxDataUser("ข้อมูลคนที่ 5"),
-          boxDataUser("ข้อมูลคนที่ 6"),
+          boxDataUser("650305", "peerapat"),
+          boxDataUser("650306", "peerapat"),
+          boxDataUser("650307", "peerapat"),
+          boxDataUser("650308", "peerapat"),
+          boxDataUser("650309", "peerapat"),
+          boxDataUser("650300", "peerapat"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -92,7 +92,7 @@ class _ManageUserState extends State<ManageUser> {
   }
 }
 
-Widget boxDataUser(String text) => Container(
+Widget boxDataUser(String userid, String username) => Container(
       decoration: BoxDecoration(
         color: Colors.lightBlue,
         border: Border.all(
@@ -109,15 +109,25 @@ Widget boxDataUser(String text) => Container(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                text,
-                style: TextStyle(fontSize: 18),
+                userid,
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 60),
+              child: Text(
+                username,
+                style: TextStyle(fontSize: 15),
               ),
             ),
           ),
         ],
       ),
       width: 100,
-      height: 100,
+      height: 60,
       margin: EdgeInsets.only(top: 10, left: 10, right: 10),
     );
 
@@ -136,8 +146,20 @@ Widget boxLabel() => Container(
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 40),
-              child: Text("ไอดี"),                         
+              padding: const EdgeInsets.only(left: 25),
+              child: Row(
+                children: [
+                  Text("ไอดี"),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  Text("ชื่อผู้ใช้"),
+                    SizedBox(
+                    width: 120,
+                  ),
+                  Text("จัดการ"),
+                ],
+              ),
             ),
           ),
         ],
