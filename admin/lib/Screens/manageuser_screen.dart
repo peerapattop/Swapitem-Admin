@@ -72,6 +72,7 @@ class _ManageUserState extends State<ManageUser> {
           boxDataUser("650308", "peerapat"),
           boxDataUser("650309", "peerapat"),
           boxDataUser("650300", "peerapat"),
+          boxDataUser("650300", "eprow"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -123,6 +124,39 @@ Widget boxDataUser(String userid, String username) => Container(
               ),
             ),
           ),
+          SizedBox(width: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  "แก้ไข",
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10), // เพิ่มระยะห่างระหว่างปุ่มแก้ไขกับปุ่มลบ
+              ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  "ลบ",
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       width: 100,
@@ -154,9 +188,9 @@ Widget boxLabel() => Container(
                   ),
                   Text("ชื่อผู้ใช้"),
                   SizedBox(
-                    width: 120,
+                    width: 100,
                   ),
-                  Text("จัดการ"),                
+                  Text("จัดการ"),
                 ],
               ),
             ),
