@@ -65,6 +65,7 @@ class _ManageUserState extends State<ManageUser> {
               ),
             ),
           ),
+          boxLabel(),
           boxDataUser("ข้อมูลคนที่ 1"),
           boxDataUser("ข้อมูลคนที่ 2"),
           boxDataUser("ข้อมูลคนที่ 3"),
@@ -97,15 +98,51 @@ Widget boxDataUser(String text) => Container(
         border: Border.all(
           width: 1,
         ),
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(15),
         ),
       ),
-      child: Text(
-        text,
-        textScaleFactor: 1.5,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+        ],
       ),
       width: 100,
       height: 100,
+      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+    );
+
+Widget boxLabel() => Container(
+      decoration: BoxDecoration(
+        color: Colors.green,
+        border: Border.all(
+          width: 1,
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: Text("ไอดี"),                         
+            ),
+          ),
+        ],
+      ),
+      width: 100,
+      height: 50,
       margin: EdgeInsets.only(top: 10, left: 10, right: 10),
     );
