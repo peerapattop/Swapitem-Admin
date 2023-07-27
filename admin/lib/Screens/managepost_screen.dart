@@ -97,7 +97,6 @@ class _ManagePostState extends State<ManagePost> {
                 ],
               ),
             ],
-            
           ),
         ],
       ),
@@ -118,4 +117,3 @@ class _ManagePostState extends State<ManagePost> {
     );
   }
 }
-

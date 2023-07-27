@@ -65,14 +65,7 @@ class _ManageUserState extends State<ManageUser> {
               ),
             ),
           ),
-          boxLabel(),
-          boxDataUser("650305", "peerapat"),
-          boxDataUser("650306", "peerapat"),
-          boxDataUser("650307", "peerapat"),
-          boxDataUser("650308", "peerapat"),
-          boxDataUser("650309", "peerapat"),
-          boxDataUser("650300", "peerapat"),
-          boxDataUser("650300", "eprow"),
+          createDataTable("650305", "พีรพัฒน์ ตั้งปัญญาไว"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -93,111 +86,40 @@ class _ManageUserState extends State<ManageUser> {
   }
 }
 
-Widget boxDataUser(String userid, String username) => Container(
-      decoration: BoxDecoration(
-        color: Colors.lightBlue,
-        border: Border.all(
-          width: 1,
-        ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(15),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                userid,
-                style: TextStyle(fontSize: 15),
+DataTable createDataTable(String id, String name) {
+  return DataTable(
+    columnSpacing: 10,
+    columns: [
+      DataColumn(label: Text("รหัสผู้ใช้")),
+      DataColumn(label: Text("ชื่อ-นามสกุล")),
+      DataColumn(label: Text("รายละเอียด")),
+    ],
+    rows: [
+      DataRow(
+        cells: [
+          DataCell(Text(id)),
+          DataCell(Text(name)),
+          DataCell(
+            ElevatedButton(
+              onPressed: () {
+                // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มที่สอง
+              },
+              child: Image.asset(
+                "assets/icons/search.png",
+                width: 20,
+                height: 20,
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.grey,
+                fixedSize: Size(35, 20),
               ),
             ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 60),
-              child: Text(
-                username,
-                style: TextStyle(fontSize: 15),
-              ),
-            ),
-          ),
-          SizedBox(width: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "แก้ไข",
-                  style: TextStyle(color: Colors.black),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              SizedBox(width: 10), // เพิ่มระยะห่างระหว่างปุ่มแก้ไขกับปุ่มลบ
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "ลบ",
-                  style: TextStyle(color: Colors.black),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),
-      width: 100,
-      height: 60,
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-    );
+    ],
+  );
+}
 
-Widget boxLabel() => Container(
-      decoration: BoxDecoration(
-        color: Colors.green,
-        border: Border.all(
-          width: 1,
-        ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(15),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 25),
-              child: Row(
-                children: [
-                  Text("ไอดี"),
-                  SizedBox(
-                    width: 80,
-                  ),
-                  Text("ชื่อผู้ใช้"),
-                  SizedBox(
-                    width: 100,
-                  ),
-                  Text("จัดการ"),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      width: 100,
-      height: 50,
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-    );
+
+
