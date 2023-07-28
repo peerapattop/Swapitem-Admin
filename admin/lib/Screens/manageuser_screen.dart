@@ -89,7 +89,7 @@ class _ManageUserState extends State<ManageUser> {
 DataTable createDataTable(String id, String name) {
   return DataTable(
     columnSpacing: 10,
-    columns: [
+    columns: const [
       DataColumn(label: Text("รหัสผู้ใช้")),
       DataColumn(label: Text("ชื่อ-นามสกุล")),
       DataColumn(label: Text("รายละเอียด")),
@@ -102,7 +102,6 @@ DataTable createDataTable(String id, String name) {
           DataCell(
             ElevatedButton(
               onPressed: () {
-                // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มที่สอง
               },
               child: Image.asset(
                 "assets/icons/search.png",

@@ -105,7 +105,7 @@ class _VipRequestState extends State<VipRequest> {
           });
         },
         currentIndex: myIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),

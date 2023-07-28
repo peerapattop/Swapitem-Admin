@@ -67,8 +67,8 @@ class _NoticeState extends State<Notice> {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
+              child: const Padding(
+                padding: EdgeInsets.all(20.0),
                 child: Text(
                   'ยืนยัน',
                   style: TextStyle(
@@ -89,7 +89,7 @@ class _NoticeState extends State<Notice> {
           });
         },
         currentIndex: myIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),

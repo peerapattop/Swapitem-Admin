@@ -66,7 +66,7 @@ class _ManagePostState extends State<ManagePost> {
           ),
           DataTable(
             columnSpacing: 10,
-            columns: [
+            columns: const [
               DataColumn(label: Text("รหัสโพสต์")),
               DataColumn(
                 label: Text("ชื่อ-นามสกุล"),
@@ -76,8 +76,8 @@ class _ManagePostState extends State<ManagePost> {
             rows: [
               DataRow(
                 cells: [
-                  DataCell(Text("650305")),
-                  DataCell(Text("พีรพัฒน์ ตั้งปัญญาไว")),
+                  const DataCell(Text("650305")),
+                  const DataCell(Text("พีรพัฒน์ ตั้งปัญญาไว")),
                   DataCell(
                     ElevatedButton(
                       onPressed: () {
@@ -107,7 +107,7 @@ class _ManagePostState extends State<ManagePost> {
           });
         },
         currentIndex: myIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
