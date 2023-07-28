@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main(){
+void main() {
   runApp(EditUser());
 }
 
@@ -19,9 +19,21 @@ class _EditUserState extends State<EditUser> {
         title: Text("จัดการข้อมูลผู้ใช้"),
         centerTitle: true,
       ),
-      body: 
-      Image.asset(
-        "assets/icons/user",
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Center(
+              child: Image.asset(
+                "assets/icons/user.png",
+                width: 100,
+                height: 100,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
