@@ -1,3 +1,4 @@
+import 'package:admin/Screens/edituser_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'home_screen.dart';
@@ -65,7 +66,7 @@ class _ManageUserState extends State<ManageUser> {
               ),
             ),
           ),
-          createDataTable("650305", "พีรพัฒน์ ตั้งปัญญาไว"),
+          createDataTable(context,"650305", "พีรพัฒน์ ตั้งปัญญาไว"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -86,7 +87,7 @@ class _ManageUserState extends State<ManageUser> {
   }
 }
 
-DataTable createDataTable(String id, String name) {
+DataTable createDataTable(BuildContext context, String id, String name) {
   return DataTable(
     columnSpacing: 10,
     columns: const [
@@ -102,6 +103,10 @@ DataTable createDataTable(String id, String name) {
           DataCell(
             ElevatedButton(
               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditUser()),
+                );
               },
               child: Image.asset(
                 "assets/icons/search.png",
@@ -119,6 +124,3 @@ DataTable createDataTable(String id, String name) {
     ],
   );
 }
-
-
-
