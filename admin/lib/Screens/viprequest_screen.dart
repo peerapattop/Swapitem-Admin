@@ -1,3 +1,4 @@
+import 'package:admin/Screens/viewvip_screen.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
@@ -79,7 +80,12 @@ class _VipRequestState extends State<VipRequest> {
                   DataCell(
                     ElevatedButton(
                       onPressed: () {
-                        // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มที่สอง
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ViewVip(),
+                          ),
+                        );
                       },
                       child: Image.asset(
                         "assets/icons/search.png",
