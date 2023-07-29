@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
 void main() {
-  runApp(EditUser());
+  runApp(ViewUser());
 }
 
-class EditUser extends StatefulWidget {
-  const EditUser({Key? key}) : super(key: key);
+class ViewUser extends StatefulWidget {
+  const ViewUser({super.key});
 
   @override
-  State<EditUser> createState() => _EditUserState();
+  State<ViewUser> createState() => _ViewUserState();
 }
 
-class _EditUserState extends State<EditUser> {
+class _ViewUserState extends State<ViewUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

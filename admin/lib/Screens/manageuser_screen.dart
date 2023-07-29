@@ -1,4 +1,5 @@
-import 'package:admin/Screens/edituser_screen.dart';
+
+import 'package:admin/Screens/viewuser_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'home_screen.dart';
@@ -105,7 +106,7 @@ DataTable createDataTable(BuildContext context, String id, String name) {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EditUser()),
+                  MaterialPageRoute(builder: (context) => const ViewUser()),
                 );
               },
               child: Image.asset(
