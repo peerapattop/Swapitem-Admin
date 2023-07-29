@@ -66,7 +66,7 @@ class _VipRequestState extends State<VipRequest> {
             ),
           ),
           DataTable(
-            columnSpacing: 10,
+            columnSpacing: 7,
             columns: [
               DataColumn(label: Text("รายการ")),
               DataColumn(label: Text("ชื่อ-นามสกุล")),
