@@ -1,7 +1,13 @@
-import 'package:admin/Screens/login_screen.dart';
-import 'package:flutter/material.dart';
 
-void main(){
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'Screens/main_page.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
@@ -14,7 +20,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Admin",
-      home: LoginScreen(),
+      home: MainPage(),
     );
   }
 }
