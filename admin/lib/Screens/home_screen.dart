@@ -3,19 +3,28 @@ import 'package:admin/Screens/notice_screen.dart';
 import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'manageuser_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NavigatorBottom(),
+      home: Scaffold(
+        body: NavigatorBottom(), // แสดง NavigatorBottom ในหน้านี้
+      ),
     );
   }
 }
@@ -32,7 +41,7 @@ class _NavigatorBottomState extends State<NavigatorBottom> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     NotificationsScreen(),
     SettingsScreen(),
   ];
@@ -61,7 +70,14 @@ class _NavigatorBottomState extends State<NavigatorBottom> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,111 +86,112 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          children: [
-            //จัดการข้อมูลผู้ใช้
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 20.0, left: 50.0, right: 50.0, bottom: 25),
-              child: Container(
-                child: Center(
-                  child: MaterialButton(
-                      color: Color.fromARGB(251, 59, 160, 243),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      minWidth: 900,
-                      height: 110,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ManageUser()),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          'จัดการข้อมูลผู้ใช้',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              //จัดการข้อมูลผู้ใช้
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 20.0, left: 50.0, right: 50.0, bottom: 25),
+                child: Container(
+                  child: Center(
+                    child: MaterialButton(
+                        color: Color.fromARGB(251, 59, 160, 243),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        minWidth: 900,
+                        height: 110,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ManageUser()),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            'จัดการข้อมูลผู้ใช้',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ),
                 ),
               ),
-            ),
-            //จัดการโพสต์
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 10.0, left: 50.0, right: 50.0, bottom: 25),
-              child: Container(
-                child: Center(
-                  child: MaterialButton(
-                      color: Color.fromARGB(251, 59, 160, 243),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      minWidth: 900,
-                      height: 110,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ManagePost()),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          'จัดการโพสต์',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+              //จัดการโพสต์
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, left: 50.0, right: 50.0, bottom: 25),
+                child: Container(
+                  child: Center(
+                    child: MaterialButton(
+                        color: Color.fromARGB(251, 59, 160, 243),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        minWidth: 900,
+                        height: 110,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ManagePost()),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            'จัดการโพสต์',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ),
                 ),
               ),
-            ),
-            //คำขอสมัคร VIP
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 10.0, left: 50.0, right: 50.0, bottom: 25),
-              child: Container(
-                child: Center(
-                  child: MaterialButton(
-                      color: Color.fromARGB(251, 59, 160, 243),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      minWidth: 900,
-                      height: 110,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => VipRequest()),
-                        );
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'คำขอสมัคร VIP',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+              //คำขอสมัคร VIP
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, left: 50.0, right: 50.0, bottom: 25),
+                child: Container(
+                  child: Center(
+                    child: MaterialButton(
+                        color: Color.fromARGB(251, 59, 160, 243),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        minWidth: 900,
+                        height: 110,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => VipRequest()),
+                          );
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            'คำขอสมัคร VIP',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ),
                 ),
               ),
-            ),
-            //ประกาศแจ้งเตือน
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 10.0, left: 50.0, right: 50.0, bottom: 25),
-              child: Container(
-                child: Center(
-                  child: MaterialButton(
+              //ประกาศแจ้งเตือน
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, left: 50.0, right: 50.0, bottom: 25),
+                child: Container(
+                  child: Center(
+                    child: MaterialButton(
                       color: Color.fromARGB(251, 59, 160, 243),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -196,11 +213,42 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, left: 50.0, right: 50.0, bottom: 25),
+                child: Container(
+                  child: Center(
+                    child: MaterialButton(
+                      color: Color.fromARGB(251, 59, 160, 243),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      minWidth: 900,
+                      height: 110,
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'ออกจากระบบ',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
