@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       vertical: 8,
                       horizontal: 15,
                     ),
-                    child: TextFormField(
+                    child: TextFormField(                    
                       controller: _passwordController,
                       obscureText: true, //กำหนดให้ Password มองไม่เห็น
                       decoration: InputDecoration(
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: GestureDetector(
                     onTap: signIn,
                     child: Container(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
