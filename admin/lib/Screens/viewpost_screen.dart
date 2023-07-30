@@ -22,10 +22,12 @@ class _ViewPostState extends State<ViewPost> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            "assets/images/shoestest.jpg",
-            width: 250,
-            height: 250,
+          Center(
+            child: Image.asset(
+              "assets/images/shoestest.jpg",
+              width: 250,
+              height: 250,
+            ),
           ),
           dataPost("วัน/เดือน/ปี : 20 มกราคม 2566"),
           dataPost("รหัสโพสต์ : 0001"),
@@ -36,7 +38,7 @@ class _ViewPostState extends State<ViewPost> {
           dataPost("สถานที่แลกเปลี่ยน: สถานีรถไฟฟ้าอโศก"),
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.only(top: 10),
               child: ElevatedButton.icon(
                 onPressed: () {
                   // โค้ดที่ต้องการให้ทำเมื่อกดปุ่ม "ลบ"
