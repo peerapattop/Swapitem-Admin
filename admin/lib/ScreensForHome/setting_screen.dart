@@ -9,6 +9,13 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+
+  void signOut(){
+    FirebaseAuth.instance.signOut();
+  }
+
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,14 +38,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "admintop@gmail.com",
+                 Text(
+                  "อีเมล : " +user.email!,
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 290),
                 ElevatedButton(
                   onPressed: () {
-                    FirebaseAuth.instance.signOut();
+                    signOut();
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(252, 79, 60, 247),

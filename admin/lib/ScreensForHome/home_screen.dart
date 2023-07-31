@@ -1,3 +1,6 @@
+import 'package:admin/Screens/managepost_screen.dart';
+import 'package:admin/Screens/manageuser_screen.dart';
+import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -62,7 +65,12 @@ class HomeScreenContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                     minWidth: 900,
                     height: 110,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ManageUser()),
+              );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
@@ -89,7 +97,12 @@ class HomeScreenContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                     minWidth: 900,
                     height: 110,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ManagePost()),
+              );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
@@ -116,7 +129,12 @@ class HomeScreenContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                     minWidth: 900,
                     height: 110,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => VipRequest()),
+              );
+                    },
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Text(
@@ -143,7 +161,12 @@ class HomeScreenContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                     minWidth: 900,
                     height: 110,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NotificationsScreen()),
+              );
+                    },
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Text(
