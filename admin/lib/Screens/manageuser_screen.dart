@@ -2,7 +2,10 @@
 import 'package:admin/Screens/viewuser_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import '../ScreensForHome/home_screen.dart';
+import '../ScreensForHome/notice_screen.dart';
+import '../ScreensForHome/setting_screen.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -29,10 +32,9 @@ class ManageUser extends StatefulWidget {
 
 class _ManageUserState extends State<ManageUser> {
   int myIndex = 0;
-  String _searchText = '';
 
   final List<Widget> _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     NotificationsScreen(),
     SettingsScreen(),
   ];

@@ -1,6 +1,9 @@
 import 'package:admin/Screens/viewpost_screen.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import '../ScreensForHome/home_screen.dart';
+import '../ScreensForHome/notice_screen.dart';
+import '../ScreensForHome/setting_screen.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -13,7 +16,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NavigatorBottom(),
     );
   }
 }
@@ -29,7 +31,7 @@ class _ManagePostState extends State<ManagePost> {
   int myIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     NotificationsScreen(),
     SettingsScreen(),
   ];
