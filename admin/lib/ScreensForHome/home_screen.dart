@@ -25,7 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(   
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("หน้าแรก"),
+          centerTitle: true,
+        ),
         body: _pages[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
@@ -38,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'ตั้งค่า'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'ตั้งค่า'),
           ],
         ),
       ),
@@ -66,9 +71,9 @@ class HomeScreenContent extends StatelessWidget {
                     height: 110,
                     onPressed: () {
                       Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ManageUser()),
-              );
+                        context,
+                        MaterialPageRoute(builder: (context) => ManageUser()),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -98,9 +103,9 @@ class HomeScreenContent extends StatelessWidget {
                     height: 110,
                     onPressed: () {
                       Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ManagePost()),
-              );
+                        context,
+                        MaterialPageRoute(builder: (context) => ManagePost()),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -130,9 +135,9 @@ class HomeScreenContent extends StatelessWidget {
                     height: 110,
                     onPressed: () {
                       Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => VipRequest()),
-              );
+                        context,
+                        MaterialPageRoute(builder: (context) => VipRequest()),
+                      );
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
@@ -162,9 +167,10 @@ class HomeScreenContent extends StatelessWidget {
                     height: 110,
                     onPressed: () {
                       Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NotificationsScreen()),
-              );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationsScreen()),
+                      );
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),

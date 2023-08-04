@@ -96,14 +96,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 //ปุ่มเข้าสู่ระบบ
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 20,
-                  ),
+                  padding:
+                      EdgeInsets.only(top: 10, bottom: 20, left: 5, right: 5),
                   child: GestureDetector(
                     onTap: signIn,
                     child: Container(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.only(
+                          top: 20, bottom: 20, left: 5, right: 5),
                       decoration: BoxDecoration(
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),

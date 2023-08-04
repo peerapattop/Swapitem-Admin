@@ -18,12 +18,13 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ประกาศแจ้งเตือน'),
-        centerTitle: true,
-      ),
-      body: Padding(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('ประกาศแจ้งเตือน'),
+          centerTitle: true,
+        ),
+        body: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
@@ -53,7 +54,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 child: Text('ส่ง'),
               ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
