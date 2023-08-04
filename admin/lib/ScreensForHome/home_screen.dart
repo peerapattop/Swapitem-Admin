@@ -1,10 +1,12 @@
 import 'package:admin/Screens/managepost_screen.dart';
 import 'package:admin/Screens/manageuser_screen.dart';
+import 'package:admin/Screens/viewnotice_screen.dart';
 import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../ScreensForHome/setting_screen.dart';
 import '../ScreensForHome/notice_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("หน้าแรก"),
+          title: Text('หน้าแรก'),
           centerTitle: true,
         ),
         body: _pages[_currentIndex],
@@ -64,7 +66,7 @@ class HomeScreenContent extends StatelessWidget {
               child: Container(
                 child: Center(
                   child: MaterialButton(
-                    color: Color.fromARGB(251, 59, 160, 243),
+                    color: Color.fromARGB(249, 24, 248, 106),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     minWidth: 900,
@@ -169,7 +171,7 @@ class HomeScreenContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationsScreen()),
+                            builder: (context) => ViewNotice()),
                       );
                     },
                     child: const Padding(
@@ -193,3 +195,4 @@ class HomeScreenContent extends StatelessWidget {
     );
   }
 }
+

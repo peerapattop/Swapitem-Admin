@@ -12,12 +12,56 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future signIn() async {
+Future signIn() async {
+  try {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
+    
+  } catch (e) {
+    if (e is FirebaseAuthException) {
+      if (e.code == 'user-not-found') {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('เกิดข้อผิดพลาด'),
+              content: Text('ไม่พบผู้ใช้งานนี้ในระบบ'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('ตกลง'),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (e.code == 'wrong-password') {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('เกิดข้อผิดพลาด'),
+              content: Text('รหัสผ่านไม่ถูกต้อง'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('ตกลง'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
+}
+
 
   @override
   void dispose() {
