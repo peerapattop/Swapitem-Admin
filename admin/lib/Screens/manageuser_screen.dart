@@ -46,79 +46,94 @@ class _ManageUserState extends State<ManageUser> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text("ไม่มีข้อมูล"),
-              );
-            }
-            return ListView(
-              children: snapshot.data!.docs.map((document) {
-                return Container(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: FittedBox(
-                        child: Text(document["fname"]),
-                      ),
-                    ),  
-                  ),
-                );
-              }).toList(),
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text("ไม่มีข้อมูล"),
             );
-          }),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   onTap: (index) {
-      //     setState(() {
-      //       myIndex = index;
-      //     });
-      //   },
-      //   currentIndex: myIndex,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'ตั้งค่า'),
-      //   ],
-      // ),
+          }
+
+          return Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide(width: 0.8),
+                    ),
+                    hintText: "ค้นหา",
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.clear,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ),
+              //แสดงข้อมูลผู้ใช้
+              Expanded(
+                child: ListView(
+                  children: snapshot.data!.docs.map((document) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.all(5),
+                      child: ListTile(
+                        title: Text(document['username']),
+                        subtitle: Text(document['email']),
+                        leading: CircleAvatar(
+                          child: FittedBox(
+                            child: Text("ผู้ใช้"),
+                          ),
+                        ),
+                        trailing: ElevatedButton(
+                          onPressed: () {},
+                          child: Image.asset(
+                            "assets/icons/search.png",
+                            width: 18,
+                            height: 18,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 46, 246, 32),
+                            fixedSize: Size(35, 20),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            myIndex = index;
+          });
+        },
+        currentIndex: myIndex,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'ตั้งค่า'),
+        ],
+      ),
     );
   }
 }
-
-// DataTable createDataTable(BuildContext context, String id, String name) {
-//   return DataTable(
-//     columnSpacing: 10,
-//     columns: const [
-//       DataColumn(label: Text("รหัสผู้ใช้")),
-//       DataColumn(label: Text("ชื่อ-นามสกุล")),
-//       DataColumn(label: Text("รายละเอียด")),
-//     ],
-//     rows: [
-//       DataRow(
-//         cells: [
-//           DataCell(Text(id)),
-//           DataCell(Text(name)),
-//           DataCell(
-//             ElevatedButton(
-//               onPressed: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(builder: (context) => const ViewUser()),
-//                 );
-//               },
-//               child: Image.asset(
-//                 "assets/icons/search.png",
-//                 width: 20,
-//                 height: 20,
-//               ),
-//               style: ElevatedButton.styleFrom(
-//                 primary: Colors.grey,
-//                 fixedSize: Size(35, 20),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     ],
-//   );
-// }
