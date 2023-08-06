@@ -80,8 +80,11 @@ class _ManageUserState extends State<ManageUser> {
               ),
               //แสดงข้อมูลผู้ใช้
               Expanded(
-                child: ListView(
-                  children: snapshot.data!.docs.map((document) {
+                child: ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = snapshot.data!.docs[index];
+                    String documentId = document.id; // ดึง ID ของเอกสาร
                     return Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -96,11 +99,13 @@ class _ManageUserState extends State<ManageUser> {
                         subtitle: Text(document['email']),
                         leading: CircleAvatar(
                           child: FittedBox(
-                            child: Text("ผู้ใช้"),
+                            child: Text(documentId),
                           ),
                         ),
                         trailing: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // ทำอะไรสักอย่างเมื่อปุ่มถูกกด
+                          },
                           child: Image.asset(
                             "assets/icons/search.png",
                             width: 18,
@@ -113,7 +118,7 @@ class _ManageUserState extends State<ManageUser> {
                         ),
                       ),
                     );
-                  }).toList(),
+                  },
                 ),
               ),
             ],
