@@ -30,6 +30,7 @@ class ManageUser extends StatefulWidget {
 }
 
 class _ManageUserState extends State<ManageUser> {
+  String? _searchString;
   int myIndex = 0;
 
   final List<Widget> _pages = [
@@ -58,6 +59,11 @@ class _ManageUserState extends State<ManageUser> {
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: TextField(
+                  onChanged: (val) {
+                    setState(() {
+                      _searchString = val.toLowerCase();
+                    });
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -72,7 +78,11 @@ class _ManageUserState extends State<ManageUser> {
                       icon: const Icon(
                         Icons.clear,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          _searchString = '';
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -84,6 +94,17 @@ class _ManageUserState extends State<ManageUser> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
                     String documentId = document.id; // ดึง ID ของเอกสาร
+                    String username =
+                        document['username']; // ดึงค่า 'username' จากเอกสาร
+                    String email = document['email'];
+                    if (_searchString != null &&
+                        (_searchString!.isNotEmpty &&
+                            (!username.toLowerCase().contains(_searchString!) &&
+                                !email
+                                    .toLowerCase()
+                                    .contains(_searchString!)))) {
+                      return Container(); // ไม่แสดงรายการนี้
+                    }
                     return Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -94,8 +115,8 @@ class _ManageUserState extends State<ManageUser> {
                       ),
                       margin: EdgeInsets.all(5),
                       child: ListTile(
-                        title: Text(document['username']),
-                        subtitle: Text(document['email']),
+                        title: Text(username),
+                        subtitle: Text(email),
                         leading: CircleAvatar(
                           child: FittedBox(
                             child: Text(documentId),
