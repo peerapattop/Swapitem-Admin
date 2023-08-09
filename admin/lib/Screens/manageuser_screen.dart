@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../ScreensForHome/home_screen.dart';
 import '../ScreensForHome/notice_screen.dart';
 import '../ScreensForHome/setting_screen.dart';
-// ignore: depend_on_referenced_packages
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
