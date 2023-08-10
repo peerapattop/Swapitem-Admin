@@ -1,3 +1,4 @@
+import 'package:admin/Screens/showdatauser_screen.dart';
 import 'package:admin/Screens/viewuser_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -124,7 +125,12 @@ class _ManageUserState extends State<ManageUser> {
                         ),
                         trailing: ElevatedButton(
                           onPressed: () {
-                            // ทำอะไรสักอย่างเมื่อปุ่มถูกกด
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShowDataUser(),
+                              ),
+                            );
                           },
                           child: Image.asset(
                             "assets/icons/search.png",

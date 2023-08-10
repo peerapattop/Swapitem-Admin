@@ -12,11 +12,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('หน้าแจ้งเตือน'), 
-          
-          centerTitle: true,
-        ),
+
         body: Text("หน้าแจ้งเตือน"),
       ),
     );
