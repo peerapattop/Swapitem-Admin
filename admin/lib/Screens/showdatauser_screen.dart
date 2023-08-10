@@ -2,40 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShowDataUser extends StatefulWidget {
-  const ShowDataUser({super.key});
+  final DocumentSnapshot userDocument;
+
+  ShowDataUser(this.userDocument);
 
   @override
-  State<ShowDataUser> createState() => _ShowDataUserState();
+  _UserDetailPageState createState() => _UserDetailPageState();
 }
 
-class _ShowDataUserState extends State<ShowDataUser> {
+class _UserDetailPageState extends State<ShowDataUser> {
+  late String username;
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    username = widget.userDocument['username'];
+    email = widget.userDocument['email'];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("รายละเอียดผู้ใช้"),
-          centerTitle: true,
-        ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text("ไม่มีข้อมูล"),
-              );
-            }
-            //พื้นที่แสดงข้อมูลผู้ใช้งาน
-            return Container(
-              child: Column(
-                children: [
-                  TextFormField(
-                    
-                  ),
-                ],
-              ),
-            );
-          },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("รายละเอียดผู้ใช้"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("ชื่อผู้ใช้: $username"),
+            Text("อีเมล: $email"),
+            // ... เพิ่มข้อมูลอื่น ๆ ตามต้องการ ...
+          ],
         ),
       ),
     );

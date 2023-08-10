@@ -128,7 +128,7 @@ class _ManageUserState extends State<ManageUser> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ShowDataUser(),
+                                builder: (context) => ShowDataUser(document),
                               ),
                             );
                           },

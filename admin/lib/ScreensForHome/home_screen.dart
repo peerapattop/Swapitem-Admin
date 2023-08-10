@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeScreenContent(),
     const NotificationsScreen(),
     const SettingsScreen(),
-  ];
+  ];  
 
   @override
   Widget build(BuildContext context) {
