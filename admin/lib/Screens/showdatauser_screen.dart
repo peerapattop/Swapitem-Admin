@@ -30,9 +30,10 @@ class _UserDetailPageState extends State<ShowDataUser> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("ชื่อผู้ใช้: $username"),
-            Text("อีเมล: $email"),
+            Text("ชื่อผู้ใช้: $username", style: TextStyle(fontSize: 20)),
+            Text("อีเมล: $email", style: TextStyle(fontSize: 20)),
             // ... เพิ่มข้อมูลอื่น ๆ ตามต้องการ ...
           ],
         ),
