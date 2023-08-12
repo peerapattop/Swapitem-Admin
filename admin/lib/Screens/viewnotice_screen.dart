@@ -1,4 +1,7 @@
+import 'package:admin/Screens/main_page.dart';
+import 'package:admin/ScreensForHome/home_screen.dart';
 import 'package:flutter/material.dart';
+
 
 class ViewNotice extends StatefulWidget {
   const ViewNotice({Key? key});
@@ -8,7 +11,7 @@ class ViewNotice extends StatefulWidget {
 }
 
 class _ViewNoticeState extends State<ViewNotice> {
-  String enteredText = ''; // สำหรับเก็บข้อความที่ผู้ใช้กรอก
+   
 
   @override
   Widget build(BuildContext context) {
@@ -31,29 +34,21 @@ class _ViewNoticeState extends State<ViewNotice> {
                   borderSide: BorderSide.none,
                 ),
                 contentPadding: EdgeInsets.all(12),
-              ),
-              onChanged: (text) {
-                setState(() {
-                  enteredText = text;
-                });
-              },
+              ),             
             ),
             SizedBox(height: 20), // เพิ่มระยะห่างระหว่าง TextField และปุ่ม
             ElevatedButton(
               onPressed: () {
-                // ดำเนินการเมื่อปุ่มถูกกด
-                // คุณสามารถเพิ่มโค้ดที่คุณต้องการทำเมื่อกดปุ่มนี้
+                Navigator.pop(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               },
-              
               child: Text('ส่ง'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.green, // สีพื้นหลังของปุ่ม
                 onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
               ),
-            ),
-            Text(
-              'ข้อความที่กรอก: $enteredText',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),

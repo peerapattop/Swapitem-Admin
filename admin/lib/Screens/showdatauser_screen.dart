@@ -29,12 +29,60 @@ class _UserDetailPageState extends State<ShowDataUser> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("ชื่อผู้ใช้: $username", style: TextStyle(fontSize: 20)),
-            Text("อีเมล: $email", style: TextStyle(fontSize: 20)),
-            // ... เพิ่มข้อมูลอื่น ๆ ตามต้องการ ...
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                controller: TextEditingController(text: username),
+                decoration: InputDecoration(labelText: "ชื่อผู้ใช้"),
+                onChanged: (value) {
+                  setState(() {
+                    username = value;
+                  });
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                controller: TextEditingController(text: email),
+                decoration: InputDecoration(labelText: "อีเมล"),
+                onChanged: (value) {
+                  setState(() {
+                    email = value;
+                  });
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  icon: Icon(Icons.save),
+                  onPressed: () {
+                    // ดำเนินการบันทึกการแก้ไขข้อมูลได้ตรงนี้
+                  },
+                  label: Text("บันทึกการแก้ไข"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green, // สีพื้นหลังของปุ่ม
+                    onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                  ),
+                ),
+                SizedBox(width: 15,),
+                ElevatedButton.icon(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    // ดำเนินการลบข้อมูลได้ตรงนี้
+                  },
+                  label: Text("ลบข้อมูล"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red, // สีพื้นหลังของปุ่ม
+                    onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

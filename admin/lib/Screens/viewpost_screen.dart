@@ -50,7 +50,7 @@ class _ViewPostState extends State<ViewPost> {
                 ),
               ),
             ),
-          ),     
+          ),
         ],
       ),
     );
