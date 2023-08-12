@@ -1,3 +1,5 @@
+import 'package:admin/Screens/manageuser_screen.dart';
+import 'package:admin/ScreensForHome/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -92,7 +94,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   controller: TextEditingController(text: lname),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'นามสกุล', // ตรงนี้เป็น labelText
+                    labelText: 'นามสกุล',
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -102,8 +104,11 @@ class _UserDetailPageState extends State<ShowDataUser> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Text("เพศ",style: TextStyle(fontSize: 25),),
+                padding: const EdgeInsets.only(left: 14),
+                child: Text(
+                  "เพศ",
+                  style: TextStyle(fontSize: 23),
+                ),
               ),
               ListTile(
                 title: const Text('ชาย'),
@@ -116,6 +121,9 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     });
                   },
                 ),
+              ),
+              SizedBox(
+                height: 0.001,
               ),
               ListTile(
                 title: const Text('หญิง'),
@@ -149,8 +157,23 @@ class _UserDetailPageState extends State<ShowDataUser> {
                 children: [
                   ElevatedButton.icon(
                     icon: Icon(Icons.save),
-                    onPressed: () {
-                      // ดำเนินการบันทึกการแก้ไขข้อมูลได้ตรงนี้
+                    onPressed: () async {
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(widget
+                              .userDocument.id) // ระบุเอกสารที่ต้องการอัปเดต
+                          .update({
+                        'username': username,
+                        'email': email,
+                        'fname': fname,
+                        'lname': lname,
+                        'gender': gender,
+                        'date': date,
+                      });
+                      Navigator.pop(
+                        context,
+                        MaterialPageRoute(builder: (context) => ManageUser()),
+                      );
                     },
                     label: Text("บันทึกการแก้ไข"),
                     style: ElevatedButton.styleFrom(
@@ -164,7 +187,42 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   ElevatedButton.icon(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      // ดำเนินการลบข้อมูลได้ตรงนี้
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("ยืนยันการลบ"),
+                            content: Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // ปิดกล่องตัวสอบ
+                                },
+                                child: Text("ยกเลิก"),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(widget.userDocument
+                                            .id) // ระบุเอกสารที่ต้องการลบ
+                                        .delete();
+                                    Navigator.pop(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ManageUser()),
+                                    );
+                                  } catch (e) {
+                                    print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
+                                  }
+                                },
+                                child: Text("ยืนยัน"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                     label: Text("ลบข้อมูล"),
                     style: ElevatedButton.styleFrom(
