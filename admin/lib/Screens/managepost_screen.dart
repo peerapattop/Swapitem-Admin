@@ -1,9 +1,10 @@
+import 'package:admin/Screens/showdatapost_screen.dart';
 import 'package:admin/Screens/viewpost_screen.dart';
 import 'package:flutter/material.dart';
 import '../ScreensForHome/home_screen.dart';
 import '../ScreensForHome/notice_screen.dart';
 import '../ScreensForHome/setting_screen.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,6 +30,7 @@ class ManagePost extends StatefulWidget {
 
 class _ManagePostState extends State<ManagePost> {
   int myIndex = 0;
+  String?_searchString ;
 
   final List<Widget> _pages = [
     const HomeScreen(),
@@ -43,69 +45,107 @@ class _ManagePostState extends State<ManagePost> {
         title: Text("จัดการโพสต์"),
         centerTitle: true,
       ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide(width: 0.8),
-                ),
-                hintText: "ค้นหา",
-                prefixIcon: const Icon(
-                  Icons.search,
-                  size: 30,
-                ),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.clear,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
-          ),
-          DataTable(
-            columnSpacing: 10,
-            columns: const [
-              DataColumn(label: Text("รหัสโพสต์")),
-              DataColumn(
-                label: Text("ชื่อ-นามสกุล"),
-              ),
-              DataColumn(label: Text("รายละเอียด")),
-            ],
-            rows: [
-              DataRow(
-                cells: [
-                  const DataCell(Text("650305")),
-                  const DataCell(Text("พีรพัฒน์ ตั้งปัญญาไว")),
-                  DataCell(
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ViewPost()),
-                        );
-                      },
-                      child: Image.asset(
-                        "assets/icons/search.png",
-                        width: 20,
-                        height: 20,
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text("ไม่มีข้อมูล"),
+            );
+          }
+
+          return Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: TextField(
+                  onChanged: (val) {
+                    setState(() {
+                      _searchString = val.toLowerCase();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide(width: 0.8),
+                    ),
+                    hintText: "ค้นหา",
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.clear,
                       ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.grey,
-                        fixedSize: Size(35, 20),
-                      ), // ข้อความปุ่มที่สอง
+                      onPressed: () {
+                        setState(() {
+                          _searchString = '';
+                        });
+                      },
                     ),
                   ),
-                ],
+                ),
+              ),
+              //แสดงข้อมูลผู้ใช้
+              Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = snapshot.data!.docs[index];
+                    String documentId = document.id; // ดึง ID ของเอกสาร
+                    String username =
+                        document['username']; // ดึงค่า 'username' จากเอกสาร
+                    Timestamp time = document['time'];
+                    if (_searchString != null &&
+                        (_searchString!.isNotEmpty &&
+                            (!username.toLowerCase().contains(_searchString!) ))) {
+                      return Container(); // ไม่แสดงรายการนี้
+                    }
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.all(5),
+                      child: ListTile(
+                        title: Text(username),
+                        subtitle: Text(time.toDate().toString()),
+                        leading: CircleAvatar(
+                          child: FittedBox(
+                            child: Text(documentId),
+                          ),
+                        ),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShowDataPost(document),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/icons/search.png",
+                            width: 18,
+                            height: 18,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 46, 246, 32),
+                            fixedSize: Size(35, 20),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
