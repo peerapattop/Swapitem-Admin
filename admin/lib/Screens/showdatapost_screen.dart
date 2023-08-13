@@ -1,3 +1,4 @@
+import 'package:admin/Screens/managepost_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -22,6 +23,8 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String detailpost;
   late String swapwith;
   late String detailoffer;
+  late String location;
+  late String postImageUrl;
 
   @override
   void initState() {
@@ -32,11 +35,9 @@ class _MyWidgetState extends State<ShowDataPost> {
     detailpost = widget.postDocument['detailpost'];
     swapwith = widget.postDocument['swapwith'];
     detailoffer = widget.postDocument['detailoffer'];
-    // email = widget.userDocument['email'];
-    // fname = widget.userDocument['fname'];
-    // lname = widget.userDocument['lname'];
-    // gender = widget.userDocument['gender'];
+    location = widget.postDocument['location'];
     date = widget.postDocument['time']?.toDate().toString();
+    postImageUrl = widget.postDocument['imageUrl'];
   }
 
   @override
@@ -50,11 +51,8 @@ class _MyWidgetState extends State<ShowDataPost> {
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Container(
-            child: Text(
-              "รูปภาพ",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
+              child: Image.network(postImageUrl), 
+              ),
         ),
         Padding(
           padding: const EdgeInsets.all(15.0),
@@ -129,7 +127,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                       color: Colors.black),
                 ),
                 TextSpan(
-                  text: nameobj ,
+                  text: nameobj,
                   style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
               ],
@@ -149,7 +147,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                       color: Colors.black),
                 ),
                 TextSpan(
-                  text: detailpost ,
+                  text: detailpost,
                   style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
               ],
@@ -169,7 +167,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                       color: Colors.black),
                 ),
                 TextSpan(
-                  text: swapwith ,
+                  text: swapwith,
                   style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
               ],
@@ -189,10 +187,80 @@ class _MyWidgetState extends State<ShowDataPost> {
                       color: Colors.black),
                 ),
                 TextSpan(
-                  text: detailoffer ,
+                  text: detailoffer,
                   style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
               ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "สถานที่แลกเปลี่ยน : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: location,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Center(
+          child: SingleChildScrollView(
+            child: ElevatedButton.icon(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("ยืนยันการลบ"),
+                      content: Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context); // ปิดกล่องตัวสอบ
+                          },
+                          child: Text("ยกเลิก"),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            try {
+                              await FirebaseFirestore.instance
+                                  .collection('posts')
+                                  .doc(widget.postDocument
+                                      .id) // ระบุเอกสารที่ต้องการลบ
+                                  .delete();
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ManagePost()),
+                              );
+                            } catch (e) {
+                              print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
+                            }
+                          },
+                          child: Text("ยืนยัน"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              label: Text("ลบโพสต์"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red, 
+                onPrimary: Colors.white, 
+              ),
             ),
           ),
         ),
