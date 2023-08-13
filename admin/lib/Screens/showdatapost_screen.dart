@@ -17,11 +17,21 @@ class _MyWidgetState extends State<ShowDataPost> {
   // late String lname;
   // late String gender;
   late String? date;
+  late String idposts;
+  late String nameobj;
+  late String detailpost;
+  late String swapwith;
+  late String detailoffer;
 
   @override
   void initState() {
     super.initState();
+    idposts = widget.postDocument.id;
+    nameobj = widget.postDocument['nameobj'];
     username = widget.postDocument['username'];
+    detailpost = widget.postDocument['detailpost'];
+    swapwith = widget.postDocument['swapwith'];
+    detailoffer = widget.postDocument['detailoffer'];
     // email = widget.userDocument['email'];
     // fname = widget.userDocument['fname'];
     // lname = widget.userDocument['lname'];
@@ -36,31 +46,153 @@ class _MyWidgetState extends State<ShowDataPost> {
         title: Text("แสดงข้อมูลโพสต์"),
         centerTitle: true,
       ),
-      body: Column(children: [
+      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(
           padding: const EdgeInsets.all(15.0),
-          child: TextField(
-            controller: TextEditingController(text: username),
-            decoration: InputDecoration(
-              labelText: 'ชื่อผู้ใช้', // ตรงนี้เป็น labelText
-              border: UnderlineInputBorder(
-                // กำหนดเฉพาะขอบด้านล่าง
-                borderSide: BorderSide(color: Colors.grey),
-              ),
+          child: Container(
+            child: Text(
+              "รูปภาพ",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(15.0),
-          child: TextField(
-            controller: TextEditingController(text: date),
-            readOnly: true,
-            decoration: InputDecoration(
-              labelText: 'วันที่โพสต์', // ตรงนี้เป็น labelText
-              border: UnderlineInputBorder(
-                // กำหนดเฉพาะขอบด้านล่าง
-                borderSide: BorderSide(color: Colors.grey),
-              ),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "หมายเลขโพสต์ : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: idposts,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "วัน เวลาที่โพสต์ : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: date,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "ชื่อผู้ใช้ : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: username,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "ชื่อสิ่งของ : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: nameobj ,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "รายละเอียด : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: detailpost ,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "ต้องการแลกเปลี่ยนกับ : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: swapwith ,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "รายละเอียด : ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextSpan(
+                  text: detailoffer ,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
             ),
           ),
         ),
