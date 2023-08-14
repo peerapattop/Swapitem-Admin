@@ -126,7 +126,7 @@ class _VipRequestState extends State<VipRequest> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ViewVip(),
+                                builder: (context) => ViewVip(document),
                               ),
                             );
                           },
