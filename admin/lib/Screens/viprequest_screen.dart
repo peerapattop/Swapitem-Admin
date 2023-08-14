@@ -5,7 +5,6 @@ import '../ScreensForHome/notice_screen.dart';
 import '../ScreensForHome/setting_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -30,7 +29,7 @@ class VipRequest extends StatefulWidget {
 
 class _VipRequestState extends State<VipRequest> {
   int myIndex = 0;
-  String? _searchString ;
+  String? _searchString;
 
   final List<Widget> _pages = [
     const HomeScreen(),
@@ -46,7 +45,8 @@ class _VipRequestState extends State<VipRequest> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('viprequests').snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('viprequests').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -99,10 +99,9 @@ class _VipRequestState extends State<VipRequest> {
                     String email = document['order'];
                     if (_searchString != null &&
                         (_searchString!.isNotEmpty &&
-                            (!username.toLowerCase().contains(_searchString!) &&
-                                !email
-                                    .toLowerCase()
-                                    .contains(_searchString!)))) {
+                            (!username
+                                .toLowerCase()
+                                .contains(_searchString!)))) {
                       return Container(); // ไม่แสดงรายการนี้
                     }
                     return Container(
