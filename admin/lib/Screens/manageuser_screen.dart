@@ -151,20 +151,7 @@ class _ManageUserState extends State<ManageUser> {
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            myIndex = index;
-          });
-        },
-        currentIndex: myIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_active), label: 'แจ้งเตือน'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'ตั้งค่า'),
-        ],
-      ),
+      
     );
   }
 }
