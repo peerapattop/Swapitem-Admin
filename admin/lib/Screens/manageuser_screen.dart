@@ -34,11 +34,6 @@ class _ManageUserState extends State<ManageUser> {
   String? _searchString;
   int myIndex = 0;
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    NotificationsScreen(),
-    SettingsScreen(),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +89,7 @@ class _ManageUserState extends State<ManageUser> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
-                    String documentId = document.id; // ดึง ID ของเอกสาร
+                    String userid = document['userid']; // ดึง ID ของเอกสาร
                     String username =
                         document['username']; // ดึงค่า 'username' จากเอกสาร
                     String email = document['email'];
@@ -120,7 +115,7 @@ class _ManageUserState extends State<ManageUser> {
                         subtitle: Text(email),
                         leading: CircleAvatar(
                           child: FittedBox(
-                            child: Text(documentId),
+                            child: Text(userid),
                           ),
                         ),
                         trailing: ElevatedButton(

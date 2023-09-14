@@ -46,40 +46,24 @@ class _UserDetailPageState extends State<ShowDataUser> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextField(
-                  controller: TextEditingController(text: username),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'ชื่อผู้ใช้', // ตรงนี้เป็น labelText
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      username = value;
-                    });
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: TextEditingController(text: email),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'อีเมล', // ตรงนี้เป็น labelText
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      email = value;
-                    });
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
                   controller: TextEditingController(text: fname),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                    ),
                     labelText: 'ชื่อ',
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight:
+                          FontWeight.bold, 
+                    ),
+                    hintStyle: TextStyle(
+                      fontStyle:
+                          FontStyle.italic, 
+                    ),
+                    fillColor: Colors.grey[200], 
+                    filled: true, 
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -93,12 +77,84 @@ class _UserDetailPageState extends State<ShowDataUser> {
                 child: TextField(
                   controller: TextEditingController(text: lname),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                    ),
                     labelText: 'นามสกุล',
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight:
+                          FontWeight.bold, 
+                    ),
+                    hintStyle: TextStyle(
+                      fontStyle:
+                          FontStyle.italic, 
+                    ),
+                    fillColor: Colors.grey[200], 
+                    filled: true, 
                   ),
                   onChanged: (value) {
                     setState(() {
                       lname = value;
+                    });
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: TextField(
+                  controller: TextEditingController(text: username),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                    ),
+                    labelText: 'ชื่อผู้ใช้',
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight:
+                          FontWeight.bold, 
+                    ),
+                    hintStyle: TextStyle(
+                      fontStyle:
+                          FontStyle.italic, 
+                    ),
+                    fillColor: Colors.grey[200], 
+                    filled: true, 
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      username = value;
+                    });
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: TextField(
+                  controller: TextEditingController(text: email),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                    ),
+                    labelText: 'อีเมล',
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight:
+                          FontWeight.bold, 
+                    ),
+                    hintStyle: TextStyle(
+                      fontStyle:
+                          FontStyle.italic, 
+                    ),
+                    fillColor: Colors.grey[200], 
+                    filled: true, 
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      email = value;
                     });
                   },
                 ),
