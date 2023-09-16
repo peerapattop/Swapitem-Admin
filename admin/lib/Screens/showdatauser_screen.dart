@@ -1,7 +1,7 @@
 import 'package:admin/Screens/manageuser_screen.dart';
-import 'package:admin/ScreensForHome/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class ShowDataUser extends StatefulWidget {
   final DocumentSnapshot userDocument;
@@ -18,7 +18,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
   late String fname;
   late String lname;
   late String gender;
-  late String date;
+  DateTime date = DateTime.now();
+  TextEditingController dateController = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +29,9 @@ class _UserDetailPageState extends State<ShowDataUser> {
     fname = widget.userDocument['fname'];
     lname = widget.userDocument['lname'];
     gender = widget.userDocument['gender'];
-    date = widget.userDocument['date'];
+    Timestamp timestamp = widget.userDocument['date'];
+    date = timestamp.toDate();
+    dateController.text = DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
@@ -44,26 +47,23 @@ class _UserDetailPageState extends State<ShowDataUser> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(top: 20,left: 15,right: 15,bottom: 15),
                 child: TextField(
                   controller: TextEditingController(text: fname),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'ชื่อ',
                     labelStyle: TextStyle(
                       fontSize: 20,
-                      fontWeight:
-                          FontWeight.bold, 
+                      fontWeight: FontWeight.bold,
                     ),
                     hintStyle: TextStyle(
-                      fontStyle:
-                          FontStyle.italic, 
+                      fontStyle: FontStyle.italic,
                     ),
-                    fillColor: Colors.grey[200], 
-                    filled: true, 
+                    fillColor: Colors.grey[200],
+                    filled: true,
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -78,21 +78,18 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   controller: TextEditingController(text: lname),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'นามสกุล',
                     labelStyle: TextStyle(
                       fontSize: 20,
-                      fontWeight:
-                          FontWeight.bold, 
+                      fontWeight: FontWeight.bold,
                     ),
                     hintStyle: TextStyle(
-                      fontStyle:
-                          FontStyle.italic, 
+                      fontStyle: FontStyle.italic,
                     ),
-                    fillColor: Colors.grey[200], 
-                    filled: true, 
+                    fillColor: Colors.grey[200],
+                    filled: true,
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -103,25 +100,61 @@ class _UserDetailPageState extends State<ShowDataUser> {
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'เพศ',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Radio(
+                          activeColor: Colors.green,
+                          value: "ชาย",
+                          groupValue: gender,
+                          onChanged: (value) {
+                            setState(() {
+                              gender = value.toString();
+                            });
+                          },
+                        ),
+                        Text("ชาย", style: TextStyle(fontSize: 18)),
+                        Radio(
+                          activeColor: Colors.green,
+                          value: "หญิง",
+                          groupValue: gender,
+                          onChanged: (value) {
+                            setState(() {
+                              gender = value.toString();
+                            });
+                          },
+                        ),
+                        Text("หญิง", style: TextStyle(fontSize: 18)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
                 child: TextField(
                   controller: TextEditingController(text: username),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'ชื่อผู้ใช้',
                     labelStyle: TextStyle(
                       fontSize: 20,
-                      fontWeight:
-                          FontWeight.bold, 
+                      fontWeight: FontWeight.bold,
                     ),
                     hintStyle: TextStyle(
-                      fontStyle:
-                          FontStyle.italic, 
+                      fontStyle: FontStyle.italic,
                     ),
-                    fillColor: Colors.grey[200], 
-                    filled: true, 
+                    fillColor: Colors.grey[200],
+                    filled: true,
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -136,21 +169,18 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   controller: TextEditingController(text: email),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(10.0), // กำหนดรูปร่างของขอบ
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'อีเมล',
                     labelStyle: TextStyle(
                       fontSize: 20,
-                      fontWeight:
-                          FontWeight.bold, 
+                      fontWeight: FontWeight.bold,
                     ),
                     hintStyle: TextStyle(
-                      fontStyle:
-                          FontStyle.italic, 
+                      fontStyle: FontStyle.italic,
                     ),
-                    fillColor: Colors.grey[200], 
-                    filled: true, 
+                    fillColor: Colors.grey[200],
+                    filled: true,
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -160,52 +190,26 @@ class _UserDetailPageState extends State<ShowDataUser> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 14),
-                child: Text(
-                  "เพศ",
-                  style: TextStyle(fontSize: 23),
-                ),
-              ),
-              ListTile(
-                title: const Text('ชาย'),
-                leading: Radio(
-                  value: 'ชาย',
-                  groupValue: gender,
-                  onChanged: (value) {
-                    setState(() {
-                      gender = value.toString();
-                    });
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 0.001,
-              ),
-              ListTile(
-                title: const Text('หญิง'),
-                leading: Radio(
-                  value: 'หญิง',
-                  groupValue: gender,
-                  onChanged: (value) {
-                    setState(() {
-                      gender = value.toString();
-                    });
-                  },
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextField(
-                  controller: TextEditingController(text: date),
+                  controller: dateController,
+                  readOnly: true,
+                  onTap: () => _selectDate(context),
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'วันเกิด', // ตรงนี้เป็น labelText
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'วันเกิด',
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    hintStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                    ),
+                    fillColor: Colors.grey[200],
+                    filled: true,
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      date = value;
-                    });
-                  },
                 ),
               ),
               Row(
@@ -216,8 +220,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     onPressed: () async {
                       await FirebaseFirestore.instance
                           .collection('users')
-                          .doc(widget
-                              .userDocument.id) // ระบุเอกสารที่ต้องการอัปเดต
+                          .doc(widget.userDocument.id)
                           .update({
                         'username': username,
                         'email': email,
@@ -233,8 +236,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     },
                     label: Text("บันทึกการแก้ไข"),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green, // สีพื้นหลังของปุ่ม
-                      onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                      primary: Colors.green,
+                      onPrimary: Colors.white,
                     ),
                   ),
                   SizedBox(
@@ -252,7 +255,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context); // ปิดกล่องตัวสอบ
+                                  Navigator.pop(context);
                                 },
                                 child: Text("ยกเลิก"),
                               ),
@@ -261,8 +264,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                                   try {
                                     await FirebaseFirestore.instance
                                         .collection('users')
-                                        .doc(widget.userDocument
-                                            .id) // ระบุเอกสารที่ต้องการลบ
+                                        .doc(widget.userDocument.id)
                                         .delete();
                                     Navigator.pop(
                                       context,
@@ -282,8 +284,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     },
                     label: Text("ลบข้อมูล"),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.red, // สีพื้นหลังของปุ่ม
-                      onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                      primary: Colors.red,
+                      onPrimary: Colors.white,
                     ),
                   ),
                 ],
@@ -293,5 +295,20 @@ class _UserDetailPageState extends State<ShowDataUser> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: date, // ให้เริ่มต้นด้วยค่า date ที่มีอยู่
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != date) {
+      setState(() {
+        date = picked;
+        dateController.text = DateFormat('yyyy-MM-dd').format(date);
+      });
+    }
   }
 }
