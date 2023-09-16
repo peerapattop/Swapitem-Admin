@@ -2,7 +2,6 @@ import 'package:admin/Screens/main_page.dart';
 import 'package:admin/ScreensForHome/home_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class ViewNotice extends StatefulWidget {
   const ViewNotice({Key? key});
 
@@ -11,8 +10,6 @@ class ViewNotice extends StatefulWidget {
 }
 
 class _ViewNoticeState extends State<ViewNotice> {
-   
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +31,7 @@ class _ViewNoticeState extends State<ViewNotice> {
                   borderSide: BorderSide.none,
                 ),
                 contentPadding: EdgeInsets.all(12),
-              ),             
+              ),
             ),
             SizedBox(height: 20), // เพิ่มระยะห่างระหว่าง TextField และปุ่ม
             ElevatedButton(
@@ -44,7 +41,14 @@ class _ViewNoticeState extends State<ViewNotice> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: Text('ส่ง'),
+              child: Container(
+                  width: 90,
+                  height: 40,
+                  child: Center(
+                      child: Text(
+                    'ส่ง',
+                    style: TextStyle(fontSize: 20),
+                  ))),
               style: ElevatedButton.styleFrom(
                 primary: Colors.green, // สีพื้นหลังของปุ่ม
                 onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
