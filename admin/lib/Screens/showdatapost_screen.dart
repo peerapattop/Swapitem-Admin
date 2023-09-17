@@ -26,7 +26,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   @override
   void initState() {
     super.initState();
-    idposts = widget.postDocument.id;
+    idposts = widget.postDocument['idpost'];
     nameobj = widget.postDocument['nameobj'];
     username = widget.postDocument['username'];
     detailpost = widget.postDocument['detailpost'];

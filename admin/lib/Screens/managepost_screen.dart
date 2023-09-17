@@ -5,6 +5,8 @@ import '../ScreensForHome/home_screen.dart';
 import '../ScreensForHome/notice_screen.dart';
 import '../ScreensForHome/setting_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -29,14 +31,10 @@ class ManagePost extends StatefulWidget {
 }
 
 class _ManagePostState extends State<ManagePost> {
+  
   int myIndex = 0;
   String?_searchString ;
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    NotificationsScreen(),
-    SettingsScreen(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +91,7 @@ class _ManagePostState extends State<ManagePost> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
-                    String documentId = document.id; // ดึง ID ของเอกสาร
+                    String documentId = document['idpost']; // ดึง ID ของเอกสาร
                     String username =
                         document['username']; // ดึงค่า 'username' จากเอกสาร
                     Timestamp time = document['time'];
@@ -113,7 +111,7 @@ class _ManagePostState extends State<ManagePost> {
                       margin: EdgeInsets.all(5),
                       child: ListTile(
                         title: Text(username),
-                        subtitle: Text(time.toDate().toString()),
+                        subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss a').format(time.toDate())),
                         leading: CircleAvatar(
                           child: FittedBox(
                             child: Text(documentId),
