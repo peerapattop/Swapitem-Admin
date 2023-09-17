@@ -93,7 +93,7 @@ class _VipRequestState extends State<VipRequest> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
-                    String documentId = document.id; // ดึง ID ของเอกสาร
+                    String userid = document['userid']; // ดึง ID ของเอกสาร
                     String username =
                         document['username']; // ดึงค่า 'username' จากเอกสาร
                     String email = document['order'];
@@ -102,7 +102,7 @@ class _VipRequestState extends State<VipRequest> {
                             (!username
                                 .toLowerCase()
                                 .contains(_searchString!)))) {
-                      return Container(); // ไม่แสดงรายการนี้
+                      return Container(); 
                     }
                     return Container(
                       decoration: BoxDecoration(
@@ -118,7 +118,7 @@ class _VipRequestState extends State<VipRequest> {
                         subtitle: Text(email),
                         leading: CircleAvatar(
                           child: FittedBox(
-                            child: Text(documentId),
+                            child: Text(userid),
                           ),
                         ),
                         trailing: ElevatedButton(
