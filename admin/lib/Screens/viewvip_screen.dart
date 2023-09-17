@@ -31,7 +31,7 @@ class _ViewVipState extends State<ViewVip> {
     gender = widget.viprequestsDocument['gender'];
     Timestamp timestamp = widget.viprequestsDocument['date'];
     DateTime dateTime = timestamp.toDate();
-    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTime);
+   formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTime);
 
     order = widget.viprequestsDocument['order'];
   }
