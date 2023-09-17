@@ -111,7 +111,7 @@ class _ManagePostState extends State<ManagePost> {
                       margin: EdgeInsets.all(5),
                       child: ListTile(
                         title: Text(username),
-                        subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss a').format(time.toDate())),
+                        subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss a').format(time.toDate().toLocal())),
                         leading: CircleAvatar(
                           child: FittedBox(
                             child: Text(documentId),
