@@ -45,32 +45,149 @@ class _ViewVipState extends State<ViewVip> {
           Padding(
             padding: const EdgeInsets.only(top: 15, left: 10),
             child: Container(
-              child: Text("หลักฐานการโอนเงิน",style: TextStyle(fontSize: 20),),
+              child: Text(
+                "หลักฐานการโอนเงิน",
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Text("แพ็กเกจ : $order",style: TextStyle(fontSize: 20),),
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: 'แพ็คเกจ',
+                labelStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
+              controller: TextEditingController(text: order),
+              maxLines: null, // Allow multiple lines
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Text("ชื่อผู้ใช้ : $username",style: TextStyle(fontSize: 20),),
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: 'ชื่อผู้ใช้',
+                labelStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
+              controller: TextEditingController(text: username),
+              maxLines: null, // Allow multiple lines
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Text("ชื่อ : $fname",style: TextStyle(fontSize: 20),),
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: 'ชื่อ',
+                labelStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
+              controller: TextEditingController(text: fname),
+              maxLines: null, 
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Text("นามสกุล : $lname",style: TextStyle(fontSize: 20),),
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: 'นามสกุล',
+                labelStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
+              controller: TextEditingController(text: lname),
+              maxLines: null, // Allow multiple lines
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Text("เพศ : $gender",style: TextStyle(fontSize: 20),),
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: 'เพศ',
+                labelStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
+              controller: TextEditingController(text: gender),
+              maxLines: null, 
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Text("อีเมล : $email",style: TextStyle(fontSize: 20),),
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                labelText: 'อีเมล',
+                labelStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
+              controller: TextEditingController(text: email),
+              maxLines: null, 
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
