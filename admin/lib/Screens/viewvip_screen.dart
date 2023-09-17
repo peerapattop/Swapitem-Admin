@@ -1,6 +1,7 @@
 import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class ViewVip extends StatefulWidget {
   final DocumentSnapshot viprequestsDocument;
@@ -18,7 +19,7 @@ class _ViewVipState extends State<ViewVip> {
   late String lname;
   late String gender;
   late String order;
-  late String date;
+  String formattedDate = '';
 
   @override
   void initState() {
@@ -28,7 +29,10 @@ class _ViewVipState extends State<ViewVip> {
     fname = widget.viprequestsDocument['fname'];
     lname = widget.viprequestsDocument['lname'];
     gender = widget.viprequestsDocument['gender'];
-    date = widget.viprequestsDocument['date'];
+    Timestamp timestamp = widget.viprequestsDocument['date'];
+    DateTime dateTime = timestamp.toDate();
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTime);
+
     order = widget.viprequestsDocument['order'];
   }
 
@@ -39,244 +43,273 @@ class _ViewVipState extends State<ViewVip> {
         title: Text("รายละเอียด"),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // สั่งให้เนื้อหาชิดซ้าย
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Container(
-              child: Text(
-                "หลักฐานการโอนเงิน",
-                style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // สั่งให้เนื้อหาชิดซ้าย
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15, left: 10),
+              child: Container(
+                child: Text(
+                  "หลักฐานการโอนเงิน",
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'วัน เวลา',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
                 ),
-                labelText: 'แพ็คเกจ',
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                controller: TextEditingController(
+                  text: formattedDate,
                 ),
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-                fillColor: Colors.grey[200],
-                filled: true,
+                maxLines: null, // อนุญาตให้เป็นหลายบรรทัด
+                
               ),
-              controller: TextEditingController(text: order),
-              maxLines: null, // Allow multiple lines
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'แพ็คเกจ',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
                 ),
-                labelText: 'ชื่อผู้ใช้',
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-                fillColor: Colors.grey[200],
-                filled: true,
+                controller: TextEditingController(text: order),
+                maxLines: null, // Allow multiple lines
               ),
-              controller: TextEditingController(text: username),
-              maxLines: null, // Allow multiple lines
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'ชื่อผู้ใช้',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
                 ),
-                labelText: 'ชื่อ',
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-                fillColor: Colors.grey[200],
-                filled: true,
+                controller: TextEditingController(text: username),
+                maxLines: null, // Allow multiple lines
               ),
-              controller: TextEditingController(text: fname),
-              maxLines: null, 
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'ชื่อ',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
                 ),
-                labelText: 'นามสกุล',
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-                fillColor: Colors.grey[200],
-                filled: true,
+                controller: TextEditingController(text: fname),
+                maxLines: null,
               ),
-              controller: TextEditingController(text: lname),
-              maxLines: null, // Allow multiple lines
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'นามสกุล',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
                 ),
-                labelText: 'เพศ',
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-                fillColor: Colors.grey[200],
-                filled: true,
+                controller: TextEditingController(text: lname),
+                maxLines: null, // Allow multiple lines
               ),
-              controller: TextEditingController(text: gender),
-              maxLines: null, 
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'เพศ',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
                 ),
-                labelText: 'อีเมล',
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-                fillColor: Colors.grey[200],
-                filled: true,
+                controller: TextEditingController(text: gender),
+                maxLines: null,
               ),
-              controller: TextEditingController(text: email),
-              maxLines: null, 
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15, left: 10),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("ยืนยันการปฎิเสธ"),
-                          content: Text("คุณต้องการปฎิเสธข้อมูลนี้ใช่หรือไม่?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text("ยกเลิก"),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                try {
-                                  await FirebaseFirestore.instance
-                                      .collection('vip_requests')
-                                      .doc(widget.viprequestsDocument.id)
-                                      .delete();
-                                  Navigator.pop(
-                                      context); // ปิดหน้าต่างแจ้งเตือน
-                                  // ลบสำเร็จแล้ว สามารถแสดงข้อความหรือทำอื่นๆ ต่อได้
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("ลบข้อมูลสำเร็จ"),
-                                        content: Text(
-                                            "ข้อมูลได้ถูกลบออกจากฐานข้อมูลแล้ว"),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("ตกลง"),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } catch (e) {
-                                  print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
-                                }
-                              },
-                              child: Text("ยืนยัน"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  icon: Icon(Icons.close),
-                  label: Text('ปฎิเสธ'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    onPrimary: Colors.white,
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'อีเมล',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
+                ),
+                controller: TextEditingController(text: email),
+                maxLines: null,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 10),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("ยืนยันการปฎิเสธ"),
+                            content:
+                                Text("คุณต้องการปฎิเสธข้อมูลนี้ใช่หรือไม่?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("ยกเลิก"),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('vip_requests')
+                                        .doc(widget.viprequestsDocument.id)
+                                        .delete();
+                                    Navigator.pop(
+                                        context); // ปิดหน้าต่างแจ้งเตือน
+                                    // ลบสำเร็จแล้ว สามารถแสดงข้อความหรือทำอื่นๆ ต่อได้
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("ลบข้อมูลสำเร็จ"),
+                                          content: Text(
+                                              "ข้อมูลได้ถูกลบออกจากฐานข้อมูลแล้ว"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("ตกลง"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } catch (e) {
+                                    print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
+                                  }
+                                },
+                                child: Text("ยืนยัน"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(Icons.close),
+                    label: Text('ปฎิเสธ'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      onPrimary: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15, left: 10),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const VipRequest()),
-                    );
-                  },
-                  icon: Icon(Icons.check), // เพิ่มไอคอน
-                  label: Text('ยืนยัน'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green, // สีพื้นหลังของปุ่ม
-                    onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 10),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VipRequest()),
+                      );
+                    },
+                    icon: Icon(Icons.check), // เพิ่มไอคอน
+                    label: Text('ยืนยัน'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green, // สีพื้นหลังของปุ่ม
+                      onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
