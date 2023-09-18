@@ -71,79 +71,81 @@ class _MyWidgetState extends State<ShowDataPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppbar("แสดงข้อมูลโพสต์"),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Container(
-                child: Text("รูปภาพ"),
+    return SafeArea(
+      child: Scaffold(
+        appBar: MyAppbar("แสดงข้อมูลโพสต์"),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  child: Text("รูปภาพ"),
+                ),
               ),
-            ),
-            ShowDataPosts("หมายเลขโพสต์", idposts),
-            ShowDataPosts(
-                "วัน เวลาที่โพสต์", formattedDatetime), // Use formattedDatetime
-            ShowDataPosts("ชื่อผู้โพสต์", username),
-            ShowDataPosts("ชื่อสิ่งของ", nameobj),
-            ShowDataPosts("รายละเอียด", detailpost),
-            Center(child: Image.asset("assets/images/swap.png")),
-            ShowDataPosts("ชื่อสิ่งของ", swapwith),
-            ShowDataPosts("รายละเอียด", detailoffer),
-            ShowDataPosts("สถานที่แลกเปลี่ยน", location),
-            Center(
-              child: SingleChildScrollView(
-                child: ElevatedButton.icon(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("ยืนยันการลบ"),
-                          content: Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text("ยกเลิก"),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                try {
-                                  await FirebaseFirestore.instance
-                                      .collection('posts')
-                                      .doc(widget.postDocument
-                                          .id) // Specify the document to delete
-                                      .delete();
-                                  Navigator.pop(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ManagePost()),
-                                  );
-                                } catch (e) {
-                                  print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
-                                }
-                              },
-                              child: Text("ยืนยัน"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  label: Text("ลบโพสต์"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    onPrimary: Colors.white,
+              ShowDataPosts("หมายเลขโพสต์", idposts),
+              ShowDataPosts(
+                  "วัน เวลาที่โพสต์", formattedDatetime), // Use formattedDatetime
+              ShowDataPosts("ชื่อผู้โพสต์", username),
+              ShowDataPosts("ชื่อสิ่งของ", nameobj),
+              ShowDataPosts("รายละเอียด", detailpost),
+              Center(child: Image.asset("assets/images/swap.png")),
+              ShowDataPosts("ชื่อสิ่งของ", swapwith),
+              ShowDataPosts("รายละเอียด", detailoffer),
+              ShowDataPosts("สถานที่แลกเปลี่ยน", location),
+              Center(
+                child: SingleChildScrollView(
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("ยืนยันการลบ"),
+                            content: Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("ยกเลิก"),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('posts')
+                                        .doc(widget.postDocument
+                                            .id) // Specify the document to delete
+                                        .delete();
+                                    Navigator.pop(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ManagePost()),
+                                    );
+                                  } catch (e) {
+                                    print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
+                                  }
+                                },
+                                child: Text("ยืนยัน"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    label: Text("ลบโพสต์"),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      onPrimary: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
