@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/viprequest_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,10 +40,7 @@ class _ViewVipState extends State<ViewVip> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("รายละเอียด"),
-        centerTitle: true,
-      ),
+      appBar:MyAppbar('รายละเอียด'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // สั่งให้เนื้อหาชิดซ้าย

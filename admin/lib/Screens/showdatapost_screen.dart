@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/managepost_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -71,10 +72,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("แสดงข้อมูลโพสต์"),
-        centerTitle: true,
-      ),
+      appBar: MyAppbar("แสดงข้อมูลโพสต์"),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

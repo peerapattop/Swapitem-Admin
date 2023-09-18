@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,10 +16,7 @@ class _ViewPostState extends State<ViewPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("จัดการโพสต์"),
-        centerTitle: true,
-      ),
+      appBar: MyAppbar('จัดการโพสต์'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

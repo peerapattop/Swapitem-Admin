@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/main_page.dart';
 import 'package:admin/ScreensForHome/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,7 @@ class _ViewNoticeState extends State<ViewNotice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('ประกาศแจ้งเตือน'),
-        centerTitle: true,
-      ),
+      appBar: MyAppbar("ประกาศแจ้งเตือน"),
       body: Padding(
         padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20),
         child: Column(

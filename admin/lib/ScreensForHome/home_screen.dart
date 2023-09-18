@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/managepost_screen.dart';
 import 'package:admin/Screens/manageuser_screen.dart';
 import 'package:admin/Screens/viewnotice_screen.dart';
@@ -22,16 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeScreenContent(),
     const NotificationsScreen(),
     const SettingsScreen(),
-  ];  
+  ];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('หน้าแรก'),
-          centerTitle: true,
-        ),
+        appBar: MyAppbar('หน้าแรก'),
         body: _pages[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
@@ -170,8 +168,7 @@ class HomeScreenContent extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => ViewNotice()),
+                        MaterialPageRoute(builder: (context) => ViewNotice()),
                       );
                     },
                     child: const Padding(
@@ -195,4 +192,3 @@ class HomeScreenContent extends StatelessWidget {
     );
   }
 }
-

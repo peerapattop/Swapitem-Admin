@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:flutter/material.dart';
 
 
@@ -17,10 +18,7 @@ class _ViewUserState extends State<ViewUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("จัดการข้อมูลผู้ใช้"),
-        centerTitle: true,
-      ),
+      appBar: MyAppbar('จัดการข้อมูลผู้ใช้'),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

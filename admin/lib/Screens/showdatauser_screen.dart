@@ -1,3 +1,4 @@
+import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/manageuser_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,10 +38,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("รายละเอียดผู้ใช้"),
-        centerTitle: true,
-      ),
+      appBar: MyAppbar('รายละเอียดผู้ใช้'),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
