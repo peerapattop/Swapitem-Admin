@@ -47,8 +47,7 @@ class _ManageUserState extends State<ManageUser> {
               return Center(
                 child: Text("ไม่มีข้อมูล"),
               );
-            }
-  
+            }   
             return Column(
               children: <Widget>[
                 Padding(
