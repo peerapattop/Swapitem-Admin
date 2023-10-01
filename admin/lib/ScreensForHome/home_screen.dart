@@ -1,4 +1,3 @@
-import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/managepost_screen.dart';
 import 'package:admin/Screens/manageuser_screen.dart';
 import 'package:admin/Screens/viewnotice_screen.dart';
@@ -29,6 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 : _currentIndex == 1
                     ? 'แจ้งเตือน'
                     : 'ตั้งค่า',
+          ),
+          toolbarHeight: 40,
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/appbar.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
         ),
         body: IndexedStack(
@@ -67,13 +76,13 @@ class HomeScreenContent extends StatelessWidget {
         child: Column(
           children: [
             //จัดการข้อมูลผู้ใช้
-            BoxMenu('จัดการข้อมูลผู้ใช้', () => const ManageUser(), context),
+            BoxMenu('จัดการข้อมูลผู้ใช้', () => const ManageUser(), context,const Color.fromARGB(255, 186, 255, 11)),
             //จัดการโพสต์
-            BoxMenu('จัดการโพสต์', () => const ManagePost(), context),
+            BoxMenu('จัดการโพสต์', () => const ManagePost(), context,const Color.fromARGB(255, 8, 238, 27)),
             //คำขอสมัคร VIP
-            BoxMenu('คำขอสมัคร VIP', () => const VipRequest(), context),
+            BoxMenu('คำขอสมัคร VIP', () => const VipRequest(), context,const Color.fromARGB(255, 43, 247, 172)),
             //ประกาศแจ้งเตือน
-            BoxMenu('ประกาศแจ้งเตือน', () => const ViewNotice(), context),
+            BoxMenu('ประกาศแจ้งเตือน', () => const ViewNotice(), context,const Color.fromARGB(255, 38, 217, 245)),
           ],
         ),
       ),
@@ -81,33 +90,31 @@ class HomeScreenContent extends StatelessWidget {
   }
 }
 
-Widget BoxMenu(String label, Function() function, BuildContext context) {
+Widget BoxMenu(String label, Function() function, BuildContext context,Color ColorButton) {
   return Padding(
     padding:
         const EdgeInsets.only(top: 20.0, left: 50.0, right: 50.0, bottom: 25),
-    child: Container(
-      child: Center(
-        child: MaterialButton(
-          color: Color.fromARGB(249, 24, 248, 106),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          minWidth: 900,
-          height: 110,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => function()),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+    child: Center(
+      child: MaterialButton(
+        color: ColorButton,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        minWidth: 900,
+        height: 110,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => function()),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
             ),
           ),
         ),
