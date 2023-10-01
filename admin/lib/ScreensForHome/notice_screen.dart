@@ -14,90 +14,91 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Colors.black,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+        body: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage:
+                        AssetImage("assets/images/LogoSwapItem.png"),
                   ),
-                  child:  SizedBox(
-                    width: 600,
-                    height: 170,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10, left: 5),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "แจ้งเตือน",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: EdgeInsets.only(right: 5),
-                                child: Text(
-                                  "วันที่ 20/5/2566",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "คุณมีการสมัคร VIP เข้ามาใหม่",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  Text(
-                                    "ชื่อผู้ใช้ : พีรพัฒน์",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                 VipRequest()),
-                                      );
-                                    },
-                                    child: Text('ตรวจสอบ',style: TextStyle(fontSize: 18),),
-                                    style: ElevatedButton.styleFrom(
-                                      primary:
-                                          Colors.orange, 
-                                      onPrimary:
-                                          Colors.white, 
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        ],
+                  SizedBox(width: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text('Pirapat Tangpanyawai'),
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text('ผู้สมัคร VIP ใหม่'),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: Text("รายละเอียด"),
                     ),
                   ),
-                ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(height: 20,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage:
+                        AssetImage("assets/images/LogoSwapItem.png"),
+                  ),
+                  SizedBox(width: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text('Pirapat Tangpanyawai'),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text('ผู้สมัคร VIP ใหม่'),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: Text("รายละเอียด"),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
