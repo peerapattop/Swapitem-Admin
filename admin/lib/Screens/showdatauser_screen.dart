@@ -45,6 +45,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 15,),
+                Center(child: Image.asset('assets/images/LogoSwapItem.png',width: 100,)),
                 Padding(
                   padding: const EdgeInsets.only(top: 20,left: 15,right: 15,bottom: 15),
                   child: TextField(
@@ -61,7 +63,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       hintStyle: TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.white,
                       filled: true,
                     ),
                     onChanged: (value) {
@@ -87,7 +89,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       hintStyle: TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.white,
                       filled: true,
                     ),
                     onChanged: (value) {
@@ -152,7 +154,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       hintStyle: TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.white,
                       filled: true,
                     ),
                     onChanged: (value) {
@@ -178,7 +180,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       hintStyle: TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.white,
                       filled: true,
                     ),
                     onChanged: (value) {
@@ -206,7 +208,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       hintStyle: TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.white,
                       filled: true,
                     ),
                   ),
