@@ -43,7 +43,7 @@ class _MyWidgetState extends State<ShowDataPost> {
         DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTimeInLocalTimeZone);
   }
 
-  Widget ShowDataPosts(String label, String data) {
+  Widget showDataPosts(String label, String data,Icon icon) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: TextField(
@@ -62,6 +62,7 @@ class _MyWidgetState extends State<ShowDataPost> {
           ),
           fillColor: Colors.grey[200],
           filled: true,
+          prefixIcon: icon,
         ),
         controller: TextEditingController(text: data),
         maxLines: null, // Allow multiple lines
@@ -81,19 +82,19 @@ class _MyWidgetState extends State<ShowDataPost> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Container(
-                  child: Text("รูปภาพ"),
+                  child: Center(child: Image.asset('assets/images/shoestest.jpg',width: 250,)),
                 ),
               ),
-              ShowDataPosts("หมายเลขโพสต์", idposts),
-              ShowDataPosts(
-                  "วัน เวลาที่โพสต์", formattedDatetime), // Use formattedDatetime
-              ShowDataPosts("ชื่อผู้โพสต์", username),
-              ShowDataPosts("ชื่อสิ่งของ", nameobj),
-              ShowDataPosts("รายละเอียด", detailpost),
+              showDataPosts("หมายเลขโพสต์", idposts,Icon(Icons.numbers)),
+              showDataPosts(
+                  "วัน เวลาที่โพสต์", formattedDatetime,Icon(Icons.date_range)), // Use formattedDatetime
+              showDataPosts("ชื่อผู้โพสต์", username,Icon(Icons.person)),
+              showDataPosts("ชื่อสิ่งของ", nameobj,Icon(Icons.abc)),
+              showDataPosts("รายละเอียด", detailpost,Icon(Icons.apps_sharp)),
               Center(child: Image.asset("assets/images/swap.png")),
-              ShowDataPosts("ชื่อสิ่งของ", swapwith),
-              ShowDataPosts("รายละเอียด", detailoffer),
-              ShowDataPosts("สถานที่แลกเปลี่ยน", location),
+              showDataPosts("ชื่อสิ่งของ", swapwith,Icon(Icons.abc)),
+              showDataPosts("รายละเอียด", detailoffer,Icon(Icons.apps_sharp)),
+              showDataPosts("สถานที่แลกเปลี่ยน", location,Icon(Icons.location_on)),
               Center(
                 child: SingleChildScrollView(
                   child: ElevatedButton.icon(
