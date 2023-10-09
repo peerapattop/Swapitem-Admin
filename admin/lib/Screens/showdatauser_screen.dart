@@ -20,6 +20,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
   late String lname;
   late String gender;
   late String userid;
+  late String profile;
   DateTime date = DateTime.now();
   TextEditingController dateController = TextEditingController();
 
@@ -31,7 +32,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
     fname = widget.userDocument['fname'];
     lname = widget.userDocument['lname'];
     gender = widget.userDocument['gender'];
-    userid = widget.userDocument['userid'];
+    userid = widget.userDocument['userid'];   
     Timestamp timestamp = widget.userDocument['date'];
     date = timestamp.toDate();
     dateController.text = DateFormat('yyyy-MM-dd').format(date);
@@ -87,7 +88,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 20, left: 15, right: 15, bottom: 15),
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: fname),
                     decoration: InputDecoration(
@@ -115,7 +116,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: lname),
                     decoration: InputDecoration(
@@ -142,9 +143,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     },
                   ),
                 ),
-                SizedBox(height: 0.2,),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -186,7 +186,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: username),
                     decoration: InputDecoration(
@@ -213,7 +213,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: email),
                     decoration: InputDecoration(
@@ -242,7 +242,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: dateController,
                     readOnly: true,
