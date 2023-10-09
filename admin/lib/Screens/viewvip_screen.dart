@@ -48,12 +48,7 @@ class _ViewVipState extends State<ViewVip> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 10),
-                child: Container(
-                  child: Text(
-                    "หลักฐานการโอนเงิน",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
+                child: Center(child: Image.asset('assets/images/slip.jpeg',width: 300,)),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -73,13 +68,15 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
+                    prefixIcon: Icon(Icons.date_range)
                   ),
                   controller: TextEditingController(
                     text: formattedDate,
                   ),
-                  maxLines: null, // อนุญาตให้เป็นหลายบรรทัด
+                  maxLines: null,
                   
                 ),
+                
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -99,6 +96,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
+                    prefixIcon: Icon(Icons.scatter_plot_rounded ),
                   ),
                   controller: TextEditingController(text: order),
                   maxLines: null, // Allow multiple lines
@@ -122,6 +120,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
+                    prefixIcon: Icon(Icons.person ),
                   ),
                   controller: TextEditingController(text: username),
                   maxLines: null, // Allow multiple lines
@@ -145,6 +144,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
+                    prefixIcon: Icon(Icons.person ),
                   ),
                   controller: TextEditingController(text: fname),
                   maxLines: null,
@@ -168,32 +168,10 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
+                    prefixIcon: Icon(Icons.person ),
                   ),
                   controller: TextEditingController(text: lname),
                   maxLines: null, // Allow multiple lines
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'เพศ',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                  ),
-                  controller: TextEditingController(text: gender),
-                  maxLines: null,
                 ),
               ),
               Padding(
@@ -214,6 +192,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
+                    prefixIcon: Icon(Icons.email ),
                   ),
                   controller: TextEditingController(text: email),
                   maxLines: null,
