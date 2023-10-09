@@ -45,10 +45,17 @@ class _UserDetailPageState extends State<ShowDataUser> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 15,),
-                Center(child: Image.asset('assets/images/LogoSwapItem.png',width: 100,)),
+                SizedBox(
+                  height: 15,
+                ),
+                Center(
+                    child: Image.asset(
+                  'assets/images/LogoSwapItem.png',
+                  width: 100,
+                )),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20,left: 15,right: 15,bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 20, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: fname),
                     decoration: InputDecoration(
@@ -65,6 +72,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       ),
                       fillColor: Colors.white,
                       filled: true,
+                      prefixIcon: Icon(Icons.person),
+                      alignLabelWithHint: true,
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -91,6 +100,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       ),
                       fillColor: Colors.white,
                       filled: true,
+                      prefixIcon: Icon(Icons.person),
+                      alignLabelWithHint: true,
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -99,18 +110,19 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     },
                   ),
                 ),
+                SizedBox(height: 0.2,),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        'เพศ',
-                        style: TextStyle(fontSize: 20),
-                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          Text(
+                            'เพศ',
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          SizedBox(width: 15,),
                           Radio(
                             activeColor: Colors.green,
                             value: "ชาย",
@@ -122,6 +134,9 @@ class _UserDetailPageState extends State<ShowDataUser> {
                             },
                           ),
                           Text("ชาย", style: TextStyle(fontSize: 18)),
+                          SizedBox(
+                              width:
+                                  20), // Add some space between Radio and Text
                           Radio(
                             activeColor: Colors.green,
                             value: "หญิง",
@@ -156,6 +171,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       ),
                       fillColor: Colors.white,
                       filled: true,
+                      prefixIcon: Icon(Icons.person),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -182,12 +198,15 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       ),
                       fillColor: Colors.white,
                       filled: true,
+                      prefixIcon: Icon(Icons.email),
                     ),
                     onChanged: (value) {
                       setState(() {
                         email = value;
                       });
+                      
                     },
+                    
                   ),
                 ),
                 Padding(
@@ -210,6 +229,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                       ),
                       fillColor: Colors.white,
                       filled: true,
+                      prefixIcon: Icon(Icons.date_range),
                     ),
                   ),
                 ),
