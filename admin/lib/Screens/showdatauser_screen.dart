@@ -19,6 +19,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
   late String fname;
   late String lname;
   late String gender;
+  late String userid;
   DateTime date = DateTime.now();
   TextEditingController dateController = TextEditingController();
 
@@ -30,6 +31,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
     fname = widget.userDocument['fname'];
     lname = widget.userDocument['lname'];
     gender = widget.userDocument['gender'];
+    userid = widget.userDocument['userid'];
     Timestamp timestamp = widget.userDocument['date'];
     date = timestamp.toDate();
     dateController.text = DateFormat('yyyy-MM-dd').format(date);
@@ -53,6 +55,36 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   'assets/images/LogoSwapItem.png',
                   width: 100,
                 )),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    readOnly: true,
+                    controller: TextEditingController(text: userid.toString()),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      labelText: 'หมายเลขผู้ใช้',
+                      labelStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      hintStyle: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),
+                      fillColor: Colors.white,
+                      prefixIcon: Icon(Icons.numbers),
+
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        userid = value;
+                      });
+                      
+                    },
+                    
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 20, left: 15, right: 15, bottom: 15),

@@ -113,7 +113,7 @@ class _ManageUserState extends State<ManageUser> {
                           subtitle: Text(email),
                           leading: CircleAvatar(
                             child: FittedBox(
-                              child: Text(userid),
+                              child: Text(userid.toString()),
                             ),
                           ),
                           trailing: ElevatedButton(
