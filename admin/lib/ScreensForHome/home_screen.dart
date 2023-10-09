@@ -76,13 +76,13 @@ class HomeScreenContent extends StatelessWidget {
         child: Column(
           children: [
             //จัดการข้อมูลผู้ใช้
-            BoxMenu('จัดการข้อมูลผู้ใช้', () => const ManageUser(), context,const Color.fromARGB(255, 186, 255, 11)),
+            BoxMenu('จัดการข้อมูลผู้ใช้', () => const ManageUser(), context,Color.fromARGB(255, 34, 92, 239)),
             //จัดการโพสต์
-            BoxMenu('จัดการโพสต์', () => const ManagePost(), context,const Color.fromARGB(255, 8, 238, 27)),
+            BoxMenu('จัดการโพสต์', () => const ManagePost(), context,Color.fromRGBO(59, 65, 243, 0.5)),
             //คำขอสมัคร VIP
-            BoxMenu('คำขอสมัคร VIP', () => const VipRequest(), context,const Color.fromARGB(255, 43, 247, 172)),
+            BoxMenu('คำขอสมัคร VIP', () => const VipRequest(), context,Color.fromARGB(255, 31, 94, 240)),
             //ประกาศแจ้งเตือน
-            BoxMenu('ประกาศแจ้งเตือน', () => const ViewNotice(), context,const Color.fromARGB(255, 38, 217, 245)),
+            BoxMenu('ประกาศแจ้งเตือน', () => const ViewNotice(), context,Color.fromARGB(255, 243, 87, 131)),
           ],
         ),
       ),
