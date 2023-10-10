@@ -1,10 +1,6 @@
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/showdatapost_screen.dart';
-import 'package:admin/Screens/viewpost_screen.dart';
 import 'package:flutter/material.dart';
-import '../ScreensForHome/home_screen.dart';
-import '../ScreensForHome/notice_screen.dart';
-import '../ScreensForHome/setting_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
     );
   }
@@ -33,8 +29,8 @@ class ManagePost extends StatefulWidget {
 
 class _ManagePostState extends State<ManagePost> {
   
-  int myIndex = 0;
   String?_searchString ;
+  TextEditingController searchController = TextEditingController();
 
 
   @override
@@ -46,7 +42,7 @@ class _ManagePostState extends State<ManagePost> {
           stream: FirebaseFirestore.instance.collection('posts').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
             }
@@ -54,8 +50,9 @@ class _ManagePostState extends State<ManagePost> {
             return Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: TextField(
+                    controller: searchController,
                     onChanged: (val) {
                       setState(() {
                         _searchString = val.toLowerCase();
@@ -64,7 +61,7 @@ class _ManagePostState extends State<ManagePost> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(width: 0.8),
+                        borderSide: const BorderSide(width: 0.8),
                       ),
                       hintText: "ค้นหา",
                       prefixIcon: const Icon(
@@ -77,6 +74,7 @@ class _ManagePostState extends State<ManagePost> {
                         ),
                         onPressed: () {
                           setState(() {
+                            searchController.clear();
                             _searchString = '';
                           });
                         },
@@ -107,7 +105,7 @@ class _ManagePostState extends State<ManagePost> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin: EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(5),
                         child: ListTile(
                           title: Text(username),
                           subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss a').format(time.toDate().toLocal())),
