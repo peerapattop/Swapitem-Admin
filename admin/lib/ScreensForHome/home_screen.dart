@@ -76,7 +76,7 @@ class HomeScreenContent extends StatelessWidget {
         child: Column(
           children: [
             //จัดการข้อมูลผู้ใช้
-            BoxMenu('จัดการข้อมูลผู้ใช้', () => const ManageUser(), context,Color.fromARGB(255, 34, 92, 239)),
+            BoxMenu('จัดการข้อมูลผู้ใช้', () => ManageUser(), context,Color.fromARGB(255, 34, 92, 239)),
             //จัดการโพสต์
             BoxMenu('จัดการโพสต์', () => const ManagePost(), context,Color.fromRGBO(59, 65, 243, 0.5)),
             //คำขอสมัคร VIP

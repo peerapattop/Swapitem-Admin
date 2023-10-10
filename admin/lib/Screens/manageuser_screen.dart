@@ -1,20 +1,14 @@
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/showdatauser_screen.dart';
-import 'package:admin/Screens/viewuser_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../ScreensForHome/home_screen.dart';
-import '../ScreensForHome/notice_screen.dart';
-import '../ScreensForHome/setting_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -26,33 +20,33 @@ class MyApp extends StatelessWidget {
 
 class ManageUser extends StatefulWidget {
   const ManageUser({super.key});
-
   @override
   State<ManageUser> createState() => _ManageUserState();
 }
 
 class _ManageUserState extends State<ManageUser> {
   String? _searchString;
-  int myIndex = 0;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar('จัดการข้อมูลผู้ใช้'),
+        appBar: MyAppbar('จัดการข้อมูลผู้ใช้'),    
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('users').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
-            }   
+            }
             return Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: TextField(
+                    controller: searchController,
                     onChanged: (val) {
                       setState(() {
                         _searchString = val.toLowerCase();
@@ -61,7 +55,7 @@ class _ManageUserState extends State<ManageUser> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(width: 0.8),
+                        borderSide: const BorderSide(width: 0.8),
                       ),
                       hintText: "ค้นหา",
                       prefixIcon: const Icon(
@@ -74,6 +68,7 @@ class _ManageUserState extends State<ManageUser> {
                         ),
                         onPressed: () {
                           setState(() {
+                            searchController.clear();
                             _searchString = '';
                           });
                         },
@@ -81,23 +76,19 @@ class _ManageUserState extends State<ManageUser> {
                     ),
                   ),
                 ),
-                //แสดงข้อมูลผู้ใช้
                 Expanded(
                   child: ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot document = snapshot.data!.docs[index];
-                      String userid = document['userid']; // ดึง ID ของเอกสาร
-                      String username =
-                          document['username']; // ดึงค่า 'username' จากเอกสาร
+                      String userid = document['userid'];
+                      String username = document['username'];
                       String email = document['email'];
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
                               (!username.toLowerCase().contains(_searchString!) &&
-                                  !email
-                                      .toLowerCase()
-                                      .contains(_searchString!)))) {
-                        return Container(); // ไม่แสดงรายการนี้
+                                  !email.toLowerCase().contains(_searchString!)))) {
+                        return Container();
                       }
                       return Container(
                         decoration: BoxDecoration(
@@ -107,7 +98,7 @@ class _ManageUserState extends State<ManageUser> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin: EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(5),
                         child: ListTile(
                           title: Text(username),
                           subtitle: Text(email),
@@ -118,6 +109,7 @@ class _ManageUserState extends State<ManageUser> {
                           ),
                           trailing: ElevatedButton(
                             onPressed: () {
+                              // Navigate to the show data user screen
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -131,8 +123,8 @@ class _ManageUserState extends State<ManageUser> {
                               height: 18,
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 46, 246, 32),
-                              fixedSize: Size(35, 20),
+                              primary: const Color.fromARGB(255, 46, 246, 32),
+                              fixedSize: const Size(35, 20),
                             ),
                           ),
                         ),
@@ -144,8 +136,8 @@ class _ManageUserState extends State<ManageUser> {
             );
           },
         ),
-        
       ),
     );
   }
 }
+
