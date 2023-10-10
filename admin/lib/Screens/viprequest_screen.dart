@@ -1,25 +1,8 @@
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/viewvip_screen.dart';
 import 'package:flutter/material.dart';
-import '../ScreensForHome/home_screen.dart';
-import '../ScreensForHome/notice_screen.dart';
-import '../ScreensForHome/setting_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
 
 class VipRequest extends StatefulWidget {
   const VipRequest({super.key});
@@ -29,7 +12,7 @@ class VipRequest extends StatefulWidget {
 }
 
 class _VipRequestState extends State<VipRequest> {
-  int myIndex = 0;
+ TextEditingController searchController = TextEditingController();
   String? _searchString;
 
   @override
@@ -42,7 +25,7 @@ class _VipRequestState extends State<VipRequest> {
               FirebaseFirestore.instance.collection('viprequests').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
             }
@@ -50,8 +33,9 @@ class _VipRequestState extends State<VipRequest> {
             return Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: TextField(
+                    controller: searchController,
                     onChanged: (val) {
                       setState(() {
                         _searchString = val.toLowerCase();
@@ -60,7 +44,7 @@ class _VipRequestState extends State<VipRequest> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(width: 0.8),
+                        borderSide: const BorderSide(width: 0.8),
                       ),
                       hintText: "ค้นหา",
                       prefixIcon: const Icon(
@@ -74,6 +58,7 @@ class _VipRequestState extends State<VipRequest> {
                         onPressed: () {
                           setState(() {
                             _searchString = '';
+                            searchController.clear();
                           });
                         },
                       ),
@@ -105,7 +90,7 @@ class _VipRequestState extends State<VipRequest> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin: EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(5),
                         child: ListTile(
                           title: Text(username),
                           subtitle: Text(email),
@@ -129,8 +114,8 @@ class _VipRequestState extends State<VipRequest> {
                               height: 18,
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 46, 246, 32),
-                              fixedSize: Size(35, 20),
+                              primary: const Color.fromARGB(255, 46, 246, 32),
+                              fixedSize: const Size(35, 20),
                             ),
                           ),
                         ),
