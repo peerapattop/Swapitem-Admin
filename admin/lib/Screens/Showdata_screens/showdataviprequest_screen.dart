@@ -32,7 +32,7 @@ class _ViewVipState extends State<ViewVip> {
     gender = widget.viprequestsDocument['gender'];
     Timestamp timestamp = widget.viprequestsDocument['date'];
     DateTime dateTime = timestamp.toDate();
-   formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTime);
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTime);
 
     order = widget.viprequestsDocument['order'];
   }
@@ -41,42 +41,66 @@ class _ViewVipState extends State<ViewVip> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar:MyAppbar('รายละเอียด'),
+        appBar: MyAppbar('รายละเอียด'),
         body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // สั่งให้เนื้อหาชิดซ้าย
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // สั่งให้เนื้อหาชิดซ้าย
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 15, left: 10),
-                child: Center(child: Image.asset('assets/images/slip.jpeg',width: 300,)),
+                padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
+                child: Container(
+                  padding: const EdgeInsets.only(top: 5,bottom: 20),
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(color: Colors.blue), // สีขอบของ Container
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color.fromARGB(255, 101, 137, 248), // สีพื้นหลังของ Container
+                  ),
+                  child: Column(
+                    children: [
+                      const Center(
+                        child: Text(
+                          'หลักฐานการโอนเงิน',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 255, 255, 255)), // สีข้อความภายใน Container
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      Image.asset(
+                        'assets/images/slip.jpeg',
+                        width: 300,
+                      ),
+                    ],
+                  ),
+                ),
               ),
+              
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextField(
                   readOnly: true,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'วัน เวลา',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                    prefixIcon: Icon(Icons.date_range)
-                  ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      labelText: 'วัน เวลา',
+                      labelStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      hintStyle: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                      prefixIcon: Icon(Icons.date_range)),
                   controller: TextEditingController(
                     text: formattedDate,
                   ),
                   maxLines: null,
-                  
                 ),
-                
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -96,7 +120,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
-                    prefixIcon: Icon(Icons.scatter_plot_rounded ),
+                    prefixIcon: Icon(Icons.scatter_plot_rounded),
                   ),
                   controller: TextEditingController(text: order),
                   maxLines: null, // Allow multiple lines
@@ -120,7 +144,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
-                    prefixIcon: Icon(Icons.person ),
+                    prefixIcon: Icon(Icons.person),
                   ),
                   controller: TextEditingController(text: username),
                   maxLines: null, // Allow multiple lines
@@ -144,7 +168,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
-                    prefixIcon: Icon(Icons.person ),
+                    prefixIcon: Icon(Icons.person),
                   ),
                   controller: TextEditingController(text: fname),
                   maxLines: null,
@@ -168,7 +192,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
-                    prefixIcon: Icon(Icons.person ),
+                    prefixIcon: Icon(Icons.person),
                   ),
                   controller: TextEditingController(text: lname),
                   maxLines: null, // Allow multiple lines
@@ -192,7 +216,7 @@ class _ViewVipState extends State<ViewVip> {
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
-                    prefixIcon: Icon(Icons.email ),
+                    prefixIcon: Icon(Icons.email),
                   ),
                   controller: TextEditingController(text: email),
                   maxLines: null,
