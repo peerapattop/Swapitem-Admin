@@ -1,7 +1,7 @@
-import 'package:admin/Screens/managepost_screen.dart';
-import 'package:admin/Screens/manageuser_screen.dart';
-import 'package:admin/Screens/viewnotice_screen.dart';
-import 'package:admin/Screens/viprequest_screen.dart';
+import 'package:admin/Screens/Manage_Screens/managepost_screen.dart';
+import 'package:admin/Screens/Manage_Screens/manageuser_screen.dart';
+import 'package:admin/Screens/Manage_Screens/managenotice_screen.dart';
+import 'package:admin/Screens/Manage_Screens/manageviprequest_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../ScreensForHome/setting_screen.dart';
