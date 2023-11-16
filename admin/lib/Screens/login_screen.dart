@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -11,57 +11,63 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _loading = false;
 
-Future signIn() async {
-  try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-    
-  } catch (e) {
-    if (e is FirebaseAuthException) {
-      if (e.code == 'user-not-found') {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('เกิดข้อผิดพลาด'),
-              content: Text('ไม่พบผู้ใช้งานนี้ในระบบ'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('ตกลง'),
-                ),
-              ],
-            );
-          },
-        );
-      } else if (e.code == 'wrong-password') {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('เกิดข้อผิดพลาด'),
-              content: Text('รหัสผ่านไม่ถูกต้อง'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('ตกลง'),
-                ),
-              ],
-            );
-          },
-        );
+  Future signIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      // Add any additional logic after successful login if needed.
+    } catch (e) {
+      // Handle errors
+      String errorMessage = "เกิดข้อผิดพลาด"; // ข้อความที่คุณต้องการแสดง
+
+      if (e is FirebaseAuthException) {
+        if (e.code == 'user-not-found') {
+          errorMessage = 'ไม่พบผู้ใช้งานนี้ในระบบ';
+        } else if (e.code == 'wrong-password') {
+          errorMessage = 'รหัสผ่านไม่ถูกต้อง';
+        }
       }
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+                SizedBox(width: 8),
+                Text('เกิดข้อผิดพลาด'),
+              ],
+            ),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // ปิดกล่องข้อความผิดพลาด
+                  setState(() {
+                    _loading = false; // ปิดสถานะการโหลด
+                  });
+                },
+                child: Text('ตกลง'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
-}
-
 
   @override
   void dispose() {
@@ -111,7 +117,9 @@ Future signIn() async {
                     child: TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'อีเมล'),
+                        border: InputBorder.none,
+                        hintText: 'อีเมล',
+                      ),
                     ),
                   ),
                 ),
@@ -128,9 +136,11 @@ Future signIn() async {
                     ),
                     child: TextFormField(
                       controller: _passwordController,
-                      obscureText: true, //กำหนดให้ Password มองไม่เห็น
+                      obscureText: true,
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'รหัสผ่าน'),
+                        border: InputBorder.none,
+                        hintText: 'รหัสผ่าน',
+                      ),
                     ),
                   ),
                 ),
@@ -138,32 +148,43 @@ Future signIn() async {
                   height: 20,
                 ),
 
-                //ปุ่มเข้าสู่ระบบ
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: 10, bottom: 20, left: 5, right: 5),
-                  child: GestureDetector(
-                    onTap: signIn,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          top: 20, bottom: 20, left: 5, right: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "เข้าสู่ระบบ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                // Loading indicator
+                _loading
+                    ? Container(
+                        width: 24,
+                        height: 24,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: FittedBox(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 20, left: 5, right: 5),
+                        child: GestureDetector(
+                          onTap: signIn,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: 20, bottom: 20, left: 5, right: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.deepPurple,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "เข้าสู่ระบบ",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
