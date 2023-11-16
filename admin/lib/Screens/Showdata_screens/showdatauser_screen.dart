@@ -42,7 +42,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar('รายละเอียดผู้ใช้'),
+        appBar: myAppbar('รายละเอียดผู้ใช้'),
         body: SingleChildScrollView(
           child: Center(
             child: Column(

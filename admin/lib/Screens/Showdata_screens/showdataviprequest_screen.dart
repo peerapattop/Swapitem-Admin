@@ -41,7 +41,7 @@ class _ViewVipState extends State<ViewVip> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar('รายละเอียด'),
+        appBar: myAppbar('รายละเอียด'),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment:

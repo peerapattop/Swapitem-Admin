@@ -20,7 +20,7 @@ class _VipRequestState extends State<VipRequest> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar('คำขอสมัคร VIP'),
+        appBar: myAppbar('คำขอสมัคร VIP'),
         body: StreamBuilder(
           stream:
               FirebaseFirestore.instance.collection('viprequests').snapshots(),

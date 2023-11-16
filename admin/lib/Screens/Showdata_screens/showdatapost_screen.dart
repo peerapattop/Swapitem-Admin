@@ -74,7 +74,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar("แสดงข้อมูลโพสต์"),
+        appBar: myAppbar("แสดงข้อมูลโพสต์"),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

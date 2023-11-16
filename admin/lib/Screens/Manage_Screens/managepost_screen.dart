@@ -37,7 +37,7 @@ class _ManagePostState extends State<ManagePost> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-       appBar: MyAppbar("จัดการโพสต์"),
+       appBar: myAppbar("จัดการโพสต์"),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('posts').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -15,7 +15,7 @@ class _ViewNoticeState extends State<ViewNotice> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar("ประกาศแจ้งเตือน"),
+        appBar: myAppbar("ประกาศแจ้งเตือน"),
         body: Padding(
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20),
           child: Column(

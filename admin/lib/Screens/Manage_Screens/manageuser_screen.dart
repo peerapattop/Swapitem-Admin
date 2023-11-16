@@ -32,7 +32,7 @@ class _ManageUserState extends State<ManageUser> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppbar('จัดการข้อมูลผู้ใช้'),    
+        appBar: myAppbar('จัดการข้อมูลผู้ใช้'),    
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('users').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
