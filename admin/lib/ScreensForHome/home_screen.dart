@@ -76,13 +76,13 @@ class HomeScreenContent extends StatelessWidget {
         child: Column(
           children: [
             //จัดการข้อมูลผู้ใช้
-            BoxMenu('จัดการข้อมูลผู้ใช้', () => ManageUser(), context,Color.fromARGB(255, 34, 92, 239)),
+            boxMenu('จัดการข้อมูลผู้ใช้', () => ManageUser(), context,Color.fromARGB(255, 34, 92, 239)),
             //จัดการโพสต์
-            BoxMenu('จัดการโพสต์', () => const ManagePost(), context,Color.fromRGBO(59, 65, 243, 0.5)),
+            boxMenu('จัดการโพสต์', () => const ManagePost(), context,Color.fromRGBO(59, 65, 243, 0.5)),
             //คำขอสมัคร VIP
-            BoxMenu('คำขอสมัคร VIP', () => const VipRequest(), context,Color.fromARGB(255, 31, 94, 240)),
+            boxMenu('คำขอสมัคร VIP', () => const VipRequest(), context,Color.fromARGB(255, 31, 94, 240)),
             //ประกาศแจ้งเตือน
-            BoxMenu('ประกาศแจ้งเตือน', () => const ViewNotice(), context,Color.fromARGB(255, 243, 87, 131)),
+            boxMenu('ประกาศแจ้งเตือน', () => const ViewNotice(), context,Color.fromARGB(255, 243, 87, 131)),
           ],
         ),
       ),
@@ -90,10 +90,10 @@ class HomeScreenContent extends StatelessWidget {
   }
 }
 
-Widget BoxMenu(String label, Function() function, BuildContext context,Color ColorButton) {
+Widget boxMenu(String label, Function() function, BuildContext context,Color ColorButton) {
   return Padding(
     padding:
-        const EdgeInsets.only(top: 20.0, left: 50.0, right: 50.0, bottom: 25),
+        const EdgeInsets.only(top: 10.0, left: 50.0, right: 50.0, bottom: 25),
     child: Center(
       child: MaterialButton(
         color: ColorButton,
