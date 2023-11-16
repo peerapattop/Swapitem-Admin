@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Manage_Screens/manageuser_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class ShowDataUser extends StatefulWidget {
   final DocumentSnapshot userDocument;
@@ -14,6 +18,9 @@ class ShowDataUser extends StatefulWidget {
 }
 
 class _UserDetailPageState extends State<ShowDataUser> {
+  XFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
+
   late String? username;
   late String email;
   late String fname;
@@ -32,7 +39,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
     fname = widget.userDocument['fname'];
     lname = widget.userDocument['lname'];
     gender = widget.userDocument['gender'];
-    userid = widget.userDocument['userid'];   
+    userid = widget.userDocument['userid'];
     Timestamp timestamp = widget.userDocument['date'];
     date = timestamp.toDate();
     dateController.text = DateFormat('yyyy-MM-dd').format(date);
@@ -48,14 +55,12 @@ class _UserDetailPageState extends State<ShowDataUser> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-                Center(
-                    child: Image.asset(
-                  'assets/images/LogoSwapItem.png',
-                  width: 100,
-                )),
+                //รูปภาพผู้ใช้
+                Center(child: imgProfile()),
+                //หมายเลขผู้ใช้
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextField(
@@ -66,26 +71,24 @@ class _UserDetailPageState extends State<ShowDataUser> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'หมายเลขผู้ใช้',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.numbers),
-
+                      prefixIcon: const Icon(Icons.numbers),
                     ),
                     onChanged: (value) {
                       setState(() {
                         userid = value;
                       });
-                      
                     },
-                    
                   ),
                 ),
+                //ชื่อ
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 10, left: 15, right: 15, bottom: 15),
@@ -96,16 +99,16 @@ class _UserDetailPageState extends State<ShowDataUser> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'ชื่อ',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person),
                       alignLabelWithHint: true,
                     ),
                     onChanged: (value) {
@@ -115,8 +118,10 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     },
                   ),
                 ),
+                //นามสกุล
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: lname),
                     decoration: InputDecoration(
@@ -124,16 +129,16 @@ class _UserDetailPageState extends State<ShowDataUser> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'นามสกุล',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person),
                       alignLabelWithHint: true,
                     ),
                     onChanged: (value) {
@@ -143,18 +148,22 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     },
                   ),
                 ),
+                //เพศ
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text(
+                          const Text(
                             'เพศ',
                             style: TextStyle(fontSize: 22),
                           ),
-                          SizedBox(width: 15,),
+                          const SizedBox(
+                            width: 15,
+                          ),
                           Radio(
                             activeColor: Colors.green,
                             value: "ชาย",
@@ -165,8 +174,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                               });
                             },
                           ),
-                          Text("ชาย", style: TextStyle(fontSize: 18)),
-                          SizedBox(
+                          const Text("ชาย", style: TextStyle(fontSize: 18)),
+                          const SizedBox(
                               width:
                                   20), // Add some space between Radio and Text
                           Radio(
@@ -179,14 +188,16 @@ class _UserDetailPageState extends State<ShowDataUser> {
                               });
                             },
                           ),
-                          Text("หญิง", style: TextStyle(fontSize: 18)),
+                          const Text("หญิง", style: TextStyle(fontSize: 18)),
                         ],
                       ),
                     ],
                   ),
                 ),
+                //ชื่อผู้ใช้
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: username),
                     decoration: InputDecoration(
@@ -194,16 +205,16 @@ class _UserDetailPageState extends State<ShowDataUser> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'ชื่อผู้ใช้',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -213,7 +224,8 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: TextEditingController(text: email),
                     decoration: InputDecoration(
@@ -221,28 +233,27 @@ class _UserDetailPageState extends State<ShowDataUser> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'อีเมล',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email),
                     ),
                     onChanged: (value) {
                       setState(() {
                         email = value;
                       });
-                      
                     },
-                    
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 15),
                   child: TextField(
                     controller: dateController,
                     readOnly: true,
@@ -252,16 +263,16 @@ class _UserDetailPageState extends State<ShowDataUser> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       labelText: 'วันเกิด',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
                       fillColor: Colors.white,
                       filled: true,
-                      prefixIcon: Icon(Icons.date_range),
+                      prefixIcon: const Icon(Icons.date_range),
                     ),
                   ),
                 ),
@@ -269,7 +280,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton.icon(
-                      icon: Icon(Icons.save),
+                      icon: const Icon(Icons.save),
                       onPressed: () async {
                         await FirebaseFirestore.instance
                             .collection('users')
@@ -287,13 +298,13 @@ class _UserDetailPageState extends State<ShowDataUser> {
                           MaterialPageRoute(builder: (context) => ManageUser()),
                         );
                       },
-                      label: Text("บันทึกการแก้ไข"),
+                      label: const Text("บันทึกการแก้ไข"),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green,
                         onPrimary: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     ElevatedButton.icon(
@@ -303,14 +314,14 @@ class _UserDetailPageState extends State<ShowDataUser> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("ยืนยันการลบ"),
-                              content: Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
+                              title: const Text("ยืนยันการลบ"),
+                              content: const Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text("ยกเลิก"),
+                                  child: const  Text("ยกเลิก"),
                                 ),
                                 TextButton(
                                   onPressed: () async {
@@ -335,10 +346,10 @@ class _UserDetailPageState extends State<ShowDataUser> {
                           },
                         );
                       },
-                      label: Text("ลบข้อมูล"),
+                      label: const Text("ลบข้อมูล"),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        onPrimary: Colors.white,
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
                       ),
                     ),
                   ],
@@ -364,5 +375,92 @@ class _UserDetailPageState extends State<ShowDataUser> {
         dateController.text = DateFormat('yyyy-MM-dd').format(date);
       });
     }
+  }
+
+  void takePhoto(ImageSource source) async {
+    final dynamic pickedFile = await ImagePicker().pickImage(
+      source: source,
+    );
+
+    if (pickedFile != null) {
+    setState(() {
+      _imageFile = pickedFile;
+    });
+
+    // Close the file selection window
+    Navigator.pop(context);
+  }
+  }
+
+  Widget imgProfile() {
+    return Stack(
+      children: <Widget>[
+        CircleAvatar(
+          radius: 60.0,
+          backgroundImage: _imageFile != null
+        ? FileImage(File(_imageFile!.path))
+        : AssetImage('assets/images/profile_defalt.jpg') as ImageProvider<Object>,
+
+        ),
+        Positioned(
+          bottom: 10.0,
+          right: 10.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context, builder: ((Builder) => bottomSheet()));
+            },
+            child: const Icon(
+              Icons.camera_alt,
+              color: const Color.fromARGB(255, 52, 0, 150),
+              size: 28,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "เลือกรูปภาพของคุณ",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton.icon(
+                onPressed: () {
+                  takePhoto(ImageSource.camera);
+                },
+                icon: Icon(Icons.camera),
+                label: Text('กล้อง'),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  takePhoto(ImageSource.gallery);
+                },
+                icon: Icon(Icons.camera),
+                label: Text('แกลลอรี่'),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

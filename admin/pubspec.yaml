@@ -52,6 +52,7 @@ dev_dependencies:
   cloud_firestore: ^4.8.4
   firebase_storage: ^11.2.5
   intl: ^0.18.1
+  image_picker: ^1.0.4
   
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
