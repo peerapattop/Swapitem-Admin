@@ -19,7 +19,7 @@ class ShowDataUser extends StatefulWidget {
 
 class _UserDetailPageState extends State<ShowDataUser> {
   XFile? _imageFile;
-  final ImagePicker _picker = ImagePicker();
+  //final ImagePicker _picker = ImagePicker();
 
   late String? username;
   late String email;
