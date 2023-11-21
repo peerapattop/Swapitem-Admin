@@ -1,6 +1,5 @@
 import 'package:admin/Screens/appbar.dart';
-
-import 'package:admin/ScreensForHome/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ViewNotice extends StatefulWidget {
@@ -11,6 +10,33 @@ class ViewNotice extends StatefulWidget {
 }
 
 class _ViewNoticeState extends State<ViewNotice> {
+  final notification = TextEditingController();
+
+  final detail = FirebaseFirestore.instance.collection('notifications');
+
+  Future<void> createNotification(TextEditingController notification) async {
+    try {
+      DateTime now = DateTime.now();
+
+      // เพิ่มข้อมูลลงใน Firestore โดยแยกวันที่และเวลา
+      await detail.add({
+        "รายละเอียด": notification.text,
+        "วันที่": now.year.toString() +
+            "-" +
+            now.month.toString().padLeft(2, '0') +
+            "-" +
+            now.day.toString().padLeft(2, '0'),
+        "เวลา": now.hour.toString().padLeft(2, '0') +
+            ":" +
+            now.minute.toString().padLeft(2, '0') +
+            ":" +
+            now.second.toString().padLeft(2, '0'),
+      });
+    } catch (e) {
+      print('เอ่อเร่อ: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,6 +47,7 @@ class _ViewNoticeState extends State<ViewNotice> {
           child: Column(
             children: [
               TextField(
+                controller: notification,
                 maxLines: 10,
                 decoration: InputDecoration(
                   hintText: 'กรอกข้อความที่นี่',
@@ -32,13 +59,11 @@ class _ViewNoticeState extends State<ViewNotice> {
                   contentPadding: EdgeInsets.all(12),
                 ),
               ),
-              SizedBox(height: 20), // เพิ่มระยะห่างระหว่าง TextField และปุ่ม
+              SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
-                  );
+                onPressed: () async {
+                  await createNotification(notification);
+                  Navigator.pop(context);
                 },
                 child: Container(
                     width: 90,
@@ -49,8 +74,8 @@ class _ViewNoticeState extends State<ViewNotice> {
                       style: TextStyle(fontSize: 20),
                     ))),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.green, // สีพื้นหลังของปุ่ม
-                  onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
+                  backgroundColor: Colors.green, // สีพื้นหลังของปุ่ม
+                  foregroundColor: Colors.white, // สีตัวอักษรในปุ่ม
                 ),
               ),
             ],
