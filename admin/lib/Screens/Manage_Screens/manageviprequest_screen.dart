@@ -1,5 +1,6 @@
 import 'package:admin/Screens/Showdata_screens/showdataviprequest_screen.dart';
 import 'package:admin/Screens/appbar.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,7 @@ class VipRequest extends StatefulWidget {
 class _VipRequestState extends State<VipRequest> {
  TextEditingController searchController = TextEditingController();
   String? _searchString;
+  final _vipRef = FirebaseDatabase.instance.ref().child('requestvip');
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,29 @@ class _VipRequestState extends State<VipRequest> {
         appBar: myAppbar('คำขอสมัคร VIP'),
         body: StreamBuilder(
           stream:
-              FirebaseFirestore.instance.collection('viprequests').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+              _vipRef.onValue,
+          builder: (context,  snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [CircularProgressIndicator(), Text('กำลังโหลด..')],
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (!snapshot.hasData || snapshot.data == null) {
+              return const Center(
+                child: Text("ไม่มีข้อมูล"),
+              );
+            }
+            DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+            Map<dynamic, dynamic>? dataMap = dataSnapshot.value as Map?;
+
+             if (dataMap == null || dataMap.isEmpty) {
               return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
@@ -69,13 +91,13 @@ class _VipRequestState extends State<VipRequest> {
                 //แสดงข้อมูลผู้ใช้
                 Expanded(
                   child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: dataMap.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot document = snapshot.data!.docs[index];
-                      String userid = document['userid']; // ดึง ID ของเอกสาร
+                      dynamic userData = dataMap.values.elementAt(index);
+                      String userid = userData['id']; // ดึง ID ของเอกสาร
                       String username =
-                          document['username']; // ดึงค่า 'username' จากเอกสาร
-                      String email = document['order'];
+                          userData['username']; // ดึงค่า 'username' จากเอกสาร
+                      String email = userData['packed'];
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
                               (!username
@@ -105,7 +127,7 @@ class _VipRequestState extends State<VipRequest> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ViewVip(document),
+                                  builder: (context) => ViewVip(userData),
                                 ),
                               );
                             },
