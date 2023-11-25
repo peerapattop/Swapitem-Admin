@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Manage_Screens/manageuser_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 class ShowDataUser extends StatefulWidget {
   final DocumentSnapshot userDocument;
@@ -34,15 +34,19 @@ class _UserDetailPageState extends State<ShowDataUser> {
   @override
   void initState() {
     super.initState();
-    username = widget.userDocument['username'];
-    email = widget.userDocument['email'];
-    fname = widget.userDocument['fname'];
-    lname = widget.userDocument['lname'];
-    gender = widget.userDocument['gender'];
-    userid = widget.userDocument['userid'];
-    Timestamp timestamp = widget.userDocument['date'];
-    date = timestamp.toDate();
-    dateController.text = DateFormat('yyyy-MM-dd').format(date);
+
+    Map<dynamic, dynamic>? userData = widget.userDocument.data() as Map?;
+    if (userData != null) {
+      username = userData['username'];
+      email = userData['email'];
+      fname = userData['fname'];
+      lname = userData['lname'];
+      gender = userData['gender'];
+      userid = userData['id'];
+      Timestamp timestamp = userData['date'];
+      date = timestamp.toDate();
+      dateController.text = DateFormat('yyyy-MM-dd').format(date);
+    }
   }
 
   @override
@@ -282,9 +286,9 @@ class _UserDetailPageState extends State<ShowDataUser> {
                     ElevatedButton.icon(
                       icon: const Icon(Icons.save),
                       onPressed: () async {
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(widget.userDocument.id)
+                        await FirebaseDatabase.instance
+                            .ref('users')
+                            .child(widget.userDocument.id)
                             .update({
                           'username': username,
                           'email': email,
@@ -315,13 +319,14 @@ class _UserDetailPageState extends State<ShowDataUser> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text("ยืนยันการลบ"),
-                              content: const Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
+                              content: const Text(
+                                  "คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: const  Text("ยกเลิก"),
+                                  child: const Text("ยกเลิก"),
                                 ),
                                 TextButton(
                                   onPressed: () async {
@@ -383,13 +388,13 @@ class _UserDetailPageState extends State<ShowDataUser> {
     );
 
     if (pickedFile != null) {
-    setState(() {
-      _imageFile = pickedFile;
-    });
+      setState(() {
+        _imageFile = pickedFile;
+      });
 
-    // Close the file selection window
-    Navigator.pop(context);
-  }
+      // Close the file selection window
+      Navigator.pop(context);
+    }
   }
 
   Widget imgProfile() {
@@ -398,9 +403,9 @@ class _UserDetailPageState extends State<ShowDataUser> {
         CircleAvatar(
           radius: 60.0,
           backgroundImage: _imageFile != null
-        ? FileImage(File(_imageFile!.path))
-        : AssetImage('assets/images/profile_defalt.jpg') as ImageProvider<Object>,
-
+              ? FileImage(File(_imageFile!.path))
+              : AssetImage('assets/images/profile_defalt.jpg')
+                  as ImageProvider<Object>,
         ),
         Positioned(
           bottom: 10.0,

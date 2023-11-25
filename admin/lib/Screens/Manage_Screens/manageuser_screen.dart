@@ -27,8 +27,8 @@ class _ManageUserState extends State<ManageUser> {
   String? _searchString;
   TextEditingController searchController = TextEditingController();
 
-  final _userRef = FirebaseDatabase.instance.reference().child('users');
-  
+  final _userRef = FirebaseDatabase.instance.ref().child('users');
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,7 +39,11 @@ class _ManageUserState extends State<ManageUser> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [CircularProgressIndicator(), Text('กำลังโหลด..')],
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(
@@ -106,8 +110,12 @@ class _ManageUserState extends State<ManageUser> {
 
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
-                              (!username.toLowerCase().contains(_searchString!) &&
-                                  !email.toLowerCase().contains(_searchString!)))) {
+                              (!username
+                                      .toLowerCase()
+                                      .contains(_searchString!) &&
+                                  !email
+                                      .toLowerCase()
+                                      .contains(_searchString!)))) {
                         return Container();
                       }
 
@@ -161,4 +169,3 @@ class _ManageUserState extends State<ManageUser> {
     );
   }
 }
-
