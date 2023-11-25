@@ -1,8 +1,7 @@
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Showdata_screens/showdatauser_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,19 +27,39 @@ class _ManageUserState extends State<ManageUser> {
   String? _searchString;
   TextEditingController searchController = TextEditingController();
 
+  final _userRef = FirebaseDatabase.instance.reference().child('users');
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: myAppbar('จัดการข้อมูลผู้ใช้'),    
+        appBar: myAppbar('จัดการข้อมูลผู้ใช้'),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+          stream: _userRef.onValue,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (!snapshot.hasData || snapshot.data == null) {
               return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
             }
+
+            DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+            Map<dynamic, dynamic>? dataMap = dataSnapshot.value as Map?;
+
+            if (dataMap == null || dataMap.isEmpty) {
+              return const Center(
+                child: Text("ไม่มีข้อมูล"),
+              );
+            }
+
             return Column(
               children: <Widget>[
                 Padding(
@@ -78,18 +97,20 @@ class _ManageUserState extends State<ManageUser> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: dataMap.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot document = snapshot.data!.docs[index];
-                      String userid = document['userid'];
-                      String username = document['username'];
-                      String email = document['email'];
+                      dynamic userData = dataMap.values.elementAt(index);
+                      String userid = userData['id'].toString();
+                      String username = userData['username'].toString();
+                      String email = userData['email'].toString();
+
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
                               (!username.toLowerCase().contains(_searchString!) &&
                                   !email.toLowerCase().contains(_searchString!)))) {
                         return Container();
                       }
+
                       return Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -104,7 +125,7 @@ class _ManageUserState extends State<ManageUser> {
                           subtitle: Text(email),
                           leading: CircleAvatar(
                             child: FittedBox(
-                              child: Text(userid.toString()),
+                              child: Text(userid),
                             ),
                           ),
                           trailing: ElevatedButton(
@@ -113,7 +134,7 @@ class _ManageUserState extends State<ManageUser> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ShowDataUser(document),
+                                  builder: (context) => ShowDataUser(userData),
                                 ),
                               );
                             },
