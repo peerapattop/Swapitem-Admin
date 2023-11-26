@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'Screens/main_page.dart';
 
 void main() async{
+  await initializeDateFormatting('th', null);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 

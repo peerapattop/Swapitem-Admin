@@ -1,51 +1,52 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:admin/Screens/appbar.dart';
-import 'package:admin/Screens/Manage_Screens/manageuser_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ShowDataUser extends StatefulWidget {
-  final DocumentSnapshot userDocument;
+  final DatabaseReference userRef;
 
-  ShowDataUser(this.userDocument);
+  const ShowDataUser({required this.userRef});
 
   @override
-  _UserDetailPageState createState() => _UserDetailPageState();
+  State<ShowDataUser> createState() => _ShowDataUserState();
 }
 
-class _UserDetailPageState extends State<ShowDataUser> {
+class _ShowDataUserState extends State<ShowDataUser> {
   XFile? _imageFile;
-  //final ImagePicker _picker = ImagePicker();
-
-  late String? username;
-  late String email;
-  late String fname;
-  late String lname;
-  late String gender;
-  late String userid;
-  late String profile;
-  DateTime date = DateTime.now();
-  TextEditingController dateController = TextEditingController();
+  final _birthdayController = TextEditingController();
+  String selectedGender = '';
+  DataSnapshot? userData;
+  late String? id, username, email, firstname, lastname, gender;
 
   @override
   void initState() {
     super.initState();
+    fetchData();
+  }
 
-    Map<dynamic, dynamic>? userData = widget.userDocument.data() as Map?;
-    if (userData != null) {
-      username = userData['username'];
-      email = userData['email'];
-      fname = userData['fname'];
-      lname = userData['lname'];
-      gender = userData['gender'];
-      userid = userData['id'];
-      Timestamp timestamp = userData['date'];
-      date = timestamp.toDate();
-      dateController.text = DateFormat('yyyy-MM-dd').format(date);
+  Future<void> fetchData() async {
+    try {
+      DataSnapshot snapshot = (await widget.userRef.once()).snapshot;
+      Map<dynamic, dynamic>? userData = snapshot.value as Map?;
+
+      // ดึงข้อมูลที่ต้องการจาก userData
+      if (userData != null) {
+        setState(() {
+          id = userData['id'];
+          username = userData['username'];
+          email = userData['email'];
+          firstname = userData['firstname'];
+          lastname = userData['lastname'];
+          gender = userData['gender'];
+        });
+      }
+    } catch (error) {
+      print("Error fetching data: $error");
+      // จัดการข้อผิดพลาดตามที่ต้องการ
     }
   }
 
@@ -53,333 +54,200 @@ class _UserDetailPageState extends State<ShowDataUser> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: myAppbar('รายละเอียดผู้ใช้'),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                //รูปภาพผู้ใช้
-                Center(child: imgProfile()),
-                //หมายเลขผู้ใช้
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    readOnly: true,
-                    controller: TextEditingController(text: userid.toString()),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'หมายเลขผู้ใช้',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.white,
-                      prefixIcon: const Icon(Icons.numbers),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        userid = value;
-                      });
-                    },
+          appBar: myAppbar('ข้อมูลผู้ใช้'),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topCenter,
+                    child: imgProfile(),
                   ),
-                ),
-                //ชื่อ
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 15),
-                  child: TextField(
-                    controller: TextEditingController(text: fname),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'ชื่อ',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.person),
-                      alignLabelWithHint: true,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        fname = value;
-                      });
-                    },
-                  ),
-                ),
-                //นามสกุล
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 15),
-                  child: TextField(
-                    controller: TextEditingController(text: lname),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'นามสกุล',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.person),
-                      alignLabelWithHint: true,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        lname = value;
-                      });
-                    },
-                  ),
-                ),
-                //เพศ
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          const Text(
-                            'เพศ',
-                            style: TextStyle(fontSize: 22),
+                  const SizedBox(height: 20),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextField(
+                          readOnly: true,
+                          controller: TextEditingController(text: id),
+                          decoration: const InputDecoration(
+                            label: Text(
+                              "หมายเลขผู้ใช้งาน",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.tag),
                           ),
-                          const SizedBox(
-                            width: 15,
+                        ),
+                        const SizedBox(height: 15),
+                        TextField(
+                          controller: TextEditingController(text: firstname),
+                          decoration: const InputDecoration(
+                            label: Text(
+                              "ชื่อ",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
                           ),
-                          Radio(
-                            activeColor: Colors.green,
-                            value: "ชาย",
-                            groupValue: gender,
-                            onChanged: (value) {
-                              setState(() {
-                                gender = value.toString();
-                              });
-                            },
+                        ),
+                        const SizedBox(height: 15),
+                        TextField(
+                          controller: TextEditingController(text: lastname),
+                          decoration: InputDecoration(
+                            label: Text(
+                              "นามสกุล",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
                           ),
-                          const Text("ชาย", style: TextStyle(fontSize: 18)),
-                          const SizedBox(
-                              width:
-                                  20), // Add some space between Radio and Text
-                          Radio(
-                            activeColor: Colors.green,
-                            value: "หญิง",
-                            groupValue: gender,
-                            onChanged: (value) {
-                              setState(() {
-                                gender = value.toString();
-                              });
-                            },
+                        ),
+                        SizedBox(height: 15),
+                        choseGender(),
+                        SizedBox(height: 15),
+                        TextField(
+                          // onTap: () => _selectDate(context),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'วันเกิด',
+                            labelStyle: const TextStyle(fontSize: 20),
+                            hintStyle:
+                                const TextStyle(fontStyle: FontStyle.italic),
+                            fillColor: Colors.white,
+                            filled: true,
+                            prefixIcon: Icon(Icons.date_range),
+                            suffixIcon: Icon(Icons.arrow_drop_down),
                           ),
-                          const Text("หญิง", style: TextStyle(fontSize: 18)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                //ชื่อผู้ใช้
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 15),
-                  child: TextField(
-                    controller: TextEditingController(text: username),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'ชื่อผู้ใช้',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.person),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        username = value;
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 15),
-                  child: TextField(
-                    controller: TextEditingController(text: email),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'อีเมล',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.email),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 15),
-                  child: TextField(
-                    controller: dateController,
-                    readOnly: true,
-                    onTap: () => _selectDate(context),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'วันเกิด',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.date_range),
+                        ),
+                        SizedBox(height: 15),
+                        TextField(
+                          readOnly: true,
+                          controller: TextEditingController(text: username),
+                          decoration: InputDecoration(
+                            label: Text(
+                              "ชื่อผู้ใช้",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        TextField(
+                          controller: TextEditingController(text: email),
+                          decoration: InputDecoration(
+                            label: Text(
+                              'อีเมล',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              onPressed: () {},
+                              icon: Icon(Icons.delete, color: Colors.white),
+                              label: Text(
+                                'ลบข้อมูล',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(width: 15),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              ),
+                              onPressed: () {},
+                              icon: const Icon(Icons.save_as,
+                                  color: Colors.white),
+                              label: Text(
+                                'บันทึก',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.save),
-                      onPressed: () async {
-                        await FirebaseDatabase.instance
-                            .ref('users')
-                            .child(widget.userDocument.id)
-                            .update({
-                          'username': username,
-                          'email': email,
-                          'fname': fname,
-                          'lname': lname,
-                          'gender': gender,
-                          'date': date,
-                        });
-                        Navigator.pop(
-                          context,
-                          MaterialPageRoute(builder: (context) => ManageUser()),
-                        );
-                      },
-                      label: const Text("บันทึกการแก้ไข"),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
-                        onPrimary: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("ยืนยันการลบ"),
-                              content: const Text(
-                                  "คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("ยกเลิก"),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    try {
-                                      await FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(widget.userDocument.id)
-                                          .delete();
-                                      Navigator.pop(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ManageUser()),
-                                      );
-                                    } catch (e) {
-                                      print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
-                                    }
-                                  },
-                                  child: Text("ยืนยัน"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      label: const Text("ลบข้อมูล"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: date, // ให้เริ่มต้นด้วยค่า date ที่มีอยู่
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+  Widget choseGender() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 16),
+      child: Row(
+        children: <Widget>[
+          Row(
+            children: [
+              Image.asset(
+                'assets/icons/gender.png',
+                width: 29,
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              const Text(
+                'เพศ',
+                style: TextStyle(fontSize: 22),
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          Radio(
+            activeColor: Colors.green,
+            value: "ชาย",
+            groupValue: selectedGender,
+            onChanged: (value) {
+              setState(() {
+                selectedGender = value.toString();
+              });
+            },
+          ),
+          const Text("ชาย", style: TextStyle(fontSize: 18)),
+          const SizedBox(width: 20),
+          Radio(
+            activeColor: Colors.green,
+            value: "หญิง",
+            groupValue: selectedGender,
+            onChanged: (value) {
+              setState(() {
+                selectedGender = value.toString();
+              });
+            },
+          ),
+          const Text("หญิง", style: TextStyle(fontSize: 18)),
+          Radio(
+            activeColor: Colors.green,
+            value: "อื่น ๆ",
+            groupValue: selectedGender,
+            onChanged: (value) {
+              setState(() {
+                selectedGender = value.toString();
+              });
+            },
+          ),
+          const Text("อื่น ๆ", style: TextStyle(fontSize: 18)),
+        ],
+      ),
     );
-    if (picked != null && picked != date) {
-      setState(() {
-        date = picked;
-        dateController.text = DateFormat('yyyy-MM-dd').format(date);
-      });
-    }
   }
 
   void takePhoto(ImageSource source) async {
@@ -404,8 +272,7 @@ class _UserDetailPageState extends State<ShowDataUser> {
           radius: 60.0,
           backgroundImage: _imageFile != null
               ? FileImage(File(_imageFile!.path))
-              : AssetImage('assets/images/profile_defalt.jpg')
-                  as ImageProvider<Object>,
+              : AssetImage('Person-icon.jpg') as ImageProvider<Object>,
         ),
         Positioned(
           bottom: 10.0,
@@ -430,13 +297,13 @@ class _UserDetailPageState extends State<ShowDataUser> {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
       ),
       child: Column(
         children: <Widget>[
-          Text(
+          const Text(
             "เลือกรูปภาพของคุณ",
             style: TextStyle(
               fontSize: 20,
@@ -452,15 +319,15 @@ class _UserDetailPageState extends State<ShowDataUser> {
                 onPressed: () {
                   takePhoto(ImageSource.camera);
                 },
-                icon: Icon(Icons.camera),
-                label: Text('กล้อง'),
+                icon: const Icon(Icons.camera),
+                label: const Text('กล้อง'),
               ),
               TextButton.icon(
                 onPressed: () {
                   takePhoto(ImageSource.gallery);
                 },
-                icon: Icon(Icons.camera),
-                label: Text('แกลลอรี่'),
+                icon: const Icon(Icons.camera),
+                label: const Text('แกลลอรี่'),
               ),
             ],
           )

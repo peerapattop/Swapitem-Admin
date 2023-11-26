@@ -142,7 +142,7 @@ class _ManageUserState extends State<ManageUser> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ShowDataUser(userData),
+                                  builder: (context) => ShowDataUser(userRef: _userRef ),
                                 ),
                               );
                             },
