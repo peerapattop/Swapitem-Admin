@@ -1,15 +1,15 @@
-import 'dart:async';
 import 'dart:io';
 
+import 'package:admin/Screens/Manage_Screens/userData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ShowDataUser extends StatefulWidget {
-  final DatabaseReference userRef;
+  final UserData userData;
 
-  const ShowDataUser({required this.userRef});
+  const ShowDataUser({required this.userData});
 
   @override
   State<ShowDataUser> createState() => _ShowDataUserState();
@@ -17,37 +17,31 @@ class ShowDataUser extends StatefulWidget {
 
 class _ShowDataUserState extends State<ShowDataUser> {
   XFile? _imageFile;
-  final _birthdayController = TextEditingController();
+  // final _birthdayController = TextEditingController();
   String selectedGender = '';
   DataSnapshot? userData;
-  late String? id, username, email, firstname, lastname, gender;
+  late String? id;
+  late String? username;
+  late String? email ;
+  late String? firstname ;
+  late String? lastname ;
+  late String? gender ;
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
+    fetchDataFromConstructor();
   }
 
-  Future<void> fetchData() async {
-    try {
-      DataSnapshot snapshot = (await widget.userRef.once()).snapshot;
-      Map<dynamic, dynamic>? userData = snapshot.value as Map?;
-
-      // ดึงข้อมูลที่ต้องการจาก userData
-      if (userData != null) {
-        setState(() {
-          id = userData['id'];
-          username = userData['username'];
-          email = userData['email'];
-          firstname = userData['firstname'];
-          lastname = userData['lastname'];
-          gender = userData['gender'];
-        });
-      }
-    } catch (error) {
-      print("Error fetching data: $error");
-      // จัดการข้อผิดพลาดตามที่ต้องการ
-    }
+  void fetchDataFromConstructor() {
+    // ดึงข้อมูลที่ได้จาก constructor และกำหนดให้กับตัวแปรใน State
+    id = widget.userData.id;
+    username = widget.userData.username;
+    email = widget.userData.email;
+    firstname = widget.userData.firstname;
+    lastname = widget.userData.lastname;
+    gender = widget.userData.gender;
   }
 
   @override
@@ -72,7 +66,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                       children: [
                         TextField(
                           readOnly: true,
-                          controller: TextEditingController(text: id),
+                          controller: TextEditingController(text:id),
                           decoration: const InputDecoration(
                             label: Text(
                               "หมายเลขผู้ใช้งาน",
@@ -96,7 +90,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         ),
                         const SizedBox(height: 15),
                         TextField(
-                          controller: TextEditingController(text: lastname),
+                          controller: TextEditingController(text: 'test'),
                           decoration: InputDecoration(
                             label: Text(
                               "นามสกุล",
@@ -138,7 +132,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         ),
                         SizedBox(height: 10),
                         TextField(
-                          controller: TextEditingController(text: email),
+                          controller: TextEditingController(text: 'test'),
                           decoration: InputDecoration(
                             label: Text(
                               'อีเมล',

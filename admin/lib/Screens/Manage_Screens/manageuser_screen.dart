@@ -1,3 +1,4 @@
+import 'package:admin/Screens/Manage_Screens/userData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Showdata_screens/showdatauser_screen.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +108,7 @@ class _ManageUserState extends State<ManageUser> {
                       String userid = userData['id'].toString();
                       String username = userData['username'].toString();
                       String email = userData['email'].toString();
+                      String firstname = userData['firstname'].toString();
 
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
@@ -140,11 +142,21 @@ class _ManageUserState extends State<ManageUser> {
                             onPressed: () {
                               // Navigate to the show data user screen
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowDataUser(userRef: _userRef ),
-                                ),
-                              );
+  context,
+  MaterialPageRoute(
+    builder: (context) => ShowDataUser(
+      userData: UserData(
+        id: userid,
+        username: username,
+        email: email,
+        firstname: firstname, 
+        lastname: '',  
+        gender: '',    
+      ),
+    ),
+  ),
+);
+
                             },
                             child: Image.asset(
                               "assets/icons/search.png",
