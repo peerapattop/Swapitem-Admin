@@ -17,7 +17,7 @@ class ShowDataUser extends StatefulWidget {
 
 class _ShowDataUserState extends State<ShowDataUser> {
   XFile? _imageFile;
-  // final _birthdayController = TextEditingController();
+  final _birthdayController = TextEditingController();
   String selectedGender = '';
   DataSnapshot? userData;
   late String? id;
@@ -26,6 +26,24 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? firstname ;
   late String? lastname ;
   late String? gender ;
+  late String? birthday;
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _birthdayController.text = "${selectedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -42,6 +60,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
     firstname = widget.userData.firstname;
     lastname = widget.userData.lastname;
     gender = widget.userData.gender;
+    birthday = widget.userData.birthday;
   }
 
   @override
@@ -90,7 +109,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         ),
                         const SizedBox(height: 15),
                         TextField(
-                          controller: TextEditingController(text: 'test'),
+                          controller: TextEditingController(text: lastname),
                           decoration: InputDecoration(
                             label: Text(
                               "นามสกุล",
@@ -104,7 +123,8 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         choseGender(),
                         SizedBox(height: 15),
                         TextField(
-                          // onTap: () => _selectDate(context),
+                           controller: _birthdayController,
+                          onTap: () => _selectDate(context),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'วันเกิด',
@@ -132,7 +152,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         ),
                         SizedBox(height: 10),
                         TextField(
-                          controller: TextEditingController(text: 'test'),
+                          controller: TextEditingController(text: email),
                           decoration: InputDecoration(
                             label: Text(
                               'อีเมล',

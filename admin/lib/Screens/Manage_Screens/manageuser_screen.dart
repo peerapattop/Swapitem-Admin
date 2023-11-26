@@ -109,6 +109,8 @@ class _ManageUserState extends State<ManageUser> {
                       String username = userData['username'].toString();
                       String email = userData['email'].toString();
                       String firstname = userData['firstname'].toString();
+                      String lastname = userData['lastname'].toString();
+                      String birthday = userData['birthday'].toString();
 
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
@@ -142,21 +144,20 @@ class _ManageUserState extends State<ManageUser> {
                             onPressed: () {
                               // Navigate to the show data user screen
                               Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => ShowDataUser(
-      userData: UserData(
-        id: userid,
-        username: username,
-        email: email,
-        firstname: firstname, 
-        lastname: '',  
-        gender: '',    
-      ),
-    ),
-  ),
-);
-
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ShowDataUser(
+                                    userData: UserData(
+                                        id: userid,
+                                        username: username,
+                                        email: email,
+                                        firstname: firstname,
+                                        lastname: lastname,
+                                        gender: '',
+                                        birthday: birthday),
+                                  ),
+                                ),
+                              );
                             },
                             child: Image.asset(
                               "assets/icons/search.png",
