@@ -176,13 +176,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                 backgroundColor: Colors.red,
                               ),
                               onPressed: () {
-                                var key = userData?.key;
-                                if (key != null) {
-                                  print("Delete ID : $key");
-                                  // Perform delete operation using the key
-                                } else {
-                                  print("Unable to delete. userData is null.");
-                                }
+                                //
                               },
                               icon: Icon(Icons.delete, color: Colors.white),
                               label: Text(
@@ -249,7 +243,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
             },
           ),
           const Text("ชาย", style: TextStyle(fontSize: 18)),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
           Radio(
             activeColor: Colors.green,
             value: "หญิง",
@@ -271,7 +265,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
               });
             },
           ),
-          const Text("อื่น ๆ", style: TextStyle(fontSize: 18)),
+          const Text("อื่นๆ", style: TextStyle(fontSize: 18)),
         ],
       ),
     );
