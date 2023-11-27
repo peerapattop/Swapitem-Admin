@@ -126,6 +126,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         choseGender(),
                         SizedBox(height: 15),
                         TextField(
+                          readOnly: true,
                           controller: _birthdayController,
                           onTap: () => _selectDate(context),
                           decoration: InputDecoration(
@@ -153,8 +154,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
                             prefixIcon: Icon(Icons.person),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         TextField(
+                          readOnly: true,
                           controller: TextEditingController(text: email),
                           decoration: InputDecoration(
                             label: Text(
