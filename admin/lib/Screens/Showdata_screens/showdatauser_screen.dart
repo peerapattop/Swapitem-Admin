@@ -3,6 +3,7 @@ import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ShowDataUser extends StatefulWidget {
   final UserData userData;
@@ -27,6 +28,8 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? birthday;
   late String user_image;
   DateTime selectedDate = DateTime.now();
+  late User _user;
+  late DatabaseReference _userRef;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -64,6 +67,23 @@ class _ShowDataUserState extends State<ShowDataUser> {
     String? birthday = widget.userData.birthday;
     _birthdayController.text = birthday;
     selectedGender = gender ?? "";
+  }
+
+  void updateUserData() {
+    
+    Map<String, dynamic> updatedData = {
+      'firstname': firstname,
+      'lastname': lastname,
+      'gender': gender,
+      'user_image': user_image,
+    };
+
+    // ทำการอัพเดตข้อมูลใน Realtime Database
+    userRef.update(updatedData).then((_) {
+      print('อัพเดตข้อมูลสำเร็จ');
+    }).catchError((error) {
+      print('เกิดข้อผิดพลาดในการอัพเดตข้อมูล: $error');
+    });
   }
 
   @override
@@ -189,7 +209,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                updateUserData();
+                              },
                               icon: const Icon(Icons.save_as,
                                   color: Colors.white),
                               label: Text(
