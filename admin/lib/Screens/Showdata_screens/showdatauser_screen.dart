@@ -175,7 +175,15 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                var key = userData?.key;
+                                if (key != null) {
+                                  print("Delete ID : $key");
+                                  // Perform delete operation using the key
+                                } else {
+                                  print("Unable to delete. userData is null.");
+                                }
+                              },
                               icon: Icon(Icons.delete, color: Colors.white),
                               label: Text(
                                 'ลบข้อมูล',
