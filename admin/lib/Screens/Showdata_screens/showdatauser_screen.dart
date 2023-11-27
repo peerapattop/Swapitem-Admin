@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:admin/Screens/Manage_Screens/userData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,10 +20,10 @@ class _ShowDataUserState extends State<ShowDataUser> {
   DataSnapshot? userData;
   late String? id;
   late String? username;
-  late String? email ;
-  late String? firstname ;
-  late String? lastname ;
-  late String? gender ;
+  late String? email;
+  late String? firstname;
+  late String? lastname;
+  late String? gender;
   late String? birthday;
   late String user_image;
   DateTime selectedDate = DateTime.now();
@@ -61,8 +59,11 @@ class _ShowDataUserState extends State<ShowDataUser> {
     firstname = widget.userData.firstname;
     lastname = widget.userData.lastname;
     gender = widget.userData.gender;
-    birthday = widget.userData.birthday;
+
     user_image = widget.userData.user_image;
+    String? birthday = widget.userData.birthday;
+    _birthdayController.text = birthday;
+    selectedGender = gender ?? "";
   }
 
   @override
@@ -87,7 +88,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                       children: [
                         TextField(
                           readOnly: true,
-                          controller: TextEditingController(text:id),
+                          controller: TextEditingController(text: id),
                           decoration: const InputDecoration(
                             label: Text(
                               "หมายเลขผู้ใช้งาน",
@@ -125,7 +126,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         choseGender(),
                         SizedBox(height: 15),
                         TextField(
-                           controller: _birthdayController,
+                          controller: _birthdayController,
                           onTap: () => _selectDate(context),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
@@ -230,7 +231,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           Radio(
             activeColor: Colors.green,
             value: "ชาย",
-            groupValue: selectedGender,
+            groupValue: gender,
             onChanged: (value) {
               setState(() {
                 selectedGender = value.toString();
@@ -242,7 +243,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           Radio(
             activeColor: Colors.green,
             value: "หญิง",
-            groupValue: selectedGender,
+            groupValue: gender,
             onChanged: (value) {
               setState(() {
                 selectedGender = value.toString();
@@ -253,7 +254,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           Radio(
             activeColor: Colors.green,
             value: "อื่น ๆ",
-            groupValue: selectedGender,
+            groupValue: gender,
             onChanged: (value) {
               setState(() {
                 selectedGender = value.toString();
@@ -284,11 +285,10 @@ class _ShowDataUserState extends State<ShowDataUser> {
   Widget imgProfile() {
     return Stack(
       children: <Widget>[
-       CircleAvatar(
-        radius: 60.0,
-        backgroundImage: 
-             NetworkImage(user_image),
-      ),
+        CircleAvatar(
+          radius: 60.0,
+          backgroundImage: NetworkImage(user_image),
+        ),
         Positioned(
           bottom: 10.0,
           right: 10.0,

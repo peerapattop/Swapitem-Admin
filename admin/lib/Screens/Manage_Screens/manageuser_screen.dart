@@ -112,6 +112,7 @@ class _ManageUserState extends State<ManageUser> {
                       String lastname = userData['lastname'].toString();
                       String birthday = userData['birthday'].toString();
                       String user_image= userData['image_user'].toString();
+                      String gender= userData['gender'].toString();
 
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
@@ -154,7 +155,7 @@ class _ManageUserState extends State<ManageUser> {
                                         email: email,
                                         firstname: firstname,
                                         lastname: lastname,
-                                        gender: '',
+                                        gender: gender,
                                         user_image: user_image,
                                         birthday: birthday),
                                   ),
