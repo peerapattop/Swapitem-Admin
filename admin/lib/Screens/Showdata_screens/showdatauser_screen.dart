@@ -27,6 +27,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? lastname ;
   late String? gender ;
   late String? birthday;
+  late String user_image;
   DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -61,6 +62,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
     lastname = widget.userData.lastname;
     gender = widget.userData.gender;
     birthday = widget.userData.birthday;
+    user_image = widget.userData.user_image;
   }
 
   @override
@@ -282,12 +284,11 @@ class _ShowDataUserState extends State<ShowDataUser> {
   Widget imgProfile() {
     return Stack(
       children: <Widget>[
-        CircleAvatar(
-          radius: 60.0,
-          backgroundImage: _imageFile != null
-              ? FileImage(File(_imageFile!.path))
-              : AssetImage('Person-icon.jpg') as ImageProvider<Object>,
-        ),
+       CircleAvatar(
+        radius: 60.0,
+        backgroundImage: 
+             NetworkImage(user_image),
+      ),
         Positioned(
           bottom: 10.0,
           right: 10.0,
