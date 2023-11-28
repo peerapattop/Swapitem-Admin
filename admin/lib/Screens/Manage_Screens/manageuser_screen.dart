@@ -158,7 +158,7 @@ class _ManageUserState extends State<ManageUser> {
                                         gender: gender,
                                         user_image: user_image,
                                         birthday: birthday,
-                                         ),
+                                        ),
                                   ),
                                 ),
                               );

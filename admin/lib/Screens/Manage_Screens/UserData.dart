@@ -8,7 +8,6 @@ class UserData {
   final String birthday;
   final String user_image;
 
-
   UserData({
     required this.id,
     required this.username,
