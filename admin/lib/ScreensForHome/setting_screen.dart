@@ -38,13 +38,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 'คุณต้องการที่จะออกจากระบบหรือไม่?',
                 style: TextStyle(color: Colors.black),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
+                      backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
@@ -59,7 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
+                      backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
@@ -110,13 +110,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _showSignOutConfirmationDialog();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(252, 79, 60, 247),
+                    backgroundColor: Color.fromARGB(252, 79, 60, 247),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                   child: const Padding(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       'ออกจากระบบ',
                       style: TextStyle(
