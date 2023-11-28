@@ -30,10 +30,6 @@ class _ViewVipState extends State<ViewVip> {
   void initState() {
     super.initState();
     // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
-    fetchDataFromConstructor();
-  }
-
-  void fetchDataFromConstructor() {
     paymentNumber = widget.vipData.PaymentNumber;
     id = widget.vipData.id;
     username = widget.vipData.username;
@@ -41,6 +37,9 @@ class _ViewVipState extends State<ViewVip> {
     firstname = widget.vipData.firstname;
     lastname = widget.vipData.lastname;
     packed = widget.vipData.packed;
+    status = widget.vipData.status;
+    image_payment = widget.vipData.image_payment;
+    date = widget.vipData.date;
   }
 
   @override
@@ -50,272 +49,199 @@ class _ViewVipState extends State<ViewVip> {
         appBar: myAppbar('รายละเอียด'),
         body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // สั่งให้เนื้อหาชิดซ้าย
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
-                child: Container(
-                  padding: const EdgeInsets.only(top: 5, bottom: 20),
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Colors.blue), // สีขอบของ Container
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromARGB(
-                        255, 101, 137, 248), // สีพื้นหลังของ Container
-                  ),
-                  child: Column(
-                    children: [
-                      const Center(
-                        child: Text(
-                          'หลักฐานการโอนเงิน',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 255, 255,
-                                  255)), // สีข้อความภายใน Container
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Image.asset(
-                        'assets/images/slip.jpeg',
-                        width: 300,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      labelText: 'วัน เวลา',
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      hintStyle: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      prefixIcon: Icon(Icons.date_range)),
-                  controller: TextEditingController(
-                    text: formattedDate,
-                  ),
-                  maxLines: null,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'แพ็คเกจ',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                    prefixIcon: Icon(Icons.scatter_plot_rounded),
-                  ),
-                  controller: TextEditingController(text:packed),
-                  maxLines: null, // Allow multiple lines
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'ชื่อผู้ใช้',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                    prefixIcon: Icon(Icons.person),
-                  ),
-                  controller: TextEditingController(text: username),
-                  maxLines: null, // Allow multiple lines
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'ชื่อ',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                    prefixIcon: Icon(Icons.person),
-                  ),
-                  controller: TextEditingController(text: firstname),
-                  maxLines: null,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'นามสกุล',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                    prefixIcon: Icon(Icons.person),
-                  ),
-                  controller: TextEditingController(text: lastname),
-                  maxLines: null, // Allow multiple lines
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'อีเมล',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    fillColor: Colors.grey[200],
-                    filled: true,
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                  controller: TextEditingController(text: email),
-                  maxLines: null,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 10),
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("ยืนยันการปฎิเสธ"),
-                              content:
-                                  Text("คุณต้องการปฎิเสธข้อมูลนี้ใช่หรือไม่?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("ยกเลิก"),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    try {                                  
-                                      Navigator.pop(
-                                          context); // ปิดหน้าต่างแจ้งเตือน
-                                      // ลบสำเร็จแล้ว สามารถแสดงข้อความหรือทำอื่นๆ ต่อได้
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text("ลบข้อมูลสำเร็จ"),
-                                            content: Text(
-                                                "ข้อมูลได้ถูกลบออกจากฐานข้อมูลแล้ว"),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("ตกลง"),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    } catch (e) {
-                                      print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
-                                    }
-                                  },
-                                  child: Text("ยืนยัน"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(Icons.close),
-                      label: Text('ปฎิเสธ'),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        onPrimary: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 10),
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.pop(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VipRequest()),
-                        );
-                      },
-                      icon: Icon(Icons.check), // เพิ่มไอคอน
-                      label: Text('ยืนยัน'),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green, // สีพื้นหลังของปุ่ม
-                        onPrimary: Colors.white, // สีตัวอักษรในปุ่ม
-                      ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                          child: Center(
+                              child: Image.asset(
+                            "assets/images/slip.jpeg",
+                            width: 400,
+                            height: 400,
+                          )),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 217, 217, 216),
+                            borderRadius: BorderRadius.circular(
+                                12.0), // ทำให้ Container โค้งมน
+                          ),
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.tag,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+                                  Text(
+                                    "หมายเลขการชำระเงิน PAY- " + paymentNumber,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.numbers,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+                                  Text(
+                                    'หมายเลขผู้ใช้งาน : '+id,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.person,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+                                  Text(
+                                    'ชื่อผู้ใช้ : '+username,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+
+                                  Text(
+                                    " วันที่ : 28/9/2566",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.more_time,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+
+                                  Text(
+                                    " เวลา : 08:38 น.",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.menu,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+
+                                  Text(
+                                    ' ' + packed,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.handyman,
+                                    color: Colors.blue,
+                                  ), // เพิ่มไอคอนที่นี่
+
+                                  Text(
+                                    ' สถานะ : ' + status,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              onPressed: () {
+                                //
+                              },
+                              icon: Icon(Icons.clear, color: Colors.white),
+                              label: Text(
+                                'ปฎิเสธ',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(width: 15),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              ),
+                              onPressed: () {},
+                              icon: const Icon(Icons.check,
+                                  color: Colors.white),
+                              label: Text(
+                                'ยืนยัน',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCircularNumberButton(int number) {
+    return InkWell(
+      onTap: () {
+        // โค้ดที่ต้องการให้ทำงานเมื่อปุ่มถูกกด
+      },
+      child: Container(
+        width: 40, // ปรับขนาดตามต้องการ
+        height: 40, // ปรับขนาดตามต้องการ
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: Colors.black, // สีขอบ
+            width: 2.0, // ความกว้างขอบ
+          ),
+        ),
+        child: Center(
+          child: Text(
+            '$number',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
