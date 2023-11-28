@@ -39,6 +39,7 @@ class _ViewVipState extends State<ViewVip> {
     status = widget.vipData.status;
     image_payment = widget.vipData.image_payment;
     date = widget.vipData.date;
+    time = widget.vipData.time;
   }
 
   @override
@@ -65,7 +66,7 @@ class _ViewVipState extends State<ViewVip> {
                               border: Border.all(color: Colors.black)),
                           child: Center(
                               child: Image.network(
-                           image_payment,
+                            image_payment,
                             width: 400,
                             height: 400,
                           )),
@@ -101,7 +102,7 @@ class _ViewVipState extends State<ViewVip> {
                                     color: Colors.blue,
                                   ), // เพิ่มไอคอนที่นี่
                                   Text(
-                                    'หมายเลขผู้ใช้งาน : '+id,
+                                    'หมายเลขผู้ใช้งาน : ' + id,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -113,7 +114,7 @@ class _ViewVipState extends State<ViewVip> {
                                     color: Colors.blue,
                                   ), // เพิ่มไอคอนที่นี่
                                   Text(
-                                    'ชื่อผู้ใช้ : '+username,
+                                    'ชื่อผู้ใช้ : ' + username,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -126,7 +127,7 @@ class _ViewVipState extends State<ViewVip> {
                                   ), // เพิ่มไอคอนที่นี่
 
                                   Text(
-                                    " วันที่ : "+ date,
+                                    " วันที่ : " + date,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -139,7 +140,7 @@ class _ViewVipState extends State<ViewVip> {
                                   ), // เพิ่มไอคอนที่นี่
 
                                   Text(
-                                    " เวลา : 08:38 น.",
+                                    " เวลา : "+time,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -198,8 +199,8 @@ class _ViewVipState extends State<ViewVip> {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () {},
-                              icon: const Icon(Icons.check,
-                                  color: Colors.white),
+                              icon:
+                                  const Icon(Icons.check, color: Colors.white),
                               label: Text(
                                 'ยืนยัน',
                                 style: TextStyle(color: Colors.white),
