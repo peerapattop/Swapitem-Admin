@@ -1,6 +1,5 @@
 import 'package:admin/Screens/Manage_Screens/VipData.dart';
 import 'package:admin/Screens/appbar.dart';
-import 'package:admin/Screens/Manage_Screens/manageviprequest_screen.dart';
 import 'package:flutter/material.dart';
 
 class ViewVip extends StatefulWidget {
@@ -65,8 +64,8 @@ class _ViewVipState extends State<ViewVip> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.black)),
                           child: Center(
-                              child: Image.asset(
-                            "assets/images/slip.jpeg",
+                              child: Image.network(
+                           image_payment,
                             width: 400,
                             height: 400,
                           )),
@@ -127,7 +126,7 @@ class _ViewVipState extends State<ViewVip> {
                                   ), // เพิ่มไอคอนที่นี่
 
                                   Text(
-                                    " วันที่ : 28/9/2566",
+                                    " วันที่ : "+ date,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
