@@ -79,7 +79,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
     };
 
     // ทำการอัพเดตข้อมูลใน Realtime Database
-    userRef.update(updatedData).then((_) {
+    _userRef.update(updatedData).then((_) {
       print('อัพเดตข้อมูลสำเร็จ');
     }).catchError((error) {
       print('เกิดข้อผิดพลาดในการอัพเดตข้อมูล: $error');
