@@ -1,5 +1,4 @@
-import 'package:admin/Screens/Manage_Screens/VipData.dart';
-import 'package:admin/Screens/Manage_Screens/userData.dart';
+import 'package:admin/Screens/Manage_Screens/vipData.dart';
 import 'package:admin/Screens/Showdata_screens/showdataviprequest_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +69,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   String email = userData['email'].toString();
                   String firstname = userData['firstname'].toString();
                   String lastname = userData['lastname'].toString();
-                  String user_image = userData['image_user'].toString();
                   String paymentNumber = userData['paymentNumber'].toString();
                   String packed = userData['packed'].toString();
                   String status = userData['status'].toString();
@@ -87,7 +85,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           children: [
                             CircleAvatar(
                               radius: 25,
-                              backgroundImage: NetworkImage(user_image),
+                              backgroundImage: NetworkImage('https://cdn-icons-png.flaticon.com/128/13105/13105632.png'),
                             ),
                             SizedBox(width: 15),
                             Column(
@@ -107,7 +105,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               width: 20,
                             ),
                             Expanded(
-                              child: ElevatedButton(
+                              child: ElevatedButton(                               
                                 onPressed: () {
                                   Navigator.push(
                                     context,
@@ -124,7 +122,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                         status: status,
                                         image_payment: image_payment,
                                         date: date,
-                                        time: time,
+                                        time: time,                                        
                                       )),
                                     ),
                                   );

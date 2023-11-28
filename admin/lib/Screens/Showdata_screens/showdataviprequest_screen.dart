@@ -1,4 +1,4 @@
-import 'package:admin/Screens/Manage_Screens/VipData.dart';
+import 'package:admin/Screens/Manage_Screens/vipData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:flutter/material.dart';
 
