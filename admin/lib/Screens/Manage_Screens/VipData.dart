@@ -10,6 +10,7 @@ class VipData {
   final String id;
   final String username;
   final String packed;
+  
 
   VipData({
     required this.packed,

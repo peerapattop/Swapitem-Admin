@@ -27,8 +27,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? gender;
   late String? birthday;
   late String user_image;
+  User? _user;
   DateTime selectedDate = DateTime.now();
- 
+
   late DatabaseReference _userRef;
 
   Future<void> _selectDate(BuildContext context) async {
@@ -50,7 +51,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
   @override
   void initState() {
     super.initState();
-    // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
+
     fetchDataFromConstructor();
   }
 
@@ -67,23 +68,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
     String? birthday = widget.userData.birthday;
     _birthdayController.text = birthday;
     selectedGender = gender ?? "";
-  }
-
-  void updateUserData() {
+    _user = FirebaseAuth.instance.currentUser!;
+    _userRef = FirebaseDatabase.instance.ref().child('users').child(_user!.uid);
     
-    Map<String, dynamic> updatedData = {
-      'firstname': firstname,
-      'lastname': lastname,
-      'gender': gender,
-      'user_image': user_image,
-    };
-
-    // ทำการอัพเดตข้อมูลใน Realtime Database
-    _userRef.update(updatedData).then((_) {
-      print('อัพเดตข้อมูลสำเร็จ');
-    }).catchError((error) {
-      print('เกิดข้อผิดพลาดในการอัพเดตข้อมูล: $error');
-    });
   }
 
   @override
@@ -196,7 +183,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                 backgroundColor: Colors.red,
                               ),
                               onPressed: () {
-                                //
+                                
                               },
                               icon: Icon(Icons.delete, color: Colors.white),
                               label: Text(
@@ -210,7 +197,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () {
-                                updateUserData();
+                               
                               },
                               icon: const Icon(Icons.save_as,
                                   color: Colors.white),
