@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:admin/Screens/Manage_Screens/VipData.dart';
 import 'package:admin/Screens/Showdata_screens/showdataviprequest_screen.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -92,11 +95,19 @@ class _VipRequestState extends State<VipRequest> {
                   child: ListView.builder(
                     itemCount: dataMap.length,
                     itemBuilder: (context, index) {
-                      dynamic userData = dataMap.values.elementAt(index);
-                      String userid = userData['id']; // ดึง ID ของเอกสาร
+                      dynamic vipData = dataMap.values.elementAt(index);
+                      String paymentNumber = vipData['PaymentNumber'];
+                      String date = vipData['date'];
+                      String email = vipData['email'];
+                      String firstname = vipData['firstname'];
+                      String image_payment = vipData['image_payment'];
+                      String lastname = vipData['lastname'];
+                      String status = vipData['status'];
+                      String time = vipData['time'];          
+                      String userid = vipData['id']; 
+                      String packed = vipData['packed'];
                       String username =
-                          userData['username']; // ดึงค่า 'username' จากเอกสาร
-                      String email = userData['packed'];
+                          vipData['username']; // ดึงค่า 'username' จากเอกสาร
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
                               (!username
@@ -126,7 +137,20 @@ class _VipRequestState extends State<VipRequest> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ViewVip(userData),
+                                  builder: (context) => ViewVip(
+                                     vipData: VipData(
+                                      packed: packed,
+                                      PaymentNumber: paymentNumber, 
+                                      date: date, 
+                                      email: email, 
+                                      firstname: firstname, 
+                                      lastname: lastname, 
+                                      image_payment: image_payment, 
+                                      status: status, 
+                                      time: time, 
+                                      id: userid, 
+                                      username: username),
+                                  ),
                                 ),
                               );
                             },
@@ -137,7 +161,7 @@ class _VipRequestState extends State<VipRequest> {
                             ),
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromARGB(255, 46, 246, 32),
-                              fixedSize: const Size(35, 20),
+                              //
                             ),
                           ),
                         ),

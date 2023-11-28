@@ -1,40 +1,46 @@
+import 'package:admin/Screens/Manage_Screens/VipData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Manage_Screens/manageviprequest_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 class ViewVip extends StatefulWidget {
-  final DocumentSnapshot viprequestsDocument;
+  final VipData vipData;
 
-  ViewVip(this.viprequestsDocument);
+  ViewVip({required this.vipData});
 
   @override
   State<ViewVip> createState() => _ViewVipState();
 }
 
 class _ViewVipState extends State<ViewVip> {
-  late String username;
+  late String paymentNumber;
+  late String date;
   late String email;
-  late String fname;
-  late String lname;
-  late String gender;
-  late String order;
+  late String firstname;
+  late String lastname;
+  late String image_payment;
+  late String status;
+  late String time;
+  late String id;
+  late String username;
+  late String packed;
   String formattedDate = '';
 
   @override
   void initState() {
     super.initState();
-    username = widget.viprequestsDocument['username'];
-    email = widget.viprequestsDocument['email'];
-    fname = widget.viprequestsDocument['fname'];
-    lname = widget.viprequestsDocument['lname'];
-    gender = widget.viprequestsDocument['gender'];
-    Timestamp timestamp = widget.viprequestsDocument['date'];
-    DateTime dateTime = timestamp.toDate();
-    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(dateTime);
+    // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
+    fetchDataFromConstructor();
+  }
 
-    order = widget.viprequestsDocument['order'];
+  void fetchDataFromConstructor() {
+    paymentNumber = widget.vipData.PaymentNumber;
+    id = widget.vipData.id;
+    username = widget.vipData.username;
+    email = widget.vipData.email;
+    firstname = widget.vipData.firstname;
+    lastname = widget.vipData.lastname;
+    packed = widget.vipData.packed;
   }
 
   @override
@@ -50,12 +56,13 @@ class _ViewVipState extends State<ViewVip> {
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
                 child: Container(
-                  padding: const EdgeInsets.only(top: 5,bottom: 20),
+                  padding: const EdgeInsets.only(top: 5, bottom: 20),
                   decoration: BoxDecoration(
                     border:
                         Border.all(color: Colors.blue), // สีขอบของ Container
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromARGB(255, 101, 137, 248), // สีพื้นหลังของ Container
+                    color: Color.fromARGB(
+                        255, 101, 137, 248), // สีพื้นหลังของ Container
                   ),
                   child: Column(
                     children: [
@@ -64,10 +71,13 @@ class _ViewVipState extends State<ViewVip> {
                           'หลักฐานการโอนเงิน',
                           style: TextStyle(
                               fontSize: 20,
-                              color: Color.fromARGB(255, 255, 255, 255)), // สีข้อความภายใน Container
+                              color: Color.fromARGB(255, 255, 255,
+                                  255)), // สีข้อความภายใน Container
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Image.asset(
                         'assets/images/slip.jpeg',
                         width: 300,
@@ -76,7 +86,6 @@ class _ViewVipState extends State<ViewVip> {
                   ),
                 ),
               ),
-              
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextField(
@@ -122,7 +131,7 @@ class _ViewVipState extends State<ViewVip> {
                     filled: true,
                     prefixIcon: Icon(Icons.scatter_plot_rounded),
                   ),
-                  controller: TextEditingController(text: order),
+                  controller: TextEditingController(text:packed),
                   maxLines: null, // Allow multiple lines
                 ),
               ),
@@ -170,7 +179,7 @@ class _ViewVipState extends State<ViewVip> {
                     filled: true,
                     prefixIcon: Icon(Icons.person),
                   ),
-                  controller: TextEditingController(text: fname),
+                  controller: TextEditingController(text: firstname),
                   maxLines: null,
                 ),
               ),
@@ -194,7 +203,7 @@ class _ViewVipState extends State<ViewVip> {
                     filled: true,
                     prefixIcon: Icon(Icons.person),
                   ),
-                  controller: TextEditingController(text: lname),
+                  controller: TextEditingController(text: lastname),
                   maxLines: null, // Allow multiple lines
                 ),
               ),
@@ -245,11 +254,7 @@ class _ViewVipState extends State<ViewVip> {
                                 ),
                                 TextButton(
                                   onPressed: () async {
-                                    try {
-                                      await FirebaseFirestore.instance
-                                          .collection('vip_requests')
-                                          .doc(widget.viprequestsDocument.id)
-                                          .delete();
+                                    try {                                  
                                       Navigator.pop(
                                           context); // ปิดหน้าต่างแจ้งเตือน
                                       // ลบสำเร็จแล้ว สามารถแสดงข้อความหรือทำอื่นๆ ต่อได้
