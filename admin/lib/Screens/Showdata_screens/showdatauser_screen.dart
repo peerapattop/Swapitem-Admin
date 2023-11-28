@@ -28,7 +28,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? birthday;
   late String user_image;
   DateTime selectedDate = DateTime.now();
-  late User _user;
+ 
   late DatabaseReference _userRef;
 
   Future<void> _selectDate(BuildContext context) async {
