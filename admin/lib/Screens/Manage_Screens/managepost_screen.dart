@@ -1,13 +1,9 @@
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Showdata_screens/showdatapost_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-
-
-void main() {
-  runApp(MyApp());
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -31,6 +27,7 @@ class _ManagePostState extends State<ManagePost> {
   
   String?_searchString ;
   TextEditingController searchController = TextEditingController();
+  final _postRef = FirebaseDatabase.instance.ref().child('postitem');
 
 
   @override
@@ -39,14 +36,33 @@ class _ManagePostState extends State<ManagePost> {
       child: Scaffold(
        appBar: myAppbar("จัดการโพสต์"),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+          stream: _postRef.onValue,
+          builder: (context,  snapshot) {
+         if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [CircularProgressIndicator(), Text('กำลังโหลด..')],
+                ),
+              );
+            }else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (!snapshot.hasData || snapshot.data == null) {
               return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
             }
-    
+             DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+            Map<dynamic, dynamic>? dataMap = dataSnapshot.value as Map?;
+
+             if (dataMap == null || dataMap.isEmpty) {
+              return const Center(
+                child: Text("ไม่มีข้อมูล"),
+              );
+            }
             return Column(
               children: <Widget>[
                 Padding(
@@ -85,13 +101,13 @@ class _ManagePostState extends State<ManagePost> {
                 //แสดงข้อมูลผู้ใช้
                 Expanded(
                   child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: dataMap.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot document = snapshot.data!.docs[index];
-                      String documentId = document['idpost']; // ดึง ID ของเอกสาร
+                      dynamic userData = dataMap.values.elementAt(index);
+                      int postNumber = int.parse(userData['postNumber'].toString());
                       String username =
-                          document['username']; // ดึงค่า 'username' จากเอกสาร
-                      Timestamp time = document['time'];
+                          userData['username']..toString(); 
+                      String email = userData['email']..toString();
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
                               (!username.toLowerCase().contains(_searchString!) ))) {
@@ -108,10 +124,10 @@ class _ManagePostState extends State<ManagePost> {
                         margin: const EdgeInsets.all(5),
                         child: ListTile(
                           title: Text(username),
-                          subtitle: Text(DateFormat('yyyy-MM-dd HH:mm:ss a').format(time.toDate().toLocal())),
+                          subtitle: Text(email),
                           leading: CircleAvatar(
                             child: FittedBox(
-                              child: Text(documentId),
+                              child: Text(postNumber.toString()),
                             ),
                           ),
                           trailing: ElevatedButton(
@@ -119,18 +135,18 @@ class _ManagePostState extends State<ManagePost> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ShowDataPost(document),
+                                  builder: (context) => ShowDataPost(userData),
                                 ),
                               );
                             },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 46, 246, 32),
+                              fixedSize: Size(35, 20),
+                            ),
                             child: Image.asset(
                               "assets/icons/search.png",
                               width: 18,
                               height: 18,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 46, 246, 32),
-                              fixedSize: Size(35, 20),
                             ),
                           ),
                         ),

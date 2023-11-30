@@ -27,10 +27,11 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? gender;
   late String? birthday;
   late String user_image;
-  User? _user;
-  DateTime selectedDate = DateTime.now();
-
   late DatabaseReference _userRef;
+  late User? _user;
+  DateTime selectedDate = DateTime.now();
+  TextEditingController _firstnameController = TextEditingController();
+  TextEditingController _lastnameController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -53,11 +54,16 @@ class _ShowDataUserState extends State<ShowDataUser> {
     super.initState();
 
     fetchDataFromConstructor();
+    _user = FirebaseAuth.instance.currentUser; // Initialize _user here
+    _userRef = FirebaseDatabase.instance.ref().child('users').child(_user!.uid);
+
   }
 
   void fetchDataFromConstructor() {
     // ดึงข้อมูลที่ได้จาก constructor และกำหนดให้กับตัวแปรใน State
+
     id = widget.userData.id;
+
     username = widget.userData.username;
     email = widget.userData.email;
     firstname = widget.userData.firstname;
@@ -68,9 +74,30 @@ class _ShowDataUserState extends State<ShowDataUser> {
     String? birthday = widget.userData.birthday;
     _birthdayController.text = birthday;
     selectedGender = gender ?? "";
-    _user = FirebaseAuth.instance.currentUser!;
-    _userRef = FirebaseDatabase.instance.ref().child('users').child(_user!.uid);
-    
+    _firstnameController = TextEditingController(text: firstname);
+    _lastnameController = TextEditingController(text: lastname);
+  }
+
+  void updateUserData() async {
+    try {
+      print('Updating data for UID: ${_user!.uid}');
+
+      // Update the UI to show a loading state if needed
+      // ...
+
+      // Update the user data in the Realtime Database
+      await _userRef.update({
+        'firstname': _firstnameController.text.trim(),
+        'lastname': _lastnameController.text.trim(),
+        // Add other fields as needed
+      });
+
+      // Handle success and navigate if needed
+      // ...
+    } catch (error) {
+      // Handle errors
+      print('Error updating user data: $error');
+    }
   }
 
   @override
@@ -107,7 +134,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         ),
                         const SizedBox(height: 15),
                         TextField(
-                          controller: TextEditingController(text: firstname),
+                          controller: _firstnameController,
                           decoration: const InputDecoration(
                             label: Text(
                               "ชื่อ",
@@ -119,7 +146,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         ),
                         const SizedBox(height: 15),
                         TextField(
-                          controller: TextEditingController(text: lastname),
+                          controller: _lastnameController,
                           decoration: InputDecoration(
                             label: Text(
                               "นามสกุล",
@@ -182,9 +209,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                               ),
-                              onPressed: () {
-                                
-                              },
+                              onPressed: () {},
                               icon: Icon(Icons.delete, color: Colors.white),
                               label: Text(
                                 'ลบข้อมูล',
@@ -197,7 +222,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () {
-                               
+                                updateUserData();
                               },
                               icon: const Icon(Icons.save_as,
                                   color: Colors.white),
