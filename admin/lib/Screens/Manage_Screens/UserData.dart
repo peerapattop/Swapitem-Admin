@@ -1,4 +1,5 @@
 class UserData {
+  final String uid;
   final String id;
   final String username;
   final String email;
@@ -9,6 +10,7 @@ class UserData {
   final String user_image;
 
   UserData({
+    required this.uid,
     required this.id,
     required this.username,
     required this.email,
@@ -19,5 +21,4 @@ class UserData {
     required this.user_image,
   });
 
-  // สร้าง method หรือ constructor ต่าง ๆ ตามที่ต้องการ
 }

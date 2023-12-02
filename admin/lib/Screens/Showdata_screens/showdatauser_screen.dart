@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../Manage_Screens/manageuser_screen.dart';
+
 class ShowDataUser extends StatefulWidget {
   final UserData userData;
 
@@ -15,7 +17,6 @@ class ShowDataUser extends StatefulWidget {
 }
 
 class _ShowDataUserState extends State<ShowDataUser> {
-  XFile? _imageFile;
   final _birthdayController = TextEditingController();
   String selectedGender = '';
   DataSnapshot? userData;
@@ -26,6 +27,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? lastname;
   late String? gender;
   late String? birthday;
+  late String? uid;
   late String user_image;
   late DatabaseReference _userRef;
   late User? _user;
@@ -52,24 +54,24 @@ class _ShowDataUserState extends State<ShowDataUser> {
   @override
   void initState() {
     super.initState();
-
+    _userRef = FirebaseDatabase.instance.ref().child('users');
+    _user = FirebaseAuth.instance.currentUser;
     fetchDataFromConstructor();
-    _user = FirebaseAuth.instance.currentUser; // Initialize _user here
-    _userRef = FirebaseDatabase.instance.ref().child('users').child(_user!.uid);
-
   }
 
   void fetchDataFromConstructor() {
     // ดึงข้อมูลที่ได้จาก constructor และกำหนดให้กับตัวแปรใน State
+    _user = FirebaseAuth.instance.currentUser;
+    if (_user != null) {
+      uid = _user!.uid;
+    }
 
     id = widget.userData.id;
-
     username = widget.userData.username;
     email = widget.userData.email;
     firstname = widget.userData.firstname;
     lastname = widget.userData.lastname;
     gender = widget.userData.gender;
-
     user_image = widget.userData.user_image;
     String? birthday = widget.userData.birthday;
     _birthdayController.text = birthday;
@@ -82,18 +84,19 @@ class _ShowDataUserState extends State<ShowDataUser> {
     try {
       print('Updating data for UID: ${_user!.uid}');
 
-      // Update the UI to show a loading state if needed
-      // ...
-
-      // Update the user data in the Realtime Database
-      await _userRef.update({
+      await _userRef.child(uid!).update({
         'firstname': _firstnameController.text.trim(),
         'lastname': _lastnameController.text.trim(),
+        'gender': selectedGender,
+        'birthday': _birthdayController.text.trim(),
         // Add other fields as needed
       });
 
       // Handle success and navigate if needed
-      // ...
+      Navigator.pop(
+        context,
+        MaterialPageRoute(builder: (context) => ManageUser()),
+      );
     } catch (error) {
       // Handle errors
       print('Error updating user data: $error');
@@ -209,7 +212,25 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                String uid = FirebaseAuth.instance.currentUser!
+                                    .uid; // รับ uid จากผู้ใช้ปัจจุบัน
+
+                                DatabaseReference userRef = FirebaseDatabase
+                                    .instance
+                                    .ref()
+                                    .child('users')
+                                    .child(uid);
+
+                                await userRef
+                                    .remove(); // ใช้ remove() เพื่อลบข้อมูล
+
+                                Navigator.pop(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ManageUser()),
+                                );
+                              },
                               icon: Icon(Icons.delete, color: Colors.white),
                               label: Text(
                                 'ลบข้อมูล',
@@ -311,9 +332,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
     );
 
     if (pickedFile != null) {
-      setState(() {
-        _imageFile = pickedFile;
-      });
+      setState(() {});
 
       // Close the file selection window
       Navigator.pop(context);

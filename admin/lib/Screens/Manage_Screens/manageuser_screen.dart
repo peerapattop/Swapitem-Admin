@@ -105,14 +105,15 @@ class _ManageUserState extends State<ManageUser> {
                     itemCount: dataMap.length,
                     itemBuilder: (context, index) {
                       dynamic userData = dataMap.values.elementAt(index);
-                      String userid = userData['id'].toString();
+                      String uid = userData['uid'].toString();
+                      String id = userData['id'].toString();
                       String username = userData['username'].toString();
                       String email = userData['email'].toString();
                       String firstname = userData['firstname'].toString();
                       String lastname = userData['lastname'].toString();
                       String birthday = userData['birthday'].toString();
-                      String user_image= userData['image_user'].toString();
-                      String gender= userData['gender'].toString();
+                      String user_image = userData['image_user'].toString();
+                      String gender = userData['gender'].toString();
 
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
@@ -139,7 +140,7 @@ class _ManageUserState extends State<ManageUser> {
                           subtitle: Text(email),
                           leading: CircleAvatar(
                             child: FittedBox(
-                              child: Text(userid),
+                              child: Text(id),
                             ),
                           ),
                           trailing: ElevatedButton(
@@ -150,15 +151,16 @@ class _ManageUserState extends State<ManageUser> {
                                 MaterialPageRoute(
                                   builder: (context) => ShowDataUser(
                                     userData: UserData(
-                                        id: userid,
-                                        username: username,
-                                        email: email,
-                                        firstname: firstname,
-                                        lastname: lastname,
-                                        gender: gender,
-                                        user_image: user_image,
-                                        birthday: birthday,
-                                        ),
+                                      uid: uid,
+                                      id: id,
+                                      username: username,
+                                      email: email,
+                                      firstname: firstname,
+                                      lastname: lastname,
+                                      gender: gender,
+                                      user_image: user_image,
+                                      birthday: birthday,
+                                    ),
                                   ),
                                 ),
                               );
