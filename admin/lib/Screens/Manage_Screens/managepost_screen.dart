@@ -27,7 +27,6 @@ class _ManagePostState extends State<ManagePost> {
   TextEditingController searchController = TextEditingController();
   final _postRef = FirebaseDatabase.instance.ref().child('postitem');
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -102,7 +101,7 @@ class _ManagePostState extends State<ManagePost> {
                     itemCount: dataMap.length,
                     itemBuilder: (context, index) {
                       dynamic userData = dataMap.values.elementAt(index);
-                      int postNumber = int.parse(userData['postNumber'].toString());
+                      String postNumber = userData['postNumber'].toString();
                       String username =
                           userData['username']..toString(); 
                       String email = userData['email']..toString();

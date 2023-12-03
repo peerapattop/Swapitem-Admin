@@ -25,6 +25,4 @@ class VipData {
     required this.id,
     required this.username,
   });
-
-  // สร้าง method หรือ constructor ต่าง ๆ ตามที่ต้องการ
 }
