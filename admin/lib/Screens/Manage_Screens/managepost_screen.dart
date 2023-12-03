@@ -2,8 +2,6 @@ import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Showdata_screens/showdatapost_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
