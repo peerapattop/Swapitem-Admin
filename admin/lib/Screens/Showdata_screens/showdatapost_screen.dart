@@ -27,6 +27,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String model;
   late String model1;
   late String type;
+  late String time;
   late String formattedDatetime = ''; // Initialize formattedDatetime
 
   @override
@@ -44,6 +45,7 @@ class _MyWidgetState extends State<ShowDataPost> {
     model = widget.postData.model;
     model1 = widget.postData.model1;
     type = widget.postData.type;
+    time = widget.postData.time;
 
   }
 
@@ -90,15 +92,12 @@ class _MyWidgetState extends State<ShowDataPost> {
                 ),
               ),
               showDataPosts("หมายเลขโพสต์", postNumber,Icon(Icons.numbers)),
-              showDataPosts(
-                  "วัน เวลาที่โพสต์", formattedDatetime,Icon(Icons.date_range)), // Use formattedDatetime
               showDataPosts("ชื่อผู้โพสต์", username,Icon(Icons.person)),
               showDataPosts("ชื่อสิ่งของ", item_name,Icon(Icons.abc)),
               showDataPosts("รายละเอียด", detail,Icon(Icons.apps_sharp)),
               Center(child: Image.asset("assets/images/swap.png")),
               showDataPosts("ชื่อสิ่งของ", item_name1,Icon(Icons.abc)),
               showDataPosts("รายละเอียด", details1,Icon(Icons.apps_sharp)),
-              // showDataPosts("สถานที่แลกเปลี่ยน", location,Icon(Icons.location_on)),
               Center(
                 child: SingleChildScrollView(
                   child: ElevatedButton.icon(
