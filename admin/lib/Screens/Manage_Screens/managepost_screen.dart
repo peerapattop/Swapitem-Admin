@@ -1,3 +1,4 @@
+import 'package:admin/Screens/Manage_Screens/postData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:admin/Screens/Showdata_screens/showdatapost_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -104,7 +105,20 @@ class _ManagePostState extends State<ManagePost> {
                       String postNumber = userData['postNumber'].toString();
                       String username =
                           userData['username']..toString(); 
-                      String email = userData['email']..toString();
+                      String email = userData['email'].toString();
+                      String brand = userData['brand'].toString();
+                      String brand1 = userData['brand1'].toString();
+                      String date = userData['date'].toString();
+                      String detail = userData['detail'].toString();
+                      String details1 = userData['details1'].toString();
+                      String imageUrls = userData['imageUrls'].toString();
+                      String item_name = userData['item_name'].toString();
+                      String item_name1 = userData['item_name1'].toString();
+                      String model = userData['model'].toString();
+                       String model1 = userData['model1'].toString();
+                       String time = userData['time'].toString();
+                       String type = userData['type'].toString();
+                      
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
                               (!username.toLowerCase().contains(_searchString!) ))) {
@@ -132,7 +146,25 @@ class _ManagePostState extends State<ManagePost> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ShowDataPost(userData),
+                                  builder: (context) =>  ShowDataPost(
+                                    postData: PostData(
+                                      brand: brand,
+                                      brand1: brand1,
+                                      username: username,
+                                      email: email,
+                                      date: date,
+                                      detail: details1,
+                                      details1: details1,
+                                      imageUrls: imageUrls,
+                                      item_name: item_name,
+                                      item_name1: item_name1,
+                                      model: model,
+                                      model1: model1,
+                                      postNumber: postNumber,
+                                      time:time ,
+                                      type: type,
+                                    ),
+                                  ),
                                 ),
                               );
                             },
