@@ -26,12 +26,12 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String model1;
   late String type;
   late String time;
-  late String formattedDatetime = ''; // Initialize formattedDatetime
+  double? latitude;
+  double? longitude;
+  late String formattedDatetime = '';
   int mySlideindex = 0;
   int selectedButton = 0;
   late GoogleMapController mapController;
-  final LatLng _initialPosition =
-      const LatLng(37.7749, -122.4194); // Initial position (San Francisco)
 
   @override
   void initState() {
@@ -50,6 +50,8 @@ class _MyWidgetState extends State<ShowDataPost> {
     model1 = widget.postData.model1;
     type = widget.postData.type;
     time = widget.postData.time;
+    latitude = double.parse(widget.postData.latitude);
+    longitude = double.parse(widget.postData.longitude);
   }
 
   Widget showDataPosts(String label, String data, Icon icon) {
@@ -257,9 +259,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                             ),
                           ),
                           Container(
-                            decoration: BoxDecoration(
-                              border: Border.all()
-                            ),
+                            decoration: BoxDecoration(border: Border.all()),
                             height: 300,
                             width: 380,
                             child: GoogleMap(
@@ -267,8 +267,32 @@ class _MyWidgetState extends State<ShowDataPost> {
                                 mapController = controller;
                               },
                               initialCameraPosition: CameraPosition(
-                                target: _initialPosition,
+                                target: LatLng(latitude!, longitude!),
                                 zoom: 12.0,
+                              ),
+                              markers: <Marker>{
+                                Marker(
+                                  markerId: MarkerId('initialPosition'),
+                                  position: LatLng(latitude!, longitude!),
+                                  infoWindow: InfoWindow(
+                                    title: 'Marker Title',
+                                    snippet: 'Marker Snippet',
+                                  ),
+                                ),
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Center(
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              onPressed: () {},
+                              icon: Icon(Icons.delete, color: Colors.white),
+                              label: Text(
+                                'ลบข้อมูล',
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
                           ),

@@ -118,6 +118,9 @@ class _ManagePostState extends State<ManagePost> {
                        String model1 = userData['model1'].toString();
                        String time = userData['time'].toString();
                        String type = userData['type'].toString();
+                        String longitude = userData['longitude'].toString();
+                        String latitude = userData['latitude'].toString();
+
                       
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
@@ -148,6 +151,8 @@ class _ManagePostState extends State<ManagePost> {
                                 MaterialPageRoute(
                                   builder: (context) =>  ShowDataPost(
                                     postData: PostData(
+                                      latitude: latitude,
+                                      longitude: longitude,
                                       brand: brand,
                                       brand1: brand1,
                                       username: username,
