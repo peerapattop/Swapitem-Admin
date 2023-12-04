@@ -187,8 +187,14 @@ class _ViewVipState extends State<ViewVip> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                               ),
-                              onPressed: () {
-                                //
+                              onPressed: () async {
+                                await FirebaseDatabase.instance
+                                    .ref()
+                                    .child('requestvip/$uid')
+                                    .update({
+                                  'status': 'ไม่สำเร็จ',
+                                });
+                                Navigator.pop(context);
                               },
                               icon: Icon(Icons.clear, color: Colors.white),
                               label: Text(
@@ -208,10 +214,16 @@ class _ViewVipState extends State<ViewVip> {
                                       .ref()
                                       .child('users/$uid')
                                       .update({
-                                    'status_user':
-                                        'ผู้ใช้พรีเมี่ยม', 
+                                    'status_user': 'ผู้ใช้พรีเมี่ยม',
                                   });
-                                 Navigator.pop(context);
+                                  await FirebaseDatabase.instance
+                                      .ref()
+                                      .child('requestvip')
+                                      .child('$uid')
+                                      .update({
+                                    'status': 'สำเร็จ',
+                                  });
+                                  Navigator.pop(context);
                                   // ทำอื่น ๆ ที่คุณต้องการหลังจากอัปเดตข้อมูล
                                 } catch (e) {
                                   print('Error updating user status: $e');
