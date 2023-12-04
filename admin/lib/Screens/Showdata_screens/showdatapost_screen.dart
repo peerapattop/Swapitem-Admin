@@ -1,12 +1,13 @@
 import 'package:admin/Screens/Manage_Screens/postData.dart';
 import 'package:admin/Screens/appbar.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ShowDataPost extends StatefulWidget {
   final PostData postData;
 
-  const ShowDataPost({required this.postData});
+  const ShowDataPost({super.key, required this.postData});
 
   @override
   State<ShowDataPost> createState() => _MyWidgetState();
@@ -27,6 +28,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String model1;
   late String type;
   late String time;
+  late String post_uid;
   double? latitude;
   double? longitude;
   late String formattedDatetime = '';
@@ -37,6 +39,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   @override
   void initState() {
     super.initState();
+    post_uid = widget.postData.post_uid;
     postNumber = widget.postData.postNumber;
     brand = widget.postData.brand;
     brand1 = widget.postData.brand1;
@@ -80,6 +83,77 @@ class _MyWidgetState extends State<ShowDataPost> {
         controller: TextEditingController(text: data),
         maxLines: null,
       ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          title: Text(
+            'ยืนยันการลบโพสต์',
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'คุณต้องการที่จะลบโพสต์หรือไม่?',
+                style: TextStyle(color: Colors.black),
+              ),
+              SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'ยกเลิก',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    onPressed: () async {
+                      await FirebaseDatabase.instance
+                          .ref()
+                          .child('postitem/$post_uid')
+                          .remove();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'ยืนยัน',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -291,7 +365,9 @@ class _MyWidgetState extends State<ShowDataPost> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _showDeleteConfirmationDialog();
+                        },
                         icon: Icon(Icons.delete, color: Colors.white),
                         label: Text(
                           'ลบโพสต์',

@@ -23,8 +23,7 @@ class ManagePost extends StatefulWidget {
 }
 
 class _ManagePostState extends State<ManagePost> {
-  
-  String?_searchString ;
+  String? _searchString;
   TextEditingController searchController = TextEditingController();
   final _postRef = FirebaseDatabase.instance.ref().child('postitem');
 
@@ -32,11 +31,11 @@ class _ManagePostState extends State<ManagePost> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-       appBar: myAppbar("จัดการโพสต์"),
+        appBar: myAppbar("จัดการโพสต์"),
         body: StreamBuilder(
           stream: _postRef.onValue,
-          builder: (context,  snapshot) {
-         if (snapshot.connectionState == ConnectionState.waiting) {
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,7 +43,7 @@ class _ManagePostState extends State<ManagePost> {
                   children: [CircularProgressIndicator(), Text('กำลังโหลด..')],
                 ),
               );
-            }else if (snapshot.hasError) {
+            } else if (snapshot.hasError) {
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
@@ -53,10 +52,10 @@ class _ManagePostState extends State<ManagePost> {
                 child: Text("ไม่มีข้อมูล"),
               );
             }
-             DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+            DataSnapshot dataSnapshot = snapshot.data!.snapshot;
             Map<dynamic, dynamic>? dataMap = dataSnapshot.value as Map?;
 
-             if (dataMap == null || dataMap.isEmpty) {
+            if (dataMap == null || dataMap.isEmpty) {
               return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
@@ -103,8 +102,7 @@ class _ManagePostState extends State<ManagePost> {
                     itemBuilder: (context, index) {
                       dynamic userData = dataMap.values.elementAt(index);
                       String postNumber = userData['postNumber'].toString();
-                      String username =
-                          userData['username']..toString(); 
+                      String username = userData['username']..toString();
                       String email = userData['email'].toString();
                       String brand = userData['brand'].toString();
                       String brand1 = userData['brand1'].toString();
@@ -115,16 +113,18 @@ class _ManagePostState extends State<ManagePost> {
                       String item_name = userData['item_name'].toString();
                       String item_name1 = userData['item_name1'].toString();
                       String model = userData['model'].toString();
-                       String model1 = userData['model1'].toString();
-                       String time = userData['time'].toString();
-                       String type = userData['type'].toString();
-                        String longitude = userData['longitude'].toString();
-                        String latitude = userData['latitude'].toString();
+                      String model1 = userData['model1'].toString();
+                      String time = userData['time'].toString();
+                      String type = userData['type'].toString();
+                      String longitude = userData['longitude'].toString();
+                      String latitude = userData['latitude'].toString();
+                      String post_uid = userData['post_uid'].toString();
 
-                      
                       if (_searchString != null &&
                           (_searchString!.isNotEmpty &&
-                              (!username.toLowerCase().contains(_searchString!) ))) {
+                              (!username
+                                  .toLowerCase()
+                                  .contains(_searchString!)))) {
                         return Container(); // ไม่แสดงรายการนี้
                       }
                       return Container(
@@ -149,8 +149,9 @@ class _ManagePostState extends State<ManagePost> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  ShowDataPost(
+                                  builder: (context) => ShowDataPost(
                                     postData: PostData(
+                                      post_uid: post_uid,
                                       latitude: latitude,
                                       longitude: longitude,
                                       brand: brand,
@@ -166,7 +167,7 @@ class _ManagePostState extends State<ManagePost> {
                                       model: model,
                                       model1: model1,
                                       postNumber: postNumber,
-                                      time:time ,
+                                      time: time,
                                       type: type,
                                     ),
                                   ),

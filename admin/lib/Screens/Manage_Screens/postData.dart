@@ -16,6 +16,7 @@ class PostData {
   final String username;
   final String latitude;
   final String longitude;
+  final String post_uid;
 
   PostData({
     required this.brand,
@@ -35,5 +36,6 @@ class PostData {
     required this.username,
     required this.latitude,
     required this.longitude,
+    required this.post_uid,
   });
 }
