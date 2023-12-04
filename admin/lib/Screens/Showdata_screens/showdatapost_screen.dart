@@ -294,7 +294,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                         onPressed: () {},
                         icon: Icon(Icons.delete, color: Colors.white),
                         label: Text(
-                          'ลบข้อมูล',
+                          'ลบโพสต์',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
