@@ -109,7 +109,7 @@ class _ManagePostState extends State<ManagePost> {
                       String brand = userData['brand'].toString();
                       String brand1 = userData['brand1'].toString();
                       String date = userData['date'].toString();
-                      String detail = userData['detail'].toString();
+                      // String detail = userData['detail'].toString();
                       String details1 = userData['details1'].toString();
                       String imageUrls = userData['imageUrls'].toString();
                       String item_name = userData['item_name'].toString();
