@@ -1,9 +1,6 @@
 import 'package:admin/Screens/Manage_Screens/postData.dart';
 import 'package:admin/Screens/appbar.dart';
-import 'package:admin/Screens/Manage_Screens/managepost_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 class ShowDataPost extends StatefulWidget {
   final PostData postData;
@@ -29,6 +26,15 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String type;
   late String time;
   late String formattedDatetime = ''; // Initialize formattedDatetime
+  // List<String> foodList = [
+  //   "https://cdn.pixabay.com/photo/2010/12/13/10/05/berries-2277_1280.jpg",
+  //   "https://cdn.pixabay.com/photo/2015/12/09/17/11/vegetables-1085063_640.jpg",
+  //   "https://cdn.pixabay.com/photo/2017/01/20/15/06/oranges-1995056_640.jpg",
+  //   "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_640.jpg",
+  //   "https://cdn.pixabay.com/photo/2016/07/22/09/59/fruits-1534494_640.jpg",
+  // ];
+  int mySlideindex = 0;
+  int selectedButton = 0;
 
   @override
   void initState() {
@@ -46,10 +52,9 @@ class _MyWidgetState extends State<ShowDataPost> {
     model1 = widget.postData.model1;
     type = widget.postData.type;
     time = widget.postData.time;
-
   }
 
-  Widget showDataPosts(String label, String data,Icon icon) {
+  Widget showDataPosts(String label, String data, Icon icon) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: TextField(
@@ -79,79 +84,192 @@ class _MyWidgetState extends State<ShowDataPost> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: myAppbar("แสดงข้อมูลโพสต์"),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Container(
-                  child: Center(child: Image.asset('assets/images/shoestest.jpg',width: 250,)),
-                ),
-              ),
-              showDataPosts("หมายเลขโพสต์", postNumber,Icon(Icons.numbers)),
-              showDataPosts("ชื่อผู้โพสต์", username,Icon(Icons.person)),
-              showDataPosts("ชื่อสิ่งของ", item_name,Icon(Icons.abc)),
-              showDataPosts("รายละเอียด", detail,Icon(Icons.apps_sharp)),
-              Center(child: Image.asset("assets/images/swap.png")),
-              showDataPosts("ชื่อสิ่งของ", item_name1,Icon(Icons.abc)),
-              showDataPosts("รายละเอียด", details1,Icon(Icons.apps_sharp)),
-              Center(
-                child: SingleChildScrollView(
-                  child: ElevatedButton.icon(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("ยืนยันการลบ"),
-                            content: Text("คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("ยกเลิก"),
+        child: Scaffold(
+            appBar: myAppbar("แสดงข้อมูลโพสต์"),
+            body: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
+                      child: SizedBox(
+                        height: 300,
+                        child: PageView.builder(
+                          onPageChanged: (value) {
+                            setState(() {
+                              mySlideindex = value;
+                            });
+                          },
+                          itemCount: imageUrls.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    imageUrls[index],
+                                    fit: BoxFit.cover,
+                                  )),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: SizedBox(
+                        height: 60,
+                        width: 300,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: imageUrls.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Container(
+                                height: 20,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index == mySlideindex
+                                      ? Colors.deepPurple
+                                      : Colors.grey,
+                                ),
                               ),
-                              TextButton(
-                                onPressed: () async {
-                                  // try {
-                                  //   await FirebaseFirestore.instance
-                                  //       .collection('posts')
-                                  //       .doc(widget.postData
-                                  //           .id) // Specify the document to delete
-                                  //       .delete();
-                                  //   Navigator.pop(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => ManagePost()),
-                                  //   );
-                                  // } catch (e) {
-                                  //   print("เกิดข้อผิดพลาดในการลบข้อมูล: $e");
-                                  // }
-                                },
-                                child: Text("ยืนยัน"),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.tag, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
+                                color:
+                                    Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                              ),
+                              SizedBox(
+                                  width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                              Text(
+                                "หมายเลขการโพสต์ : $postNumber ",
+                                style: MyTextStyle(),
                               ),
                             ],
-                          );
-                        },
-                      );
-                    },
-                    label: Text("ลบโพสต์"),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      onPrimary: Colors.white,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.person, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
+                                color:
+                                    Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                              ),
+                              SizedBox(
+                                  width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                              Text(
+                                "ชื่อผู้โพสต์ : $username ",
+                                style: MyTextStyle(),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons
+                                    .date_range, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
+                                color:
+                                    Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                              ),
+                              SizedBox(
+                                  width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                              Text(
+                                "วันที่ $date",
+                                style: MyTextStyle(),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons
+                                    .punch_clock, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
+                                color:
+                                    Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                              ),
+                              Text(
+                                " เวลา $time น.",
+                                style: MyTextStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 2, right: 15, top: 10, bottom: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 170, 170, 169),
+                                borderRadius: BorderRadius.circular(
+                                    12.0), // ทำให้ Container โค้งมน
+                              ),
+                              padding: EdgeInsets.all(
+                                  11), // ระยะห่างของเนื้อหาจาก Container
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "ชื่อสิ่งของ : $item_name",
+                                    style: MyTextStyle(),
+                                  ),
+                                  Text(
+                                    "หมวดหมู่ : $type",
+                                    style: MyTextStyle(),
+                                  ),
+                                  Text(
+                                    "ยี่ห้อ : $brand",
+                                    style: MyTextStyle(),
+                                  ),
+                                  Text(
+                                    "รุ่น : $model",
+                                    style: MyTextStyle(),
+                                  ),
+                                  Text(
+                                    'รายละเอียด : $detail',
+                                    style: MyTextStyle(),
+                                  ),
+                                  Divider(),
+                                  Text(
+                                    "ต้องการแลกเปลี่ยนกับ : $item_name1",
+                                    style: MyTextStyle(),
+                                  ),
+                                  Text(
+                                    'รายละเอียด : $details1',
+                                    style: MyTextStyle(),
+                                  ),
+                                  Text(
+                                    "สถานที่ : ",
+                                    style: MyTextStyle(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  ]),
+            )));
   }
+}
+
+MyTextStyle() {
+  return TextStyle(
+    fontSize: 20,
+    color: Colors.black,
+  );
 }
