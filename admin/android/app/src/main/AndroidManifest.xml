@@ -3,6 +3,10 @@
         android:label="admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyA9W1sJPO9cSFIK9g_cwdG0PodFvIVnHyY"/>
+
         <activity
             android:name=".MainActivity"
             android:enableOnBackInvokedCallback="true"
@@ -31,4 +35,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+        <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/> 
 </manifest>

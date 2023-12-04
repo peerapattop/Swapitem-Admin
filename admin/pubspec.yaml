@@ -55,6 +55,7 @@ dev_dependencies:
   intl: ^0.18.1
   image_picker: ^1.0.4
   firebase_messaging: ^14.7.5
+  google_maps_flutter: ^2.5.0
   
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

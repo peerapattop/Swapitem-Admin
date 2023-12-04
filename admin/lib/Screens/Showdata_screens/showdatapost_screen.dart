@@ -1,6 +1,7 @@
 import 'package:admin/Screens/Manage_Screens/postData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ShowDataPost extends StatefulWidget {
   final PostData postData;
@@ -28,6 +29,9 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String formattedDatetime = ''; // Initialize formattedDatetime
   int mySlideindex = 0;
   int selectedButton = 0;
+  late GoogleMapController mapController;
+  final LatLng _initialPosition =
+      const LatLng(37.7749, -122.4194); // Initial position (San Francisco)
 
   @override
   void initState() {
@@ -38,7 +42,8 @@ class _MyWidgetState extends State<ShowDataPost> {
     date = widget.postData.date;
     detail = widget.postData.detail;
     details1 = widget.postData.details1;
-    imageUrls = widget.postData.imageUrls.split(',').map((url) => url.trim()).toList();
+    imageUrls =
+        widget.postData.imageUrls.split(',').map((url) => url.trim()).toList();
     item_name = widget.postData.item_name;
     item_name1 = widget.postData.item_name1;
     model = widget.postData.model;
@@ -101,7 +106,6 @@ class _MyWidgetState extends State<ShowDataPost> {
                                   borderRadius: BorderRadius.circular(20),
                                   child: Image.network(
                                     imageUrls[index],
-                                    fit: BoxFit.cover,
                                   )),
                             );
                           },
@@ -249,6 +253,22 @@ class _MyWidgetState extends State<ShowDataPost> {
                                     style: MyTextStyle(),
                                   ),
                                 ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all()
+                            ),
+                            height: 300,
+                            width: 380,
+                            child: GoogleMap(
+                              onMapCreated: (GoogleMapController controller) {
+                                mapController = controller;
+                              },
+                              initialCameraPosition: CameraPosition(
+                                target: _initialPosition,
+                                zoom: 12.0,
                               ),
                             ),
                           ),
