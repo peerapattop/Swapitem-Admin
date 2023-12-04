@@ -3,9 +3,6 @@ import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import '../Manage_Screens/manageuser_screen.dart';
 
 class ShowDataUser extends StatefulWidget {
   final UserData userData;
@@ -29,8 +26,6 @@ class _ShowDataUserState extends State<ShowDataUser> {
   late String? birthday;
   late String? uid;
   late String user_image;
-  late DatabaseReference _userRef;
-  late User? _user;
   DateTime selectedDate = DateTime.now();
   TextEditingController _firstnameController = TextEditingController();
   TextEditingController _lastnameController = TextEditingController();
@@ -54,18 +49,81 @@ class _ShowDataUserState extends State<ShowDataUser> {
   @override
   void initState() {
     super.initState();
-    _userRef = FirebaseDatabase.instance.ref().child('users');
-    _user = FirebaseAuth.instance.currentUser;
     fetchDataFromConstructor();
   }
 
-  void fetchDataFromConstructor() {
-    // ดึงข้อมูลที่ได้จาก constructor และกำหนดให้กับตัวแปรใน State
-    _user = FirebaseAuth.instance.currentUser;
-    if (_user != null) {
-      uid = _user!.uid;
-    }
+  Future<void> _showDeleteConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          title: Text(
+            'ยืนยันการลบข้อมูล',
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'คุณต้องการที่จะออกลบข้อมูลหรือไม่?',
+                style: TextStyle(color: Colors.black),
+              ),
+              SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'ยกเลิก',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    onPressed: () async {
+                      await FirebaseDatabase.instance
+                          .ref()
+                          .child('users/$uid')
+                          .remove();
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'ยืนยัน',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
+  void fetchDataFromConstructor() {
+    uid = widget.userData.uid;
     id = widget.userData.id;
     username = widget.userData.username;
     email = widget.userData.email;
@@ -75,32 +133,8 @@ class _ShowDataUserState extends State<ShowDataUser> {
     user_image = widget.userData.user_image;
     String? birthday = widget.userData.birthday;
     _birthdayController.text = birthday;
-    selectedGender = gender ?? "";
     _firstnameController = TextEditingController(text: firstname);
     _lastnameController = TextEditingController(text: lastname);
-  }
-
-  void updateUserData() async {
-    try {
-      print('Updating data for UID: ${_user!.uid}');
-
-      await _userRef.child(uid!).update({
-        'firstname': _firstnameController.text.trim(),
-        'lastname': _lastnameController.text.trim(),
-        'gender': selectedGender,
-        'birthday': _birthdayController.text.trim(),
-        // Add other fields as needed
-      });
-
-      // Handle success and navigate if needed
-      Navigator.pop(
-        context,
-        MaterialPageRoute(builder: (context) => ManageUser()),
-      );
-    } catch (error) {
-      // Handle errors
-      print('Error updating user data: $error');
-    }
   }
 
   @override
@@ -213,23 +247,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                 backgroundColor: Colors.red,
                               ),
                               onPressed: () async {
-                                String uid = FirebaseAuth.instance.currentUser!
-                                    .uid; // รับ uid จากผู้ใช้ปัจจุบัน
-
-                                DatabaseReference userRef = FirebaseDatabase
-                                    .instance
-                                    .ref()
-                                    .child('users')
-                                    .child(uid);
-
-                                await userRef
-                                    .remove(); // ใช้ remove() เพื่อลบข้อมูล
-
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ManageUser()),
-                                );
+                                _showDeleteConfirmationDialog();
                               },
                               icon: Icon(Icons.delete, color: Colors.white),
                               label: Text(
@@ -242,8 +260,15 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                               ),
-                              onPressed: () {
-                                updateUserData();
+                              onPressed: () async {
+                                await FirebaseDatabase.instance
+                                    .ref()
+                                    .child('users/$uid')
+                                    .update({
+                                  'firstname': _firstnameController.text.trim(),
+                                  'lastname': _lastnameController.text.trim(),
+                                });
+                                Navigator.pop(context);
                               },
                               icon: const Icon(Icons.save_as,
                                   color: Colors.white),
