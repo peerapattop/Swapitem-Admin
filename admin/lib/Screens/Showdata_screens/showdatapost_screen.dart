@@ -18,7 +18,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String date;
   late String detail;
   late String details1;
-  late String imageUrls;
+  late List<String> imageUrls;
   late String item_name;
   late String item_name1;
   late String model;
@@ -26,13 +26,6 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String type;
   late String time;
   late String formattedDatetime = ''; // Initialize formattedDatetime
-  // List<String> foodList = [
-  //   "https://cdn.pixabay.com/photo/2010/12/13/10/05/berries-2277_1280.jpg",
-  //   "https://cdn.pixabay.com/photo/2015/12/09/17/11/vegetables-1085063_640.jpg",
-  //   "https://cdn.pixabay.com/photo/2017/01/20/15/06/oranges-1995056_640.jpg",
-  //   "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_640.jpg",
-  //   "https://cdn.pixabay.com/photo/2016/07/22/09/59/fruits-1534494_640.jpg",
-  // ];
   int mySlideindex = 0;
   int selectedButton = 0;
 
@@ -45,7 +38,7 @@ class _MyWidgetState extends State<ShowDataPost> {
     date = widget.postData.date;
     detail = widget.postData.detail;
     details1 = widget.postData.details1;
-    imageUrls = widget.postData.imageUrls;
+    imageUrls = widget.postData.imageUrls.split(',').map((url) => url.trim()).toList();
     item_name = widget.postData.item_name;
     item_name1 = widget.postData.item_name1;
     model = widget.postData.model;
