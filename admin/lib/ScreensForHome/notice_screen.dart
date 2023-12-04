@@ -75,6 +75,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   String image_payment = userData['image_payment'].toString();
                   String date = userData['date'].toString();
                   String time = userData['time'].toString();
+                  String uid = userData['uid'].toString();
 
                   return Padding(
                     padding: EdgeInsets.all(20.0),
@@ -122,7 +123,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                         status: status,
                                         image_payment: image_payment,
                                         date: date,
-                                        time: time,                                        
+                                        time: time,     
+                                        uid: uid,                                   
                                       )),
                                     ),
                                   );

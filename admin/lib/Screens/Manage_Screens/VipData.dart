@@ -10,9 +10,10 @@ class VipData {
   final String id;
   final String username;
   final String packed;
+  final String uid;
   
-
   VipData({
+    required this.uid,
     required this.packed,
     required this.PaymentNumber,
     required this.date,

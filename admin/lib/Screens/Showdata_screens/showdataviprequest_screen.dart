@@ -1,5 +1,6 @@
 import 'package:admin/Screens/Manage_Screens/vipData.dart';
 import 'package:admin/Screens/appbar.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class ViewVip extends StatefulWidget {
@@ -21,6 +22,7 @@ class _ViewVipState extends State<ViewVip> {
   late String status;
   late String time;
   late String id;
+  late String uid;
   late String username;
   late String packed;
   String formattedDate = '';
@@ -31,6 +33,7 @@ class _ViewVipState extends State<ViewVip> {
     // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
     paymentNumber = widget.vipData.PaymentNumber;
     id = widget.vipData.id;
+    uid = widget.vipData.uid;
     username = widget.vipData.username;
     email = widget.vipData.email;
     firstname = widget.vipData.firstname;
@@ -140,7 +143,7 @@ class _ViewVipState extends State<ViewVip> {
                                   ), // เพิ่มไอคอนที่นี่
 
                                   Text(
-                                    " เวลา : "+time,
+                                    " เวลา : " + time,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -198,7 +201,22 @@ class _ViewVipState extends State<ViewVip> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                try {
+                                  // อัปเดตสถานะใน Realtime Database
+                                  await FirebaseDatabase.instance
+                                      .ref()
+                                      .child('users/$uid')
+                                      .update({
+                                    'status_user':
+                                        'ผู้ใช้พรีเมี่ยม', 
+                                  });
+                                 Navigator.pop(context);
+                                  // ทำอื่น ๆ ที่คุณต้องการหลังจากอัปเดตข้อมูล
+                                } catch (e) {
+                                  print('Error updating user status: $e');
+                                }
+                              },
                               icon:
                                   const Icon(Icons.check, color: Colors.white),
                               label: Text(

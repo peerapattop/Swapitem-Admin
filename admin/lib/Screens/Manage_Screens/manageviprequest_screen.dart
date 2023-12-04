@@ -104,6 +104,7 @@ class _VipRequestState extends State<VipRequest> {
                       String time = vipData['time'];          
                       String userid = vipData['id']; 
                       String packed = vipData['packed'];
+                       String uid = vipData['uid'];
                       String username =
                           vipData['username']; // ดึงค่า 'username' จากเอกสาร
                       if (_searchString != null &&
@@ -137,6 +138,7 @@ class _VipRequestState extends State<VipRequest> {
                                 MaterialPageRoute(
                                   builder: (context) => ViewVip(
                                      vipData: VipData(
+                                      uid: uid,
                                       packed: packed,
                                       PaymentNumber: paymentNumber, 
                                       date: date, 
