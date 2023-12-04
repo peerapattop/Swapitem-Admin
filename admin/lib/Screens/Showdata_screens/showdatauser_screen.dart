@@ -249,9 +249,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               onPressed: () async {
                                 _showDeleteConfirmationDialog();
                               },
-                              icon: Icon(Icons.delete, color: Colors.white),
-                              label: Text(
-                                'ลบข้อมูล',
+                              icon: const Icon(Icons.delete, color: Colors.white),
+                              label:const  Text(
+                                'ลบผู้ใช้',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -377,11 +377,11 @@ class _ShowDataUserState extends State<ShowDataUser> {
           child: InkWell(
             onTap: () {
               showModalBottomSheet(
-                  context: context, builder: ((Builder) => bottomSheet()));
+                  context: context, builder: ((builder) => bottomSheet()));
             },
             child: const Icon(
               Icons.camera_alt,
-              color: const Color.fromARGB(255, 52, 0, 150),
+              color: Color.fromARGB(255, 52, 0, 150),
               size: 28,
             ),
           ),
@@ -406,7 +406,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
               fontSize: 20,
             ),
           ),
-          SizedBox(
+         const SizedBox(
             height: 20,
           ),
           Row(
