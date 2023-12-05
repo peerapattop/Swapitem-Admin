@@ -192,7 +192,7 @@ class _ViewVipState extends State<ViewVip> {
                                     .ref()
                                     .child('requestvip/$uid')
                                     .update({
-                                  'status': 'ไม่สำเร็จ',
+                                  'status': 'ปฎิเสธ',
                                 });
                                 Navigator.pop(context);
                               },
