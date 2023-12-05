@@ -25,6 +25,8 @@ class _ViewVipState extends State<ViewVip> {
   late String uid;
   late String username;
   late String packed;
+  late String vipuid;
+  late String user_uid;
   String formattedDate = '';
 
   @override
@@ -33,7 +35,8 @@ class _ViewVipState extends State<ViewVip> {
     // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
     paymentNumber = widget.vipData.PaymentNumber;
     id = widget.vipData.id;
-    uid = widget.vipData.uid;
+    user_uid = widget.vipData.user_uid;
+    vipuid = widget.vipData.vipuid;
     username = widget.vipData.username;
     email = widget.vipData.email;
     firstname = widget.vipData.firstname;
@@ -212,14 +215,14 @@ class _ViewVipState extends State<ViewVip> {
                                   // อัปเดตสถานะใน Realtime Database
                                   await FirebaseDatabase.instance
                                       .ref()
-                                      .child('users/$uid')
+                                      .child('users/$user_uid')
                                       .update({
                                     'status_user': 'ผู้ใช้พรีเมี่ยม',
                                   });
                                   await FirebaseDatabase.instance
                                       .ref()
                                       .child('requestvip')
-                                      .child('$uid')
+                                      .child('$vipuid')
                                       .update({
                                     'status': 'สำเร็จ',
                                   });

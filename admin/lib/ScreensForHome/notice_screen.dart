@@ -75,7 +75,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   String image_payment = userData['image_payment'].toString();
                   String date = userData['date'].toString();
                   String time = userData['time'].toString();
-                  String uid = userData['uid'].toString();
+                  String vipuid = userData['vipuid'].toString();
+                  String user_uid = userData['user_uid'].toString();
 
                   return Padding(
                     padding: EdgeInsets.all(20.0),
@@ -113,6 +114,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => ViewVip(
                                           vipData: VipData(
+                                            user_uid:user_uid,
                                         PaymentNumber: paymentNumber,
                                         id: userid,
                                         username: username,
@@ -124,7 +126,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                         image_payment: image_payment,
                                         date: date,
                                         time: time,     
-                                        uid: uid,                                   
+                                        vipuid: vipuid,                                   
                                       )),
                                     ),
                                   );

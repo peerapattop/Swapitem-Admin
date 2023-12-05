@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter/material.dart';
 
-
 class VipRequest extends StatefulWidget {
   const VipRequest({super.key});
 
@@ -14,7 +13,7 @@ class VipRequest extends StatefulWidget {
 }
 
 class _VipRequestState extends State<VipRequest> {
- TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   String? _searchString;
   final _vipRef = FirebaseDatabase.instance.ref().child('requestvip');
 
@@ -24,9 +23,8 @@ class _VipRequestState extends State<VipRequest> {
       child: Scaffold(
         appBar: myAppbar('คำขอสมัคร VIP'),
         body: StreamBuilder(
-          stream:
-              _vipRef.onValue,
-          builder: (context,  snapshot) {
+          stream: _vipRef.onValue,
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: Column(
@@ -47,12 +45,12 @@ class _VipRequestState extends State<VipRequest> {
             DataSnapshot dataSnapshot = snapshot.data!.snapshot;
             Map<dynamic, dynamic>? dataMap = dataSnapshot.value as Map?;
 
-             if (dataMap == null || dataMap.isEmpty) {
+            if (dataMap == null || dataMap.isEmpty) {
               return const Center(
                 child: Text("ไม่มีข้อมูล"),
               );
             }
-    
+
             return Column(
               children: <Widget>[
                 Padding(
@@ -101,10 +99,12 @@ class _VipRequestState extends State<VipRequest> {
                       String image_payment = vipData['image_payment'];
                       String lastname = vipData['lastname'];
                       String status = vipData['status'];
-                      String time = vipData['time'];          
-                      String userid = vipData['id']; 
+                      String time = vipData['time'];
+                      String userid = vipData['id'];
                       String packed = vipData['packed'];
-                       String uid = vipData['uid'];
+                      String uid = vipData['id'];
+                      String vipuid = vipData['vipuid'];
+                      String user_uid = vipData['user_uid'];
                       String username =
                           vipData['username']; // ดึงค่า 'username' จากเอกสาร
                       if (_searchString != null &&
@@ -112,7 +112,7 @@ class _VipRequestState extends State<VipRequest> {
                               (!username
                                   .toLowerCase()
                                   .contains(_searchString!)))) {
-                        return Container(); 
+                        return Container();
                       }
                       return Container(
                         decoration: BoxDecoration(
@@ -137,20 +137,21 @@ class _VipRequestState extends State<VipRequest> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ViewVip(
-                                     vipData: VipData(
-                                      uid: uid,
+                                    vipData: VipData(
+                                      vipuid:vipuid,
+                                      user_uid:user_uid,
                                       packed: packed,
-                                      PaymentNumber: paymentNumber, 
-                                      date: date, 
-                                      email: email, 
-                                      firstname: firstname, 
-                                      lastname: lastname, 
-                                      image_payment: image_payment, 
-                                      status: status, 
-                                      time: time, 
-                                      id: userid, 
+                                      PaymentNumber: paymentNumber,
+                                      date: date,
+                                      email: email,
+                                      firstname: firstname,
+                                      lastname:lastname,
+                                      image_payment: image_payment,
+                                      status: status,
+                                      time: time,
+                                      id: userid,
                                       username: username,
-                                      ),
+                                    ),
                                   ),
                                 ),
                               );
