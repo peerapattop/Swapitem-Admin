@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:admin/Screens/Manage_Screens/vipData.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -28,6 +30,8 @@ class _ViewVipState extends State<ViewVip> {
   late String vipuid;
   late String user_uid;
   String formattedDate = '';
+  DateTime? confirmationDate;
+  Timer? countdownTimer;
 
   @override
   void initState() {
@@ -46,6 +50,46 @@ class _ViewVipState extends State<ViewVip> {
     image_payment = widget.vipData.image_payment;
     date = widget.vipData.date;
     time = widget.vipData.time;
+    confirmationDate = DateTime.now();
+    startCountdown();
+  }
+
+  void startCountdown() {
+    const oneSecond = Duration(seconds: 1);
+    countdownTimer = Timer.periodic(oneSecond, (timer) {
+      Duration elapsed = DateTime.now().difference(confirmationDate!);
+      Duration remainingTime = Duration(days: 30) - elapsed;
+      print(remainingTime.inDays);
+      //เพิ่มวัน เวลา เข้า realtimedatabase
+
+      if (remainingTime.isNegative) {
+        timer.cancel();
+        // เวลาหมดแล้ว ทำอะไรก็ตามที่คุณต้องการ
+      }
+    });
+  }
+  void updateStatusAndNavigate(BuildContext context, String userUid, String vipUid) async {
+    try {
+      await FirebaseDatabase.instance.ref().child('users/$userUid').update({
+        'status_user': 'ผู้ใช้พรีเมี่ยม',
+      });
+
+      await FirebaseDatabase.instance.ref().child('requestvip').child('$vipUid').update({
+        'status': 'สำเร็จ',
+      });
+
+      // ทำอื่น ๆ ที่คุณต้องการหลังจากอัปเดตข้อมูล
+
+      // นำทางไปยังหน้าที่ต้องการ
+      Navigator.pop(context);
+    } catch (e) {
+      print('Error updating user status: $e');
+    }
+  }
+   @override
+  void dispose() {
+    super.dispose();
+    countdownTimer?.cancel();
   }
 
   @override
@@ -210,27 +254,8 @@ class _ViewVipState extends State<ViewVip> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                               ),
-                              onPressed: () async {
-                                try {
-                                  // อัปเดตสถานะใน Realtime Database
-                                  await FirebaseDatabase.instance
-                                      .ref()
-                                      .child('users/$user_uid')
-                                      .update({
-                                    'status_user': 'ผู้ใช้พรีเมี่ยม',
-                                  });
-                                  await FirebaseDatabase.instance
-                                      .ref()
-                                      .child('requestvip')
-                                      .child('$vipuid')
-                                      .update({
-                                    'status': 'สำเร็จ',
-                                  });
-                                  Navigator.pop(context);
-                                  // ทำอื่น ๆ ที่คุณต้องการหลังจากอัปเดตข้อมูล
-                                } catch (e) {
-                                  print('Error updating user status: $e');
-                                }
+                              onPressed: ()  {
+                              updateStatusAndNavigate(context,user_uid,vipuid);
                               },
                               icon:
                                   const Icon(Icons.check, color: Colors.white),
