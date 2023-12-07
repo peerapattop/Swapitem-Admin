@@ -26,7 +26,7 @@ class _ViewVipState extends State<ViewVip> {
   late String id;
   late String uid;
   late String username;
-  late String packed;
+  var packed;
   late String vipuid;
   late String user_uid;
   String formattedDate = '';
@@ -53,15 +53,28 @@ class _ViewVipState extends State<ViewVip> {
     date = widget.vipData.date;
     time = widget.vipData.time;
     confirmationDate = DateTime.now();
-    startCountdown(context, user_uid);
   }
 
-  void startCountdown(BuildContext context, String userUid) {
+  int extractPackedDays(String packedValue) {
+    // ดึงค่าจำนวนวันที่จะนับถอยหลัง
+    // นำไปใช้ในการกำหนด Duration ในการนับถอยหลัง
+    if (packed == 'แพ็คเก็จ 1 เดือน : 50 บาท') {
+      return 30;
+    } else if (packed == 'แพ็คเก็จ 2 เดือน : 100 บาท') {
+      return 60;
+    } else if (packed == 'แพ็คเก็จ 3 เดือน : 150 บาท') {
+      return 90;
+    } else {
+      return 30;
+    }
+  }
+
+  void startCountdown(BuildContext context, String userUid, int packedDays) {
     const oneSecond = Duration(seconds: 1);
 
     countdownSubscription = Stream.periodic(oneSecond, (int _) {
       Duration elapsed = DateTime.now().difference(confirmationDate!);
-      Duration remainingTime = Duration(days: 30) - elapsed;
+      Duration remainingTime = Duration(days: packedDays) - elapsed;
 
       String formattedRemainingTime = formatRemainingTime(remainingTime);
 
@@ -76,7 +89,8 @@ class _ViewVipState extends State<ViewVip> {
       countdownController.add(formattedRemainingTime);
 
       // เมื่อ remainingTime เป็นลบ (หมดเวลา)
-      if (DateTime.now().isAfter(confirmationDate!.add(Duration(days: 30)))) {
+      if (DateTime.now()
+          .isAfter(confirmationDate!.add(Duration(days: packedDays)))) {
         FirebaseDatabase.instance.ref().child('users/$userUid').update({
           'status_user': 'ผู้ใช้ทั่วไป',
           'postCount': '5',
@@ -288,6 +302,8 @@ class _ViewVipState extends State<ViewVip> {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () {
+                                startCountdown(context, user_uid,
+                                    extractPackedDays(packed));
                                 updateStatusAndNavigate(
                                     context, user_uid, vipuid);
                               },
