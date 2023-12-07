@@ -57,23 +57,34 @@ class _ViewVipState extends State<ViewVip> {
   }
 
 void startCountdown(BuildContext context, String userUid) {
-    const oneSecond = Duration(seconds: 1);
+  const oneSecond = Duration(seconds: 1);
 
-    countdownSubscription = Stream.periodic(oneSecond, (int _) {
-      Duration elapsed = DateTime.now().difference(confirmationDate!);
-      Duration remainingTime = Duration(days: 30) - elapsed;
+  countdownSubscription = Stream.periodic(oneSecond, (int _) {
+    Duration elapsed = DateTime.now().difference(confirmationDate!);
+    Duration remainingTime = Duration(days: 30) - elapsed;
 
-      String formattedRemainingTime = formatRemainingTime(remainingTime);
+    String formattedRemainingTime = formatRemainingTime(remainingTime);
 
+    FirebaseDatabase.instance.ref().child('users/$userUid').update({
+      'remainingTime': formattedRemainingTime,
+    });
+
+    return formattedRemainingTime;
+  }).listen((String formattedRemainingTime) {
+    countdownController.add(formattedRemainingTime);
+
+    // เมื่อ remainingTime เป็นลบ (หมดเวลา)
+    if (DateTime.now().isAfter(confirmationDate!.add(Duration(days: 30)))) {
       FirebaseDatabase.instance.ref().child('users/$userUid').update({
-        'remainingTime': formattedRemainingTime,
+        'status_user': 'ผู้ใช้ทั่วไป',
       });
 
-      return formattedRemainingTime;
-    }).listen((String formattedRemainingTime) {
-      countdownController.add(formattedRemainingTime);
-    });
-  }
+      // ยกเลิกการติดตาม StreamSubscription เนื่องจากเวลาหมดแล้ว
+      countdownSubscription.cancel();
+    }
+  });
+}
+
 
   String formatRemainingTime(Duration duration) {
   final days = duration.inDays;
