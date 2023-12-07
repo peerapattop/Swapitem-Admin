@@ -102,7 +102,6 @@ class _VipRequestState extends State<VipRequest> {
                       String time = vipData['time'];
                       String userid = vipData['id'];
                       String packed = vipData['packed'];
-                      String uid = vipData['id'];
                       String vipuid = vipData['vipuid'];
                       String user_uid = vipData['user_uid'];
                       String username =
