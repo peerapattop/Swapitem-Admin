@@ -53,51 +53,60 @@ class _ViewVipState extends State<ViewVip> {
     date = widget.vipData.date;
     time = widget.vipData.time;
     confirmationDate = DateTime.now();
-    startCountdown(context,user_uid);
+    startCountdown(context, user_uid);
   }
 
-void startCountdown(BuildContext context, String userUid) {
-  const oneSecond = Duration(seconds: 1);
+  void startCountdown(BuildContext context, String userUid) {
+    const oneSecond = Duration(seconds: 1);
 
-  countdownSubscription = Stream.periodic(oneSecond, (int _) {
-    Duration elapsed = DateTime.now().difference(confirmationDate!);
-    Duration remainingTime = Duration(days: 30) - elapsed;
+    countdownSubscription = Stream.periodic(oneSecond, (int _) {
+      Duration elapsed = DateTime.now().difference(confirmationDate!);
+      Duration remainingTime = Duration(days: 30) - elapsed;
 
-    String formattedRemainingTime = formatRemainingTime(remainingTime);
+      String formattedRemainingTime = formatRemainingTime(remainingTime);
 
-    FirebaseDatabase.instance.ref().child('users/$userUid').update({
-      'remainingTime': formattedRemainingTime,
-    });
-
-    return formattedRemainingTime;
-  }).listen((String formattedRemainingTime) {
-    countdownController.add(formattedRemainingTime);
-
-    // เมื่อ remainingTime เป็นลบ (หมดเวลา)
-    if (DateTime.now().isAfter(confirmationDate!.add(Duration(days: 30)))) {
       FirebaseDatabase.instance.ref().child('users/$userUid').update({
-        'status_user': 'ผู้ใช้ทั่วไป',
+        'remainingTime': formattedRemainingTime,
+        'postCount': '999',
+        'makeofferCount': '999',
       });
 
-      // ยกเลิกการติดตาม StreamSubscription เนื่องจากเวลาหมดแล้ว
-      countdownSubscription.cancel();
-    }
-  });
-}
+      return formattedRemainingTime;
+    }).listen((String formattedRemainingTime) {
+      countdownController.add(formattedRemainingTime);
 
+      // เมื่อ remainingTime เป็นลบ (หมดเวลา)
+      if (DateTime.now().isAfter(confirmationDate!.add(Duration(days: 30)))) {
+        FirebaseDatabase.instance.ref().child('users/$userUid').update({
+          'status_user': 'ผู้ใช้ทั่วไป',
+          'postCount': '5',
+          'makeofferCount': '5',
+        });
+
+        // ยกเลิกการติดตาม StreamSubscription เนื่องจากเวลาหมดแล้ว
+        countdownSubscription.cancel();
+      }
+    });
+  }
 
   String formatRemainingTime(Duration duration) {
-  final days = duration.inDays;
+    final days = duration.inDays;
 
-  return '$days วัน';
-}
-  void updateStatusAndNavigate(BuildContext context, String userUid, String vipUid) async {
+    return '$days วัน';
+  }
+
+  void updateStatusAndNavigate(
+      BuildContext context, String userUid, String vipUid) async {
     try {
       await FirebaseDatabase.instance.ref().child('users/$userUid').update({
         'status_user': 'ผู้ใช้พรีเมี่ยม',
       });
 
-      await FirebaseDatabase.instance.ref().child('requestvip').child('$vipUid').update({
+      await FirebaseDatabase.instance
+          .ref()
+          .child('requestvip')
+          .child('$vipUid')
+          .update({
         'status': 'สำเร็จ',
       });
 
@@ -109,7 +118,8 @@ void startCountdown(BuildContext context, String userUid) {
       print('Error updating user status: $e');
     }
   }
-   @override
+
+  @override
   void dispose() {
     super.dispose();
     countdownTimer?.cancel();
@@ -277,8 +287,9 @@ void startCountdown(BuildContext context, String userUid) {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                               ),
-                              onPressed: ()  {
-                              updateStatusAndNavigate(context,user_uid,vipuid);
+                              onPressed: () {
+                                updateStatusAndNavigate(
+                                    context, user_uid, vipuid);
                               },
                               icon:
                                   const Icon(Icons.check, color: Colors.white),
