@@ -32,6 +32,8 @@ class _ViewVipState extends State<ViewVip> {
   String formattedDate = '';
   DateTime? confirmationDate;
   Timer? countdownTimer;
+  late StreamController<String> countdownController;
+  late StreamSubscription<String> countdownSubscription;
 
   @override
   void initState() {
@@ -51,23 +53,33 @@ class _ViewVipState extends State<ViewVip> {
     date = widget.vipData.date;
     time = widget.vipData.time;
     confirmationDate = DateTime.now();
-    startCountdown();
+    startCountdown(context,user_uid);
   }
 
-  void startCountdown() {
+void startCountdown(BuildContext context, String userUid) {
     const oneSecond = Duration(seconds: 1);
-    countdownTimer = Timer.periodic(oneSecond, (timer) {
+
+    countdownSubscription = Stream.periodic(oneSecond, (int _) {
       Duration elapsed = DateTime.now().difference(confirmationDate!);
       Duration remainingTime = Duration(days: 30) - elapsed;
-      print(remainingTime.inDays);
-      //เพิ่มวัน เวลา เข้า realtimedatabase
 
-      if (remainingTime.isNegative) {
-        timer.cancel();
-        // เวลาหมดแล้ว ทำอะไรก็ตามที่คุณต้องการ
-      }
+      String formattedRemainingTime = formatRemainingTime(remainingTime);
+
+      FirebaseDatabase.instance.ref().child('users/$userUid').update({
+        'remainingTime': formattedRemainingTime,
+      });
+
+      return formattedRemainingTime;
+    }).listen((String formattedRemainingTime) {
+      countdownController.add(formattedRemainingTime);
     });
   }
+
+  String formatRemainingTime(Duration duration) {
+  final days = duration.inDays;
+
+  return '$days วัน';
+}
   void updateStatusAndNavigate(BuildContext context, String userUid, String vipUid) async {
     try {
       await FirebaseDatabase.instance.ref().child('users/$userUid').update({
