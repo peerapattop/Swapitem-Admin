@@ -46,9 +46,11 @@ class _ViewNoticeState extends State<ViewNotice> {
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20),
           child: Column(
             children: [
+              Image.asset('assets/images/Megaphone.png',width: 250,),
+              SizedBox(height: 40,),
               TextField(
                 controller: notification,
-                maxLines: 10,
+                maxLines: 3,
                 decoration: InputDecoration(
                   hintText: 'กรอกข้อความที่นี่',
                   filled: true,
