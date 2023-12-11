@@ -71,42 +71,63 @@ class _ViewVipState extends State<ViewVip> {
 
   void startCountdown(BuildContext context, String userUid, int packedDays) {
     const oneSecond = Duration(seconds: 1);
+    final startRef =
+        FirebaseDatabase.instance.ref().child('users/$userUid/startTime');
 
-    countdownSubscription = Stream.periodic(oneSecond, (int _) {
-      Duration elapsed = DateTime.now().difference(confirmationDate!);
-      Duration remainingTime = Duration(days: packedDays) - elapsed;
+    // Set the server timestamp at the start of the countdown
+    startRef.set(ServerValue.timestamp);
 
-      String formattedRemainingTime = formatRemainingTime(remainingTime);
+    startRef.once().then((DatabaseEvent event) {
+      final serverStartTime = event.snapshot.value;
+      if (serverStartTime is int) {
+        final serverStartDateTime =
+            DateTime.fromMillisecondsSinceEpoch(serverStartTime);
 
-      FirebaseDatabase.instance.ref().child('users/$userUid').update({
-        'remainingTime': formattedRemainingTime,
-        'postCount': '999',
-        'makeofferCount': '999',
-      });
+        // Use a Stream for periodic updates
+        countdownSubscription = Stream.periodic(oneSecond, (int _) {
+          Duration elapsed = DateTime.now().difference(serverStartDateTime);
+          Duration remainingTime = Duration(days: packedDays) - elapsed;
+          String formattedRemainingTime = formatRemainingTime(remainingTime);
 
-      return formattedRemainingTime;
-    }).listen((String formattedRemainingTime) {
-      countdownController.add(formattedRemainingTime);
+          // Consider updating Firebase less frequently if possible
+          FirebaseDatabase.instance.ref().child('users/$userUid').update({
+            'remainingTime': formattedRemainingTime,
+            'postCount': '999',
+            'makeofferCount': '999',
+          });
 
-      // เมื่อ remainingTime เป็นลบ (หมดเวลา)
-      if (DateTime.now()
-          .isAfter(confirmationDate!.add(Duration(days: packedDays)))) {
-        FirebaseDatabase.instance.ref().child('users/$userUid').update({
-          'status_user': 'ผู้ใช้ทั่วไป',
-          'postCount': '5',
-          'makeofferCount': '5',
+          return formattedRemainingTime;
+        }).listen((String formattedRemainingTime) {
+          countdownController.add(formattedRemainingTime);
+
+          // Check if the countdown has finished
+          if (DateTime.now()
+              .isAfter(serverStartDateTime.add(Duration(days: packedDays)))) {
+            // Update Firebase when the countdown finishes
+            FirebaseDatabase.instance.ref().child('users/$userUid').update({
+              'status_user': 'ผู้ใช้ทั่วไป',
+              'postCount': '5',
+              'makeofferCount': '5',
+            });
+            countdownSubscription.cancel();
+          }
         });
-
-        // ยกเลิกการติดตาม StreamSubscription เนื่องจากเวลาหมดแล้ว
-        countdownSubscription.cancel();
+      } else {
+        // Handle the case where serverStartTime is not an int
       }
     });
   }
 
   String formatRemainingTime(Duration duration) {
     final days = duration.inDays;
+    final hours =
+        duration.inHours % 24; // Hours remaining after subtracting days
+    final minutes =
+        duration.inMinutes % 60; // Minutes remaining after subtracting hours
+    final seconds =
+        duration.inSeconds % 60; // Seconds remaining after subtracting minutes
 
-    return '$days วัน';
+    return '$days วัน $hours ชั่วโมง $minutes นาที $seconds วินาที';
   }
 
   void updateStatusAndNavigate(
