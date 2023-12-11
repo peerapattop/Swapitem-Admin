@@ -107,6 +107,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                           .child('users/$uid')
                           .remove();
                       Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'ยืนยัน',
