@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.13.1
   firebase_database: ^10.3.5
+  firebase_messaging: ^14.7.9
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +55,6 @@ dev_dependencies:
   firebase_storage: ^11.2.5
   intl: ^0.18.1
   image_picker: ^1.0.4
-  firebase_messaging: ^14.7.5
   google_maps_flutter: ^2.5.0
   
 # For information on the generic Dart part of this file, see the

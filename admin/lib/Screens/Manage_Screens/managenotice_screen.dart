@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:admin/Screens/appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,27 +18,49 @@ class _ViewNoticeState extends State<ViewNotice> {
   final detail = FirebaseFirestore.instance.collection('notifications');
 
   Future<void> createNotification(TextEditingController notification) async {
-    try {
-      DateTime now = DateTime.now();
+  try {
+    DateTime now = DateTime.now();
+    String formattedDate = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    String formattedTime = "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
 
-      // เพิ่มข้อมูลลงใน Firestore โดยแยกวันที่และเวลา
-      await detail.add({
-        "รายละเอียด": notification.text,
-        "วันที่": now.year.toString() +
-            "-" +
-            now.month.toString().padLeft(2, '0') +
-            "-" +
-            now.day.toString().padLeft(2, '0'),
-        "เวลา": now.hour.toString().padLeft(2, '0') +
-            ":" +
-            now.minute.toString().padLeft(2, '0') +
-            ":" +
-            now.second.toString().padLeft(2, '0'),
-      });
-    } catch (e) {
-      print('เอ่อเร่อ: $e');
-    }
+    // Add the notification details to Firestore
+    await detail.add({
+      "รายละเอียด": notification.text,
+      "วันที่": formattedDate,
+      "เวลา": formattedTime,
+    });
+
+    // Construct the notification message
+    var fcmMessage = {
+      "notification": {
+        "title": "New Notification",
+        "body": notification.text,
+      },
+      "priority": "high",
+      "data": {
+        "click_action": "FLUTTER_NOTIFICATION_CLICK",
+        "id": "1",
+        "status": "done",
+      },
+      "to": "/topics/all", // Assuming you want to send to all users subscribed to the 'all' topic
+    };
+
+    // Send the notification message to FCM
+    var response = await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'AAAAR-udywc:APA91bGdzs6jsxwDPwOjAizowJRfa09c2FgOw4VxabbPKmoftcBSm8BahlBkkrGm8znVYaSUsab2_TpFsbwBIBPMKXQEyL1k0OrmnjPRNtx2H7hSCEo3fY5CDPbhRYHZRyHqqmxX8oK8', // Replace with your server key from Firebase Console
+      },
+      body: jsonEncode(fcmMessage),
+    );
+
+    print("FCM request for device sent!");
+  } catch (e) {
+    print('Error: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
