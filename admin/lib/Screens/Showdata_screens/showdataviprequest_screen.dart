@@ -58,11 +58,11 @@ class _ViewVipState extends State<ViewVip> {
   int extractPackedDays(String packedValue) {
     // ดึงค่าจำนวนวันที่จะนับถอยหลัง
     // นำไปใช้ในการกำหนด Duration ในการนับถอยหลัง
-    if (packed == 'แพ็คเก็จ 1 เดือน : 50 บาท') {
+    if (packedValue == 'แพ็คเก็จ 1 เดือน : 50 บาท') {
       return 30;
-    } else if (packed == 'แพ็คเก็จ 2 เดือน : 100 บาท') {
+    } else if (packedValue == 'แพ็คเก็จ 2 เดือน : 100 บาท') {
       return 60;
-    } else if (packed == 'แพ็คเก็จ 3 เดือน : 150 บาท') {
+    } else if (packedValue == 'แพ็คเก็จ 3 เดือน : 150 บาท') {
       return 90;
     } else {
       return 30;
