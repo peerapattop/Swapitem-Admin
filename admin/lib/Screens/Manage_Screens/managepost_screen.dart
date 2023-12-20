@@ -1,8 +1,8 @@
-import 'package:admin/Screens/Manage_Screens/postData.dart';
-import 'package:admin/Screens/appbar.dart';
-import 'package:admin/Screens/Showdata_screens/showdatapost_screen.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:admin/Screens/appbar.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:admin/Screens/Manage_Screens/postData.dart';
+import 'package:admin/Screens/Showdata_screens/showdatapost_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
