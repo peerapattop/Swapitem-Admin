@@ -38,6 +38,12 @@ class _ViewVipState extends State<ViewVip> {
   @override
   void initState() {
     super.initState();
+    // Initialize countdownController
+    countdownController = StreamController<String>();
+
+    // Initialize countdownSubscription with a dummy subscription
+    countdownSubscription = StreamController<String>().stream.listen((_) {});
+
     // ดึงข้อมูลผู้ใช้จาก Firebase Realtime Database
     paymentNumber = widget.vipData.PaymentNumber;
     id = widget.vipData.id;
