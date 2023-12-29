@@ -4,17 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:admin/Screens/Manage_Screens/postData.dart';
 import 'package:admin/Screens/Showdata_screens/showdatapost_screen.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
 class ManagePost extends StatefulWidget {
   const ManagePost({super.key});
 
@@ -62,39 +51,7 @@ class _ManagePostState extends State<ManagePost> {
             }
             return Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: (val) {
-                      setState(() {
-                        _searchString = val.toLowerCase();
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: const BorderSide(width: 0.8),
-                      ),
-                      hintText: "ค้นหา",
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        size: 30,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(
-                          Icons.clear,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            searchController.clear();
-                            _searchString = '';
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+                searchDataPost(),
                 //แสดงข้อมูลผู้ใช้
                 Expanded(
                   child: ListView.builder(
@@ -118,15 +75,24 @@ class _ManagePostState extends State<ManagePost> {
                       String type = userData['type'].toString();
                       String longitude = userData['longitude'].toString();
                       String latitude = userData['latitude'].toString();
-                      String post_uid = userData['post_uid'].toString();
+                      String postUid = userData['post_uid'].toString();
 
-                      if (_searchString != null &&
-                          (_searchString!.isNotEmpty &&
-                              (!username
-                                  .toLowerCase()
-                                  .contains(_searchString!)))) {
-                        return Container(); // ไม่แสดงรายการนี้
+                      if (_searchString != null && _searchString!.isNotEmpty) {
+                        String lowerCaseSearchString =
+                            _searchString!.toLowerCase();
+                        if (!(username
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString) ||
+                            email
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString) ||
+                            postNumber
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString))) {
+                          return Container();
+                        }
                       }
+
                       return Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -151,7 +117,7 @@ class _ManagePostState extends State<ManagePost> {
                                 MaterialPageRoute(
                                   builder: (context) => ShowDataPost(
                                     postData: PostData(
-                                      post_uid: post_uid,
+                                      post_uid: postUid,
                                       latitude: latitude,
                                       longitude: longitude,
                                       brand: brand,
@@ -195,5 +161,57 @@ class _ManagePostState extends State<ManagePost> {
         ),
       ),
     );
+  }
+
+  Widget searchDataPost() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: TextField(
+        controller: searchController,
+        onChanged: (val) {
+          _searchString = val.toLowerCase();
+        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(width: 0.8),
+          ),
+          hintText: "ค้นหา",
+          suffixIcon: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                ),
+                onPressed: () {
+                  // Only perform search if the search string is not empty
+                  if (_searchString != null && _searchString!.isNotEmpty) {
+                    performSearch();
+                  }
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.clear,
+                ),
+                onPressed: () {
+                  setState(() {
+                    searchController.clear();
+                    _searchString = '';
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void performSearch() {
+    setState(() {
+      _searchString = searchController.text.toLowerCase();
+    });
   }
 }
