@@ -69,15 +69,18 @@ class _ManageUserState extends State<ManageUser> {
                       String userImage = userData['image_user'].toString();
                       String gender = userData['gender'].toString();
 
-                      if (_searchString != null &&
-                          (_searchString!.isNotEmpty &&
-                              (!username
-                                      .toLowerCase()
-                                      .contains(_searchString!) &&
-                                  !email
-                                      .toLowerCase()
-                                      .contains(_searchString!)))) {
-                        return Container();
+                      if (_searchString != null && _searchString!.isNotEmpty) {
+                        String lowerCaseSearchString =
+                            _searchString!.toLowerCase();
+                        if (!(username
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString) ||
+                            email
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString) ||
+                            id.toLowerCase().contains(lowerCaseSearchString))) {
+                          return Container();
+                        }
                       }
 
                       return Container(
