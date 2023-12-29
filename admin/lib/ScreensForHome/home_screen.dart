@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+import '../ScreensForHome/notice_screen.dart';
+import '../ScreensForHome/setting_screen.dart';
 import 'package:admin/Screens/Manage_Screens/managepost_screen.dart';
 import 'package:admin/Screens/Manage_Screens/manageuser_screen.dart';
 import 'package:admin/Screens/Manage_Screens/managenotice_screen.dart';
 import 'package:admin/Screens/Manage_Screens/manageviprequest_screen.dart';
-import 'package:flutter/material.dart';
 
-import '../ScreensForHome/setting_screen.dart';
-import '../ScreensForHome/notice_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
