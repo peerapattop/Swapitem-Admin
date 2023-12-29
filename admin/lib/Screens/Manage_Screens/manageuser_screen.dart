@@ -4,20 +4,6 @@ import 'package:admin/Screens/Showdata_screens/showdatauser_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ManageUser(),
-    );
-  }
-}
-
 class ManageUser extends StatefulWidget {
   const ManageUser({super.key});
   @override
@@ -67,39 +53,7 @@ class _ManageUserState extends State<ManageUser> {
 
             return Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: (val) {
-                      setState(() {
-                        _searchString = val.toLowerCase();
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: const BorderSide(width: 0.8),
-                      ),
-                      hintText: "ค้นหา",
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        size: 30,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(
-                          Icons.clear,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            searchController.clear();
-                            _searchString = '';
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+                searchDataUser(),
                 Expanded(
                   child: ListView.builder(
                     itemCount: dataMap.length,
@@ -112,7 +66,7 @@ class _ManageUserState extends State<ManageUser> {
                       String firstname = userData['firstname'].toString();
                       String lastname = userData['lastname'].toString();
                       String birthday = userData['birthday'].toString();
-                      String user_image = userData['image_user'].toString();
+                      String userImage = userData['image_user'].toString();
                       String gender = userData['gender'].toString();
 
                       if (_searchString != null &&
@@ -158,21 +112,22 @@ class _ManageUserState extends State<ManageUser> {
                                       firstname: firstname,
                                       lastname: lastname,
                                       gender: gender,
-                                      user_image: user_image,
+                                      user_image: userImage,
                                       birthday: birthday,
                                     ),
                                   ),
                                 ),
                               );
                             },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 46, 246, 32),
+                              fixedSize: const Size(35, 20),
+                            ),
                             child: Image.asset(
                               "assets/icons/search.png",
                               width: 18,
                               height: 18,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: const Color.fromARGB(255, 46, 246, 32),
-                              fixedSize: const Size(35, 20),
                             ),
                           ),
                         ),
@@ -183,6 +138,58 @@ class _ManageUserState extends State<ManageUser> {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  void performSearch() {
+    setState(() {
+      _searchString = searchController.text.toLowerCase();
+    });
+  }
+
+  Widget searchDataUser() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: TextField(
+        controller: searchController,
+        onChanged: (val) {
+          _searchString = val.toLowerCase();
+        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(width: 0.8),
+          ),
+          hintText: "ค้นหา",
+          suffixIcon: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                ),
+                onPressed: () {
+                  // Only perform search if the search string is not empty
+                  if (_searchString != null && _searchString!.isNotEmpty) {
+                    performSearch();
+                  }
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.clear,
+                ),
+                onPressed: () {
+                  setState(() {
+                    searchController.clear();
+                    _searchString = '';
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
