@@ -53,39 +53,7 @@ class _VipRequestState extends State<VipRequest> {
 
             return Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: (val) {
-                      setState(() {
-                        _searchString = val.toLowerCase();
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: const BorderSide(width: 0.8),
-                      ),
-                      hintText: "ค้นหา",
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        size: 30,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(
-                          Icons.clear,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _searchString = '';
-                            searchController.clear();
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+                searchDataVip(),
                 //แสดงข้อมูลผู้ใช้
                 Expanded(
                   child: ListView.builder(
@@ -96,7 +64,7 @@ class _VipRequestState extends State<VipRequest> {
                       String date = vipData['date'];
                       String email = vipData['email'];
                       String firstname = vipData['firstname'];
-                      String image_payment = vipData['image_payment'];
+                      String imagePayment = vipData['image_payment'];
                       String lastname = vipData['lastname'];
                       String status = vipData['status'];
                       String time = vipData['time'];
@@ -106,12 +74,20 @@ class _VipRequestState extends State<VipRequest> {
                       String user_uid = vipData['user_uid'];
                       String username =
                           vipData['username']; // ดึงค่า 'username' จากเอกสาร
-                      if (_searchString != null &&
-                          (_searchString!.isNotEmpty &&
-                              (!username
-                                  .toLowerCase()
-                                  .contains(_searchString!)))) {
-                        return Container();
+                      if (_searchString != null && _searchString!.isNotEmpty) {
+                        String lowerCaseSearchString =
+                            _searchString!.toLowerCase();
+                        if (!(username
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString) ||
+                            email
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString) ||
+                            paymentNumber
+                                .toLowerCase()
+                                .contains(lowerCaseSearchString))) {
+                          return Container();
+                        }
                       }
                       return Container(
                         decoration: BoxDecoration(
@@ -127,7 +103,7 @@ class _VipRequestState extends State<VipRequest> {
                           subtitle: Text(email),
                           leading: CircleAvatar(
                             child: FittedBox(
-                              child: Text(userid),
+                              child: Text(paymentNumber),
                             ),
                           ),
                           trailing: ElevatedButton(
@@ -137,15 +113,15 @@ class _VipRequestState extends State<VipRequest> {
                                 MaterialPageRoute(
                                   builder: (context) => ViewVip(
                                     vipData: VipData(
-                                      vipuid:vipuid,
-                                      user_uid:user_uid,
+                                      vipuid: vipuid,
+                                      user_uid: user_uid,
                                       packed: packed,
                                       PaymentNumber: paymentNumber,
                                       date: date,
                                       email: email,
                                       firstname: firstname,
-                                      lastname:lastname,
-                                      image_payment: image_payment,
+                                      lastname: lastname,
+                                      image_payment: imagePayment,
                                       status: status,
                                       time: time,
                                       id: userid,
@@ -176,5 +152,57 @@ class _VipRequestState extends State<VipRequest> {
         ),
       ),
     );
+  }
+
+  Widget searchDataVip() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: TextField(
+        controller: searchController,
+        onChanged: (val) {
+          _searchString = val.toLowerCase();
+        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(width: 0.8),
+          ),
+          hintText: "ค้นหา",
+          suffixIcon: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                ),
+                onPressed: () {
+                  // Only perform search if the search string is not empty
+                  if (_searchString != null && _searchString!.isNotEmpty) {
+                    performSearch();
+                  }
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.clear,
+                ),
+                onPressed: () {
+                  setState(() {
+                    searchController.clear();
+                    _searchString = '';
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void performSearch() {
+    setState(() {
+      _searchString = searchController.text.toLowerCase();
+    });
   }
 }
