@@ -64,6 +64,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 itemCount: dataMap.length,
                 itemBuilder: (context, index) {
                   dynamic userData = dataMap.values.elementAt(index);
+
+                  String status = userData['status'].toString();
+
+                  // Check if the status is 'สำเร็จ', if true, skip this item
+                  if (status == 'สำเร็จ') {
+                    return Container(); // Return an empty container or null
+                  }
                   String userid = userData['id'].toString();
                   String username = userData['username'].toString();
                   String email = userData['email'].toString();
@@ -71,7 +78,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   String lastname = userData['lastname'].toString();
                   String paymentNumber = userData['paymentNumber'].toString();
                   String packed = userData['packed'].toString();
-                  String status = userData['status'].toString();
+
                   String image_payment = userData['image_payment'].toString();
                   String date = userData['date'].toString();
                   String time = userData['time'].toString();
@@ -87,7 +94,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           children: [
                             CircleAvatar(
                               radius: 25,
-                              backgroundImage: NetworkImage('https://cdn-icons-png.flaticon.com/128/13105/13105632.png'),
+                              backgroundImage: NetworkImage(
+                                  'https://cdn-icons-png.flaticon.com/128/13105/13105632.png'),
                             ),
                             SizedBox(width: 15),
                             Column(
@@ -107,14 +115,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               width: 20,
                             ),
                             Expanded(
-                              child: ElevatedButton(                               
+                              child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ViewVip(
                                           vipData: VipData(
-                                            user_uid:user_uid,
+                                        user_uid: user_uid,
                                         PaymentNumber: paymentNumber,
                                         id: userid,
                                         username: username,
@@ -125,8 +133,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                         status: status,
                                         image_payment: image_payment,
                                         date: date,
-                                        time: time,     
-                                        vipuid: vipuid,                                   
+                                        time: time,
+                                        vipuid: vipuid,
                                       )),
                                     ),
                                   );
