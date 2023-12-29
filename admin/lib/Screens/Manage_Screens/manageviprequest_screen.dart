@@ -2,7 +2,6 @@ import 'package:admin/Screens/Manage_Screens/vipData.dart';
 import 'package:admin/Screens/Showdata_screens/showdataviprequest_screen.dart';
 import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
-
 import 'package:flutter/material.dart';
 
 class VipRequest extends StatefulWidget {
@@ -51,22 +50,26 @@ class _VipRequestState extends State<VipRequest> {
               );
             }
 
+            // Filter out items with 'status' == 'สำเร็จ'
+            List<dynamic> filteredData = dataMap.values
+                .where((vipData) => vipData['status'] != 'สำเร็จ')
+                .toList();
+
             return Column(
               children: <Widget>[
                 searchDataVip(),
                 //แสดงข้อมูลผู้ใช้
                 Expanded(
                   child: ListView.builder(
-                    itemCount: dataMap.length,
+                    itemCount: filteredData.length,
                     itemBuilder: (context, index) {
-                      dynamic vipData = dataMap.values.elementAt(index);
+                      dynamic vipData = filteredData[index];
                       String paymentNumber = vipData['PaymentNumber'];
                       String date = vipData['date'];
                       String email = vipData['email'];
                       String firstname = vipData['firstname'];
                       String imagePayment = vipData['image_payment'];
                       String lastname = vipData['lastname'];
-                      String status = vipData['status'];
                       String time = vipData['time'];
                       String userid = vipData['id'];
                       String packed = vipData['packed'];
@@ -74,6 +77,7 @@ class _VipRequestState extends State<VipRequest> {
                       String user_uid = vipData['user_uid'];
                       String username =
                           vipData['username']; // ดึงค่า 'username' จากเอกสาร
+
                       if (_searchString != null && _searchString!.isNotEmpty) {
                         String lowerCaseSearchString =
                             _searchString!.toLowerCase();
@@ -89,6 +93,7 @@ class _VipRequestState extends State<VipRequest> {
                           return Container();
                         }
                       }
+
                       return Container(
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -122,7 +127,7 @@ class _VipRequestState extends State<VipRequest> {
                                       firstname: firstname,
                                       lastname: lastname,
                                       image_payment: imagePayment,
-                                      status: status,
+                                      status: vipData['status'],
                                       time: time,
                                       id: userid,
                                       username: username,
@@ -137,7 +142,8 @@ class _VipRequestState extends State<VipRequest> {
                               height: 18,
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color.fromARGB(255, 46, 246, 32),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 46, 246, 32),
                               //
                             ),
                           ),

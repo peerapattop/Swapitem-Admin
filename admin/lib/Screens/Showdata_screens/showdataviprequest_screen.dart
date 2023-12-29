@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class ViewVip extends StatefulWidget {
   final VipData vipData;
 
-  ViewVip({required this.vipData});
+  const ViewVip({super.key, required this.vipData});
 
   @override
   State<ViewVip> createState() => _ViewVipState();
@@ -157,7 +157,7 @@ class _ViewVipState extends State<ViewVip> {
   @override
   void dispose() {
     super.dispose();
-    countdownTimer?.cancel();
+    countdownSubscription.cancel();
   }
 
   @override
