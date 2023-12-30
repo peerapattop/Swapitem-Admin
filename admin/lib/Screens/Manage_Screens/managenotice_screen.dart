@@ -35,7 +35,7 @@ class _ViewNoticeState extends State<ViewNotice> {
       // Construct the notification message
       var fcmMessage = {
         "notification": {
-          "title": "New Notification",
+          "title": "แจ้งเตือนจากผู้ดูแลระบบ",
           "body": notificationController.text,
         },
         "priority": "high",
