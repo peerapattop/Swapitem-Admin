@@ -30,6 +30,7 @@ class _ViewNoticeState extends State<ViewNotice> {
         "รายละเอียด": notificationController.text,
         "วันที่": formattedDate,
         "เวลา": formattedTime,
+        "timestamp": FieldValue.serverTimestamp(),
       });
 
       // Construct the notification message
