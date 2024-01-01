@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:admin/Screens/appbar.dart';
@@ -16,6 +17,7 @@ class _ViewNoticeState extends State<ViewNotice> {
   final notificationController = TextEditingController();
   final detailCollection =
       FirebaseFirestore.instance.collection('notifications');
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
   Future<void> createNotification() async {
     try {
@@ -31,6 +33,10 @@ class _ViewNoticeState extends State<ViewNotice> {
         "วันที่": formattedDate,
         "เวลา": formattedTime,
         "timestamp": FieldValue.serverTimestamp(),
+        "userId": currentUser!.uid,
+        "read": false,
+        "type": "reminder",
+        "priority": "high",
       });
 
       // Construct the notification message
