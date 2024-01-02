@@ -33,10 +33,7 @@ class _ViewNoticeState extends State<ViewNotice> {
         "วันที่": formattedDate,
         "เวลา": formattedTime,
         "timestamp": FieldValue.serverTimestamp(),
-        "userId": currentUser!.uid,
         "read": false,
-        "type": "reminder",
-        "priority": "high",
       });
 
       // Construct the notification message
