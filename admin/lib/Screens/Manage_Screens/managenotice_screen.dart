@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:admin/Screens/appbar.dart';
@@ -27,14 +28,26 @@ class _ViewNoticeState extends State<ViewNotice> {
       String formattedTime =
           "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
 
-      // Add the notification details to Firestore
-      await detailCollection.add({
-        "รายละเอียด": notificationController.text,
-        "วันที่": formattedDate,
-        "เวลา": formattedTime,
-        "timestamp": FieldValue.serverTimestamp(),
-        "read": false,
-      });
+      var allUsersEvent = await FirebaseDatabase.instance.ref('users').once();
+      var allUsersData = allUsersEvent.snapshot.value;
+
+      if (allUsersData is Map) {
+        allUsersData.forEach((userId, userData) async {
+          var notificationData = {
+            'userId': userId,
+            'รายละเอียด': notificationController.text,
+            'วันที่': formattedDate,
+            'เวลา': formattedTime,
+            'timestamp': FieldValue.serverTimestamp(),
+            'read': false,
+          };
+
+          // เพิ่มข้อมูลในคอลเล็กชัน 'notifications'
+          await FirebaseFirestore.instance
+              .collection('notifications')
+              .add(notificationData);
+        });
+      }
 
       // Construct the notification message
       var fcmMessage = {
