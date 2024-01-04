@@ -28,25 +28,39 @@ class _ViewNoticeState extends State<ViewNotice> {
       String formattedTime =
           "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
 
+      String notificationDocumentId = DateTime.now().toIso8601String();
+
+      // Create the notification data
+      var notificationData = {
+        'รายละเอียด': notificationController.text,
+        'วันที่': formattedDate,
+        'เวลา': formattedTime,
+        'timestamp': FieldValue.serverTimestamp(),
+        'readBy':
+            {}, // Initialize an empty map to store read status for each user
+      };
+
+      // Set the notification data in the 'notifications' collection with the specified document ID
+      await FirebaseFirestore.instance
+          .collection('notifications')
+          .doc(notificationDocumentId)
+          .set(notificationData);
+
       var allUsersEvent = await FirebaseDatabase.instance.ref('users').once();
       var allUsersData = allUsersEvent.snapshot.value;
 
       if (allUsersData is Map) {
-        allUsersData.forEach((userId, userData) async {
-          var notificationData = {
-            'userId': userId,
-            'รายละเอียด': notificationController.text,
-            'วันที่': formattedDate,
-            'เวลา': formattedTime,
-            'timestamp': FieldValue.serverTimestamp(),
-            'read': false,
-          };
-
-          // เพิ่มข้อมูลในคอลเล็กชัน 'notifications'
-          await FirebaseFirestore.instance
-              .collection('notifications')
-              .add(notificationData);
+        Map<String, dynamic> readByMap = {};
+        allUsersData.forEach((userId, userData) {
+          readByMap[userId] = false;
         });
+
+        notificationData['readBy'] = readByMap;
+
+        await FirebaseFirestore.instance
+            .collection('notifications')
+            .doc(notificationDocumentId)
+            .update(notificationData);
       }
 
       // Construct the notification message
