@@ -85,19 +85,25 @@ class _ViewVipState extends State<ViewVip> {
       print('Error setting start time: $error');
     });
 
-    startRef.once().then((DatabaseEvent event) {
-      final serverStartTime = event.snapshot.value;
-      if (serverStartTime is int) {
-        final serverStartDateTime =
-            DateTime.fromMillisecondsSinceEpoch(serverStartTime);
+    // Start a stream to continuously update the countdown
+    Stream.periodic(oneSecond, (int _) {
+      // Retrieve server start time
+      return startRef.once().then((DatabaseEvent event) {
+        final serverStartTime = event.snapshot.value;
+        if (serverStartTime is int) {
+          final serverStartDateTime =
+              DateTime.fromMillisecondsSinceEpoch(serverStartTime);
 
-        // Use a Stream for periodic updates
-        countdownSubscription = Stream.periodic(oneSecond, (int _) {
+          // Calculate remaining time
           Duration elapsed = DateTime.now().difference(serverStartDateTime);
           Duration remainingTime = Duration(days: packedDays) - elapsed;
           String formattedRemainingTime = formatRemainingTime(remainingTime);
 
-          FirebaseDatabase.instance.ref().child('users/$userUid').update({
+          // Update Firebase with remaining time
+          return FirebaseDatabase.instance
+              .ref()
+              .child('users/$userUid')
+              .update({
             'remainingTime': formattedRemainingTime,
             'postCount': 999,
             'makeofferCount': 999,
@@ -106,31 +112,14 @@ class _ViewVipState extends State<ViewVip> {
           }).catchError((error) {
             print('Error updating Firebase: $error');
           });
-
-          return formattedRemainingTime;
-        }).listen((String formattedRemainingTime) {
-          countdownController.add(formattedRemainingTime);
-
-          // Check if the countdown has finished
-          if (DateTime.now()
-              .isAfter(serverStartDateTime.add(Duration(days: packedDays)))) {
-            // Update Firebase when the countdown finishes
-            FirebaseDatabase.instance.ref().child('users/$userUid').update({
-              'status_user': 'ผู้ใช้ทั่วไป',
-              'postCount': '5',
-              'makeofferCount': '5',
-            }).catchError((error) {
-              print('Error updating Firebase: $error');
-            });
-
-            countdownSubscription.cancel();
-          }
-        });
-      } else {
-        // Handle the case where serverStartTime is not an int
-      }
-    }).catchError((error) {
-      print('Error getting start time: $error');
+        } else {
+          // Handle the case where serverStartTime is not an int
+          print('Error: Invalid server start time format');
+          return null;
+        }
+      });
+    }).listen((_) {
+      // Continue listening for updates
     });
   }
 
