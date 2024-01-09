@@ -81,7 +81,9 @@ class _ViewVipState extends State<ViewVip> {
         FirebaseDatabase.instance.ref().child('users/$userUid/startTime');
 
     // Set the server timestamp at the start of the countdown
-    startRef.set(ServerValue.timestamp);
+    startRef.set(ServerValue.timestamp).catchError((error) {
+      print('Error setting start time: $error');
+    });
 
     startRef.once().then((DatabaseEvent event) {
       final serverStartTime = event.snapshot.value;
@@ -95,11 +97,14 @@ class _ViewVipState extends State<ViewVip> {
           Duration remainingTime = Duration(days: packedDays) - elapsed;
           String formattedRemainingTime = formatRemainingTime(remainingTime);
 
-          // Consider updating Firebase less frequently if possible
           FirebaseDatabase.instance.ref().child('users/$userUid').update({
             'remainingTime': formattedRemainingTime,
-            'postCount': '999',
-            'makeofferCount': '999',
+            'postCount': 999,
+            'makeofferCount': 999,
+          }).then((_) {
+            print('Firebase Update Successful');
+          }).catchError((error) {
+            print('Error updating Firebase: $error');
           });
 
           return formattedRemainingTime;
@@ -114,13 +119,18 @@ class _ViewVipState extends State<ViewVip> {
               'status_user': 'ผู้ใช้ทั่วไป',
               'postCount': '5',
               'makeofferCount': '5',
+            }).catchError((error) {
+              print('Error updating Firebase: $error');
             });
+
             countdownSubscription.cancel();
           }
         });
       } else {
         // Handle the case where serverStartTime is not an int
       }
+    }).catchError((error) {
+      print('Error getting start time: $error');
     });
   }
 
