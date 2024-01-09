@@ -76,7 +76,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   String email = userData['email'].toString();
                   String firstname = userData['firstname'].toString();
                   String lastname = userData['lastname'].toString();
-                  String paymentNumber = userData['paymentNumber'].toString();
+                  String paymentNumber = userData['PaymentNumber'].toString();
                   String packed = userData['packed'].toString();
 
                   String image_payment = userData['image_payment'].toString();
