@@ -4,6 +4,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../widget2/imageShow.dart';
+
 class ShowDataPost extends StatefulWidget {
   final PostData postData;
 
@@ -68,12 +70,12 @@ class _MyWidgetState extends State<ShowDataPost> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          labelText: '$label',
-          labelStyle: TextStyle(
+          labelText: label,
+          labelStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             fontStyle: FontStyle.italic,
           ),
           fillColor: Colors.grey[200],
@@ -95,7 +97,7 @@ class _MyWidgetState extends State<ShowDataPost> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          title: Text(
+          title: const Text(
             'ยืนยันการลบโพสต์',
             style: TextStyle(
               color: Colors.blue,
@@ -105,11 +107,11 @@ class _MyWidgetState extends State<ShowDataPost> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
+              const Text(
                 'คุณต้องการที่จะลบโพสต์หรือไม่?',
                 style: TextStyle(color: Colors.black),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -123,7 +125,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text(
+                    child: const Text(
                       'ยกเลิก',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -143,7 +145,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
-                    child: Text(
+                    child: const Text(
                       'ยืนยัน',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -166,55 +168,7 @@ class _MyWidgetState extends State<ShowDataPost> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-                child: SizedBox(
-                  height: 300,
-                  child: PageView.builder(
-                    onPageChanged: (value) {
-                      setState(() {
-                        mySlideindex = value;
-                      });
-                    },
-                    itemCount: imageUrls.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                              imageUrls[index],
-                            )),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Center(
-                child: SizedBox(
-                  height: 60,
-                  width: 300,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: imageUrls.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: index == mySlideindex
-                                ? Colors.deepPurple
-                                : Colors.grey,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              ImageGalleryWidget(imageUrls: imageUrls),
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Column(
@@ -222,108 +176,107 @@ class _MyWidgetState extends State<ShowDataPost> {
                   children: [
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.tag,
                           color: Colors.blue,
                         ),
-                        SizedBox(width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                        const SizedBox(width: 8),
                         Text(
                           "หมายเลขการโพสต์ : $postNumber ",
-                          style: MyTextStyle(),
+                          style: myTextStyle(),
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        Icon(
-                          Icons.person, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
-                          color: Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                        const Icon(
+                          Icons.person,
+                          color: Colors.blue,
                         ),
-                        SizedBox(width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                        const SizedBox(width: 8),
                         Text(
                           "ชื่อผู้โพสต์ : $username ",
-                          style: MyTextStyle(),
+                          style: myTextStyle(),
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        Icon(
-                          Icons.date_range, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
-                          color: Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                        const Icon(
+                          Icons.date_range,
+                          color: Colors.blue,
                         ),
-                        SizedBox(width: 8), // ระยะห่างระหว่างไอคอนและข้อความ
+                        const SizedBox(width: 8),
                         Text(
                           "วันที่ $date",
-                          style: MyTextStyle(),
+                          style: myTextStyle(),
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        Icon(
-                          Icons.punch_clock, // เปลี่ยนเป็นไอคอนที่คุณต้องการ
-                          color: Colors.blue, // เปลี่ยนสีไอคอนตามความต้องการ
+                        const Icon(
+                          Icons.punch_clock,
+                          color: Colors.blue,
                         ),
                         Text(
                           " เวลา $time น.",
-                          style: MyTextStyle(),
+                          style: myTextStyle(),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 2, right: 15, top: 10, bottom: 10),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 170, 170, 169),
-                          borderRadius: BorderRadius.circular(
-                              12.0), // ทำให้ Container โค้งมน
+                          color: const Color.fromARGB(255, 170, 170, 169),
+                          borderRadius: BorderRadius.circular(12.0),
                         ),
-                        padding: EdgeInsets.all(
-                            11), // ระยะห่างของเนื้อหาจาก Container
+                        padding: const EdgeInsets.all(11),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "ชื่อสิ่งของ : $item_name",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               "หมวดหมู่ : $type",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               "ยี่ห้อ : $brand",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               "รุ่น : $model",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               'รายละเอียด : $detail',
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
-                            Divider(),
+                            const Divider(),
+                            Center(
+                                child: Image.asset('assets/images/swap.png')),
+                            const Divider(),
                             Text(
                               "ชื่อสิ่งของ : $item_name1",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               "ยี่ห้อ : $brand1",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               "รุ่น : $model1",
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                             Text(
                               'รายละเอียด : $details1',
-                              style: MyTextStyle(),
+                              style: myTextStyle(),
                             ),
                           ],
                         ),
@@ -331,7 +284,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                     ),
                     Text(
                       "สถานที่แลกเปลี่ยนสิ่งของ : ",
-                      style: MyTextStyle(),
+                      style: myTextStyle(),
                     ),
                     Container(
                       decoration: BoxDecoration(border: Border.all()),
@@ -347,9 +300,9 @@ class _MyWidgetState extends State<ShowDataPost> {
                         ),
                         markers: <Marker>{
                           Marker(
-                            markerId: MarkerId('initialPosition'),
+                            markerId: const MarkerId('initialPosition'),
                             position: LatLng(latitude!, longitude!),
-                            infoWindow: InfoWindow(
+                            infoWindow: const InfoWindow(
                               title: 'Marker Title',
                               snippet: 'Marker Snippet',
                             ),
@@ -357,9 +310,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     Center(
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
@@ -368,8 +319,8 @@ class _MyWidgetState extends State<ShowDataPost> {
                         onPressed: () {
                           _showDeleteConfirmationDialog();
                         },
-                        icon: Icon(Icons.delete, color: Colors.white),
-                        label: Text(
+                        icon: const Icon(Icons.delete, color: Colors.white),
+                        label: const Text(
                           'ลบโพสต์',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -386,8 +337,8 @@ class _MyWidgetState extends State<ShowDataPost> {
   }
 }
 
-MyTextStyle() {
-  return TextStyle(
+ myTextStyle() {
+  return const TextStyle(
     fontSize: 20,
     color: Colors.black,
   );
