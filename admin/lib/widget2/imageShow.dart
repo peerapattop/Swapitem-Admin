@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 class ImageGalleryWidget extends StatefulWidget {
   final List<String> imageUrls;
 
-  ImageGalleryWidget({required this.imageUrls});
+  const ImageGalleryWidget({super.key, required this.imageUrls});
 
   @override
   _ImageGalleryWidgetState createState() => _ImageGalleryWidgetState();

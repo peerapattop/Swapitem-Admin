@@ -15,7 +15,7 @@ class _ManagePostState extends State<ManagePost> {
   String? _searchString;
   TextEditingController searchController = TextEditingController();
   final _postRef = FirebaseDatabase.instance.ref().child('postitem');
-
+  List<String> imageUrls = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,7 +66,7 @@ class _ManagePostState extends State<ManagePost> {
                       String date = userData['date'].toString();
                       // String detail = userData['detail'].toString();
                       String details1 = userData['details1'].toString();
-                      String imageUrls = userData['imageUrls'].toString();
+                       imageUrls = List<String>.from(userData['imageUrls']);
                       String item_name = userData['item_name'].toString();
                       String item_name1 = userData['item_name1'].toString();
                       String model = userData['model'].toString();

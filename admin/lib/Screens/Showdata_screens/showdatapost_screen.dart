@@ -23,7 +23,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   late String date;
   late String detail;
   late String details1;
-  late List<String> imageUrls;
+  List<String> image_post = [];
   late String item_name;
   late String item_name1;
   late String model;
@@ -49,11 +49,8 @@ class _MyWidgetState extends State<ShowDataPost> {
     date = widget.postData.date;
     detail = widget.postData.detail;
     details1 = widget.postData.details1;
-    imageUrls = widget.postData.imageUrls
-        .split(',')
-        .map((url) => url.trim())
-        .where((url) => url.isNotEmpty)
-        .toList();
+    image_post = widget.postData.imageUrls;
+
     item_name = widget.postData.item_name;
     item_name1 = widget.postData.item_name1;
     model = widget.postData.model;
@@ -173,7 +170,7 @@ class _MyWidgetState extends State<ShowDataPost> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: ImageGalleryWidget(imageUrls: imageUrls),
+                child: ImageGalleryWidget(imageUrls: image_post),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15),

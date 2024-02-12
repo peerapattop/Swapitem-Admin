@@ -5,7 +5,7 @@ class PostData {
   final String detail;
   final String details1;
   final String email;
-  final String imageUrls;
+  final List<String> imageUrls;
   final String item_name;
   final String item_name1;
   final String model;
