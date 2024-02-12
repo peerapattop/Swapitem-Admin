@@ -9,7 +9,7 @@ import '../../widget2/imageShow.dart';
 class ShowDataPost extends StatefulWidget {
   final PostData postData;
 
-  const ShowDataPost({super.key, required this.postData});
+  const ShowDataPost({Key? key, required this.postData}) : super(key: key);
 
   @override
   State<ShowDataPost> createState() => _MyWidgetState();
@@ -49,8 +49,11 @@ class _MyWidgetState extends State<ShowDataPost> {
     date = widget.postData.date;
     detail = widget.postData.detail;
     details1 = widget.postData.details1;
-    imageUrls =
-        widget.postData.imageUrls.split(',').map((url) => url.trim()).toList();
+    imageUrls = widget.postData.imageUrls
+        .split(',')
+        .map((url) => url.trim())
+        .where((url) => url.isNotEmpty)
+        .toList();
     item_name = widget.postData.item_name;
     item_name1 = widget.postData.item_name1;
     model = widget.postData.model;
@@ -168,7 +171,10 @@ class _MyWidgetState extends State<ShowDataPost> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImageGalleryWidget(imageUrls: imageUrls),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ImageGalleryWidget(imageUrls: imageUrls),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Column(
@@ -282,7 +288,7 @@ class _MyWidgetState extends State<ShowDataPost> {
                         ),
                       ),
                     ),
-                    Text(
+                     Text(
                       "สถานที่แลกเปลี่ยนสิ่งของ : ",
                       style: myTextStyle(),
                     ),
@@ -337,7 +343,7 @@ class _MyWidgetState extends State<ShowDataPost> {
   }
 }
 
- myTextStyle() {
+TextStyle myTextStyle() {
   return const TextStyle(
     fontSize: 20,
     color: Colors.black,
