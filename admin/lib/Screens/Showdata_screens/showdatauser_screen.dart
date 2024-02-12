@@ -1,10 +1,13 @@
+import 'dart:io' as io; // Import dart:io with a prefix
 import 'package:admin/Screens/Manage_Screens/UserData.dart';
 import 'package:admin/Screens/appbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
+import 'dart:io';
 
 class ShowDataUser extends StatefulWidget {
   final UserData userData;
@@ -18,6 +21,7 @@ class ShowDataUser extends StatefulWidget {
 class _ShowDataUserState extends State<ShowDataUser> {
   final _birthdayController = TextEditingController();
   String? selectedImageUrl;
+  final ImagePicker _picker = ImagePicker();
   String? selectedGender;
   DataSnapshot? userData;
   late String? id;
@@ -44,14 +48,11 @@ class _ShowDataUserState extends State<ShowDataUser> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        _birthdayController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+        _birthdayController.text =
+            DateFormat('yyyy-MM-dd').format(selectedDate);
       });
     }
   }
-
-
-
-
 
   @override
   void initState() {
@@ -151,7 +152,6 @@ class _ShowDataUserState extends State<ShowDataUser> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -277,18 +277,27 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () async {
-                                String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                                if (selectedImageUrl != null) {
+                                  String formattedDate =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(selectedDate);
 
-                                await FirebaseDatabase.instance
-                                    .ref()
-                                    .child('users/$uid')
-                                    .update({
-                                  'firstname': _firstnameController.text.trim(),
-                                  'lastname': _lastnameController.text.trim(),
-                                  'gender':selectedGender,
-                                  'birthday' : formattedDate,
-                                });
-                                Navigator.pop(context);
+                                  await FirebaseDatabase.instance
+                                      .ref()
+                                      .child('users/$uid')
+                                      .update({
+                                    'firstname':
+                                        _firstnameController.text.trim(),
+                                    'lastname': _lastnameController.text.trim(),
+                                    'gender': selectedGender,
+                                    'birthday': formattedDate,
+                                    'image_user': selectedImageUrl,
+                                  });
+
+                                  // Close the screen
+                                  Navigator.pop(
+                                      context); // Close the current screen
+                                }
                               },
                               icon: const Icon(Icons.save_as,
                                   color: Colors.white),
@@ -308,6 +317,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           )),
     );
   }
+
   Widget choseGender() {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 16),
@@ -370,20 +380,31 @@ class _ShowDataUserState extends State<ShowDataUser> {
     );
   }
 
+  Future<String?> uploadImageToFirebaseStorage(String? imagePath) async {
+    try {
+      if (imagePath != null) {
+        final String uid = FirebaseAuth.instance.currentUser!.uid;
+        final storageRef = FirebaseStorage.instance.ref().child('images_user');
+        final File imageFile = File(imagePath);
 
-  void takePhoto(ImageSource source) async {
-    final dynamic pickedFile = await ImagePicker().pickImage(
-      source: source,
-    );
+        // Check if the file exists before uploading
+        if (!imageFile.existsSync()) {
+          print('Error: File does not exist');
+          return null;
+        }
 
-    if (pickedFile != null) {
-      setState(() {
-        selectedImageUrl = pickedFile.path;
-      });
+        final uploadTask = storageRef.child('$uid.jpg').putFile(imageFile);
+        final TaskSnapshot taskSnapshot = await uploadTask;
+        final imageUrl = await taskSnapshot.ref.getDownloadURL();
 
-      // Close the file selection window
-      Navigator.pop(context);
+        // Return the image URL
+        return imageUrl;
+      }
+    } catch (error) {
+      print('Error uploading image to Firebase Storage: $error');
+      return null;
     }
+    return null;
   }
 
   Widget imgProfile() {
@@ -401,7 +422,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
           child: InkWell(
             onTap: () {
               showModalBottomSheet(
-                  context: context, builder: ((builder) => bottomSheet()));
+                context: context,
+                builder: (builder) => bottomSheet(),
+              );
             },
             child: const Icon(
               Icons.camera_alt,
@@ -426,13 +449,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
         children: <Widget>[
           const Text(
             "เลือกรูปภาพของคุณ",
-            style: TextStyle(
-              fontSize: 20,
-            ),
+            style: TextStyle(fontSize: 20),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -440,14 +459,15 @@ class _ShowDataUserState extends State<ShowDataUser> {
                 onPressed: () {
                   takePhoto(ImageSource.camera);
                 },
-                icon: const Icon(Icons.camera),
+                icon: const Icon(Icons.photo_camera), // Changed to photo_camera
                 label: const Text('กล้อง'),
               ),
               TextButton.icon(
                 onPressed: () {
                   takePhoto(ImageSource.gallery);
                 },
-                icon: const Icon(Icons.camera),
+                icon:
+                    const Icon(Icons.photo_library), // Changed to photo_library
                 label: const Text('แกลลอรี่'),
               ),
             ],
@@ -455,5 +475,29 @@ class _ShowDataUserState extends State<ShowDataUser> {
         ],
       ),
     );
+  }
+
+  Future<void> takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+    );
+
+    if (pickedFile != null) {
+      setState(() {
+        selectedImageUrl = pickedFile.path;
+      });
+      Navigator.pop(context);
+
+      // Upload the picked image to Firebase Storage
+      String? imageUrl = await uploadImageToFirebaseStorage(pickedFile.path);
+
+      if (imageUrl != null) {
+        setState(() {
+          selectedImageUrl = imageUrl;
+        });
+      } else {
+        print('Error uploading image to Firebase Storage');
+      }
+    }
   }
 }
