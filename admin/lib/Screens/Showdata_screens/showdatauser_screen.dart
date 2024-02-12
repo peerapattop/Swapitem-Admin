@@ -3,11 +3,13 @@ import 'package:admin/Screens/appbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+
 
 class ShowDataUser extends StatefulWidget {
   final UserData userData;
 
-  const ShowDataUser({required this.userData});
+  const ShowDataUser({super.key, required this.userData});
 
   @override
   State<ShowDataUser> createState() => _ShowDataUserState();
@@ -15,7 +17,8 @@ class ShowDataUser extends StatefulWidget {
 
 class _ShowDataUserState extends State<ShowDataUser> {
   final _birthdayController = TextEditingController();
-  String selectedGender = '';
+  String? selectedImageUrl;
+  String? selectedGender;
   DataSnapshot? userData;
   late String? id;
   late String? username;
@@ -41,10 +44,14 @@ class _ShowDataUserState extends State<ShowDataUser> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        _birthdayController.text = "${selectedDate.toLocal()}".split(' ')[0];
+        _birthdayController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
       });
     }
   }
+
+
+
+
 
   @override
   void initState() {
@@ -61,7 +68,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          title: Text(
+          title: const Text(
             'ยืนยันการลบข้อมูล',
             style: TextStyle(
               color: Colors.blue,
@@ -71,11 +78,11 @@ class _ShowDataUserState extends State<ShowDataUser> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
+              const Text(
                 'คุณต้องการที่จะออกลบข้อมูลหรือไม่?',
                 style: TextStyle(color: Colors.black),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -89,7 +96,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text(
+                    child: const Text(
                       'ยกเลิก',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -109,7 +116,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
-                    child: Text(
+                    child: const Text(
                       'ยืนยัน',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -123,7 +130,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
     );
   }
 
-  void fetchDataFromConstructor() {
+  Future<void> fetchDataFromConstructor() async {
     uid = widget.userData.uid;
     id = widget.userData.id;
     username = widget.userData.username;
@@ -136,7 +143,15 @@ class _ShowDataUserState extends State<ShowDataUser> {
     _birthdayController.text = birthday;
     _firstnameController = TextEditingController(text: firstname);
     _lastnameController = TextEditingController(text: lastname);
+
+    // เพิ่มโค้ดสำหรับดึงข้อมูลเพศจากฐานข้อมูล
+    if (gender != null) {
+      setState(() {
+        selectedGender = gender;
+      });
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +200,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         const SizedBox(height: 15),
                         TextField(
                           controller: _lastnameController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             label: Text(
                               "นามสกุล",
                               style: TextStyle(fontSize: 20),
@@ -194,30 +209,29 @@ class _ShowDataUserState extends State<ShowDataUser> {
                             prefixIcon: Icon(Icons.person),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         choseGender(),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         TextField(
                           readOnly: true,
                           controller: _birthdayController,
                           onTap: () => _selectDate(context),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'วันเกิด',
-                            labelStyle: const TextStyle(fontSize: 20),
-                            hintStyle:
-                                const TextStyle(fontStyle: FontStyle.italic),
+                            labelStyle: TextStyle(fontSize: 20),
+                            hintStyle: TextStyle(fontStyle: FontStyle.italic),
                             fillColor: Colors.white,
                             filled: true,
                             prefixIcon: Icon(Icons.date_range),
                             suffixIcon: Icon(Icons.arrow_drop_down),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         TextField(
                           readOnly: true,
                           controller: TextEditingController(text: username),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             label: Text(
                               "ชื่อผู้ใช้",
                               style: TextStyle(fontSize: 20),
@@ -230,7 +244,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                         TextField(
                           readOnly: true,
                           controller: TextEditingController(text: email),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             label: Text(
                               'อีเมล',
                               style: TextStyle(fontSize: 20),
@@ -239,7 +253,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                             prefixIcon: Icon(Icons.email),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -250,30 +264,35 @@ class _ShowDataUserState extends State<ShowDataUser> {
                               onPressed: () async {
                                 _showDeleteConfirmationDialog();
                               },
-                              icon: const Icon(Icons.delete, color: Colors.white),
-                              label:const  Text(
+                              icon:
+                                  const Icon(Icons.delete, color: Colors.white),
+                              label: const Text(
                                 'ลบผู้ใช้',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                               ),
                               onPressed: () async {
+                                String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+
                                 await FirebaseDatabase.instance
                                     .ref()
                                     .child('users/$uid')
                                     .update({
                                   'firstname': _firstnameController.text.trim(),
                                   'lastname': _lastnameController.text.trim(),
+                                  'gender':selectedGender,
+                                  'birthday' : formattedDate,
                                 });
                                 Navigator.pop(context);
                               },
                               icon: const Icon(Icons.save_as,
                                   color: Colors.white),
-                              label: Text(
+                              label: const Text(
                                 'บันทึก',
                                 style: TextStyle(color: Colors.white),
                               ),
@@ -289,7 +308,6 @@ class _ShowDataUserState extends State<ShowDataUser> {
           )),
     );
   }
-
   Widget choseGender() {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 16),
@@ -316,7 +334,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           Radio(
             activeColor: Colors.green,
             value: "ชาย",
-            groupValue: gender,
+            groupValue: selectedGender,
             onChanged: (value) {
               setState(() {
                 selectedGender = value.toString();
@@ -328,7 +346,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           Radio(
             activeColor: Colors.green,
             value: "หญิง",
-            groupValue: gender,
+            groupValue: selectedGender,
             onChanged: (value) {
               setState(() {
                 selectedGender = value.toString();
@@ -339,7 +357,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
           Radio(
             activeColor: Colors.green,
             value: "อื่น ๆ",
-            groupValue: gender,
+            groupValue: selectedGender,
             onChanged: (value) {
               setState(() {
                 selectedGender = value.toString();
@@ -352,13 +370,16 @@ class _ShowDataUserState extends State<ShowDataUser> {
     );
   }
 
+
   void takePhoto(ImageSource source) async {
     final dynamic pickedFile = await ImagePicker().pickImage(
       source: source,
     );
 
     if (pickedFile != null) {
-      setState(() {});
+      setState(() {
+        selectedImageUrl = pickedFile.path;
+      });
 
       // Close the file selection window
       Navigator.pop(context);
@@ -370,7 +391,9 @@ class _ShowDataUserState extends State<ShowDataUser> {
       children: <Widget>[
         CircleAvatar(
           radius: 60.0,
-          backgroundImage: NetworkImage(user_image),
+          backgroundImage: selectedImageUrl != null
+              ? NetworkImage(selectedImageUrl!)
+              : NetworkImage(user_image),
         ),
         Positioned(
           bottom: 10.0,
@@ -407,7 +430,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
               fontSize: 20,
             ),
           ),
-         const SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
