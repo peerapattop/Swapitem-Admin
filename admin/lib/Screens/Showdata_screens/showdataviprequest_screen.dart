@@ -133,7 +133,7 @@ class _ViewVipState extends State<ViewVip> {
       await FirebaseDatabase.instance
           .ref()
           .child('requestvip')
-          .child('$vipUid')
+          .child(vipUid)
           .update({
         'status': 'สำเร็จ',
       });
@@ -169,9 +169,7 @@ class _ViewVipState extends State<ViewVip> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         Container(
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.black)),
@@ -182,9 +180,7 @@ class _ViewVipState extends State<ViewVip> {
                             height: 400,
                           )),
                         ),
-                        SizedBox(
-                          height: 30,
-                        ),
+                        const SizedBox(height: 30),
                         Container(
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 217, 217, 216),
@@ -196,98 +192,92 @@ class _ViewVipState extends State<ViewVip> {
                             children: [
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.tag,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
+                                  ),
                                   Text(
-                                    "หมายเลขการชำระเงิน PAY- " + paymentNumber,
-                                    style: TextStyle(fontSize: 20),
+                                    "หมายเลขการชำระเงิน PAY- $paymentNumber",
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.numbers,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
+                                  ),
                                   Text(
-                                    'หมายเลขผู้ใช้งาน : ' + id,
-                                    style: TextStyle(fontSize: 20),
+                                    'หมายเลขผู้ใช้งาน : $id',
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.person,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
+                                  ),
                                   Text(
-                                    'ชื่อผู้ใช้ : ' + username,
-                                    style: TextStyle(fontSize: 20),
+                                    'ชื่อผู้ใช้ : $username',
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.date_range,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
-
+                                  ),
                                   Text(
-                                    " วันที่ : " + date,
-                                    style: TextStyle(fontSize: 20),
+                                    " วันที่ : $date",
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.more_time,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
-
+                                  ),
                                   Text(
-                                    " เวลา : " + time,
-                                    style: TextStyle(fontSize: 20),
+                                    " เวลา : $time",
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.menu,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
-
+                                  ),
                                   Text(
                                     ' ' + packed,
-                                    style: TextStyle(fontSize: 20),
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.handyman,
                                     color: Colors.blue,
-                                  ), // เพิ่มไอคอนที่นี่
-
+                                  ),
                                   Text(
-                                    ' สถานะ : ' + status,
-                                    style: TextStyle(fontSize: 20),
+                                    ' สถานะ : $status',
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -305,12 +295,12 @@ class _ViewVipState extends State<ViewVip> {
                                 Navigator.pop(context);
                               },
                               icon: Icon(Icons.clear, color: Colors.white),
-                              label: Text(
+                              label: const Text(
                                 'ปฎิเสธ',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
@@ -323,7 +313,7 @@ class _ViewVipState extends State<ViewVip> {
                               },
                               icon:
                                   const Icon(Icons.check, color: Colors.white),
-                              label: Text(
+                              label: const Text(
                                 'ยืนยัน',
                                 style: TextStyle(color: Colors.white),
                               ),
