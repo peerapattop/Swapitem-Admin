@@ -95,8 +95,7 @@ class _ViewVipState extends State<ViewVip> {
     return formattedTime;
   }
 
-  void startCountdown(
-      BuildContext context, String userUid, int packedDays) async {
+  void startCountdown(BuildContext context, String userUid, int packedDays) async {
     try {
       String endTime = exampleUsageTime(packedDays);
       await FirebaseDatabase.instance.ref().child('users/$userUid').update({
@@ -106,22 +105,22 @@ class _ViewVipState extends State<ViewVip> {
       });
 
       print('Firebase Update Successful');
+
+      // เช็คเงื่อนไขเวลาปัจจุบัน
+      DateTime currentTime = DateTime.now();
+      DateTime endTimeFormatted = DateFormat('EEEE, dd MMMM yyyy HH:mm:ss', 'th_TH').parse(endTime);
+      if (currentTime.isAfter(endTimeFormatted)) {
+        // เมื่อถึงเวลาปัจจุบันแล้ว
+        await FirebaseDatabase.instance.ref().child('users/$userUid').update({
+          'status_user': 'ผู้ใช้ทั่วไป',
+        });
+        print('User status updated to ผู้ใช้ทั่วไป');
+      }
     } catch (error) {
       print('Error updating Firebase: $error');
     }
   }
 
-  String formatRemainingTime(Duration duration) {
-    final days = duration.inDays;
-    final hours =
-        duration.inHours % 24; // Hours remaining after subtracting days
-    final minutes =
-        duration.inMinutes % 60; // Minutes remaining after subtracting hours
-    final seconds =
-        duration.inSeconds % 60; // Seconds remaining after subtracting minutes
-
-    return '$days วัน $hours ชั่วโมง $minutes นาที $seconds วินาที';
-  }
 
   void updateStatusAndNavigate(
       BuildContext context, String userUid, String vipUid) async {
