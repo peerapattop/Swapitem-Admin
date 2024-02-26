@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:admin/Screens/Manage_Screens/vipData.dart';
 import 'package:admin/Screens/appbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ViewVip extends StatefulWidget {
   final VipData vipData;
@@ -75,52 +77,38 @@ class _ViewVipState extends State<ViewVip> {
     }
   }
 
-  void startCountdown(BuildContext context, String userUid, int packedDays) {
-    const oneSecond = Duration(seconds: 1);
-    final startRef =
-        FirebaseDatabase.instance.ref().child('users/$userUid/startTime');
+  String exampleUsageTime(int packedDays) {
+    Timestamp firestoreTimestamp = Timestamp.now();
+    DateTime dateTime = firestoreTimestamp.toDate();
 
-    // Set the server timestamp at the start of the countdown
-    startRef.set(ServerValue.timestamp).catchError((error) {
-      print('Error setting start time: $error');
-    });
+    // สร้างโซนเวลาของเอเชีย (Asia/Bangkok)
+    DateTime asiaTime = dateTime.toUtc().add(Duration(hours: 7));
 
-    // Start a stream to continuously update the countdown
-    Stream.periodic(oneSecond, (int _) {
-      // Retrieve server start time
-      return startRef.once().then((DatabaseEvent event) {
-        final serverStartTime = event.snapshot.value;
-        if (serverStartTime is int) {
-          final serverStartDateTime =
-              DateTime.fromMillisecondsSinceEpoch(serverStartTime);
+    // Add packedDays to the asiaTime
+    asiaTime = asiaTime.add(Duration(days: packedDays));
 
-          // Calculate remaining time
-          Duration elapsed = DateTime.now().difference(serverStartDateTime);
-          Duration remainingTime = Duration(days: packedDays) - elapsed;
-          String formattedRemainingTime = formatRemainingTime(remainingTime);
+    // สร้างรูปแบบการแสดงวันที่และเวลาภาษาไทย
+    var formatter = DateFormat('EEEE, dd MMMM yyyy HH:mm:ss', 'th_TH');
 
-          // Update Firebase with remaining time
-          return FirebaseDatabase.instance
-              .ref()
-              .child('users/$userUid')
-              .update({
-            'remainingTime': formattedRemainingTime,
-            'postCount': 999,
-            'makeofferCount': 999,
-          }).then((_) {
-            print('Firebase Update Successful');
-          }).catchError((error) {
-            print('Error updating Firebase: $error');
-          });
-        } else {
-          // Handle the case where serverStartTime is not an int
-          print('Error: Invalid server start time format');
-          return null;
-        }
+    String formattedTime = formatter.format(asiaTime);
+
+    return formattedTime;
+  }
+
+  void startCountdown(
+      BuildContext context, String userUid, int packedDays) async {
+    try {
+      String endTime = exampleUsageTime(packedDays);
+      await FirebaseDatabase.instance.ref().child('users/$userUid').update({
+        'endTime': endTime,
+        'postCount': 999,
+        'makeofferCount': 999,
       });
-    }).listen((_) {
-      // Continue listening for updates
-    });
+
+      print('Firebase Update Successful');
+    } catch (error) {
+      print('Error updating Firebase: $error');
+    }
   }
 
   String formatRemainingTime(Duration duration) {
