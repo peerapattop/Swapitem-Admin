@@ -22,14 +22,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   late String id;
   late String username;
   late String packed;
-  final requestvip = FirebaseDatabase.instance.ref().child('requestvip');
+  final requestVip = FirebaseDatabase.instance.ref().child('requestvip');
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: StreamBuilder(
-            stream: requestvip.onValue,
+            stream: requestVip.onValue,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -79,41 +79,37 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   String paymentNumber = userData['PaymentNumber'].toString();
                   String packed = userData['packed'].toString();
 
-                  String image_payment = userData['image_payment'].toString();
+                  String imagePayment = userData['image_payment'].toString();
                   String date = userData['date'].toString();
                   String time = userData['time'].toString();
-                  String vipuid = userData['vipuid'].toString();
-                  String user_uid = userData['user_uid'].toString();
+                  String vipUid = userData['vipuid'].toString();
+                  String userUid = userData['user_uid'].toString();
 
                   return Padding(
-                    padding: EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 25,
                               backgroundImage: NetworkImage(
                                   'https://cdn-icons-png.flaticon.com/128/13105/13105632.png'),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: 4),
-                                  child: Text(firstname + ' ' + lastname),
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Text('$firstname $lastname'),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text('ผู้สมัคร VIP ใหม่'),
+                                const SizedBox(height: 5),
+                                const Text('ผู้สมัคร VIP ใหม่'),
                               ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            const SizedBox(width: 20),
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
@@ -122,7 +118,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => ViewVip(
                                           vipData: VipData(
-                                        user_uid: user_uid,
+                                        user_uid: userUid,
                                         PaymentNumber: paymentNumber,
                                         id: userid,
                                         username: username,
@@ -131,10 +127,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                         lastname: lastname,
                                         packed: packed,
                                         status: status,
-                                        image_payment: image_payment,
+                                        image_payment: imagePayment,
                                         date: date,
                                         time: time,
-                                        vipuid: vipuid,
+                                        vipuid: vipUid,
                                       )),
                                     ),
                                   );
@@ -145,7 +141,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "รายละเอียด",
                                   style: TextStyle(color: Colors.white),
                                 ),
