@@ -104,6 +104,11 @@ class _VipRequestState extends State<VipRequest> {
                     itemBuilder: (context, index) {
                       dynamic vipData = filteredData[index];
                       String userUid = vipData['user_uid'];
+                      String status = vipData['status'];
+
+                      if(status == 'สำเร็จ'){
+                        return Container();
+                      }
 
                       return FutureBuilder<Map<String, dynamic>>(
                         future: fetchUserData(userUid),
@@ -128,6 +133,8 @@ class _VipRequestState extends State<VipRequest> {
                           String lastname = userData['lastname'] ?? '';
                           String email = userData['email'] ?? '';
                           String username = userData['username'] ?? '';
+
+
 
                           return Container(
                             decoration: BoxDecoration(
