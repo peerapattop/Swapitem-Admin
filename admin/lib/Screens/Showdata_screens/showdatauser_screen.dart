@@ -110,10 +110,7 @@ class _ShowDataUserState extends State<ShowDataUser> {
                       ),
                     ),
                     onPressed: () async {
-                      await FirebaseDatabase.instance
-                          .ref()
-                          .child('users/$uid')
-                          .remove();
+                      await FirebaseDatabase.instance.ref().child('users/$uid').remove();
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
@@ -282,21 +279,15 @@ class _ShowDataUserState extends State<ShowDataUser> {
                                       DateFormat('yyyy-MM-dd')
                                           .format(selectedDate);
 
-                                  await FirebaseDatabase.instance
-                                      .ref()
-                                      .child('users/$uid')
-                                      .update({
-                                    'firstname':
-                                        _firstnameController.text.trim(),
+                                  await FirebaseDatabase.instance.ref().child('users/$uid').update({
+                                    'firstname': _firstnameController.text.trim(),
                                     'lastname': _lastnameController.text.trim(),
                                     'gender': selectedGender,
                                     'birthday': formattedDate,
                                     'image_user': selectedImageUrl,
                                   });
 
-                                  // Close the screen
-                                  Navigator.pop(
-                                      context); // Close the current screen
+                                  Navigator.pop(context);
                                 }
                               },
                               icon: const Icon(Icons.save_as,
