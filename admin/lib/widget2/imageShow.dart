@@ -16,11 +16,8 @@ class _ImageGalleryWidgetState extends State<ImageGalleryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen width to calculate the carousel height based on a 16:9 aspect ratio
     final double screenWidth = MediaQuery.of(context).size.width;
-    // This height will enforce the 16:9 aspect ratio
-    final double carouselHeight =
-        screenWidth * (9 / 16); // For a 16:9 aspect ratio
+    final double carouselHeight = screenWidth * (9 / 16);
 
     return Column(
       children: <Widget>[
@@ -29,29 +26,29 @@ class _ImageGalleryWidgetState extends State<ImageGalleryWidget> {
           carouselController: _controller,
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) =>
-              GestureDetector(
-                onTap: () {
-                  // Navigate to the DetailScreen when tapped
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailScreen(
-                        imageUrl: widget.imageUrls[itemIndex],
-                        currentIndex: itemIndex,
-                        imageUrls: widget.imageUrls,
-                        carouselController: _controller,
-                      ),
-                    ),
-                  );
-                },
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.network(
-                    widget.imageUrls[itemIndex],
-                    fit: BoxFit.cover,
+                  GestureDetector(
+            onTap: () {
+              // Navigate to the DetailScreen when tapped
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(
+                    imageUrl: widget.imageUrls[itemIndex],
+                    currentIndex: itemIndex,
+                    imageUrls: widget.imageUrls,
+                    carouselController: _controller,
                   ),
                 ),
+              );
+            },
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image.network(
+                widget.imageUrls[itemIndex],
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
           options: CarouselOptions(
             autoPlay: false,
             enlargeCenterPage: false,

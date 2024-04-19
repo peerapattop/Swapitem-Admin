@@ -36,34 +36,16 @@ class _ViewNoticeState extends State<ViewNotice> {
         'วันที่': formattedDate,
         'เวลา': formattedTime,
         'timestamp': FieldValue.serverTimestamp(),
-        'readBy':
-            {}, // Initialize an empty map to store read status for each user
       };
 
-      // Set the notification data in the 'notifications' collection with the specified document ID
       await FirebaseFirestore.instance
           .collection('notifications')
           .doc(notificationDocumentId)
           .set(notificationData);
 
       var allUsersEvent = await FirebaseDatabase.instance.ref('users').once();
-      var allUsersData = allUsersEvent.snapshot.value;
 
-      if (allUsersData is Map) {
-        Map<String, dynamic> readByMap = {};
-        allUsersData.forEach((userId, userData) {
-          readByMap[userId] = false;
-        });
-
-        notificationData['readBy'] = readByMap;
-
-        await FirebaseFirestore.instance
-            .collection('notifications')
-            .doc(notificationDocumentId)
-            .update(notificationData);
-      }
-
-      // Construct the notification message
+      //แจ้งเตือนไปยังโทรศัพท์
       var fcmMessage = {
         "notification": {
           "title": "แจ้งเตือนจากผู้ดูแลระบบ",
@@ -111,7 +93,7 @@ class _ViewNoticeState extends State<ViewNotice> {
           child: Column(
             children: [
               Image.asset('assets/images/Megaphone.png', width: 250),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               TextField(
                 controller: notificationController,
                 maxLines: 3,
@@ -122,28 +104,28 @@ class _ViewNoticeState extends State<ViewNotice> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
-                  contentPadding: EdgeInsets.all(12),
+                  contentPadding: const EdgeInsets.all(12),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   await createNotification();
                   Navigator.pop(context);
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                ),
                 child: Container(
                   width: 90,
                   height: 40,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'ส่ง',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
                 ),
               ),
             ],
