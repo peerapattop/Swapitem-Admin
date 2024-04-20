@@ -30,7 +30,6 @@ class _ViewNoticeState extends State<ViewNotice> {
 
       String notificationDocumentId = DateTime.now().toIso8601String();
 
-      // Create the notification data
       var notificationData = {
         'รายละเอียด': notificationController.text,
         'วันที่': formattedDate,
@@ -42,8 +41,6 @@ class _ViewNoticeState extends State<ViewNotice> {
           .collection('notifications')
           .doc(notificationDocumentId)
           .set(notificationData);
-
-      var allUsersEvent = await FirebaseDatabase.instance.ref('users').once();
 
       //แจ้งเตือนไปยังโทรศัพท์
       var fcmMessage = {
@@ -58,10 +55,9 @@ class _ViewNoticeState extends State<ViewNotice> {
           "status": "done",
         },
         "to":
-            "/topics/all", // Assuming you want to send to all users subscribed to the 'all' topic
+            "/topics/all",
       };
 
-      // Send the notification message to FCM
       var response = await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: {
@@ -117,10 +113,10 @@ class _ViewNoticeState extends State<ViewNotice> {
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
                 ),
-                child: Container(
+                child: const SizedBox(
                   width: 90,
                   height: 40,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'ส่ง',
                       style: TextStyle(fontSize: 20),
